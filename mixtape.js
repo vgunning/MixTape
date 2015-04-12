@@ -1,7 +1,8 @@
 // pull up the playlist dialog
 function newPlaylist(){
-	bootbox.alert();
-	addItemToMenu()
+	bootbox.alert('Create A Playlist Dialog Goes Here?');
+	var clip = new Clip('First Clip');
+	addItemToMenu(playlistMenu, clip);
 }
 
 // good places to look
@@ -23,6 +24,7 @@ function manageMode(){
 
 // add to the menu a new item
 function addItemToMenu(menu, item){
+	var menuul = menu.children[0];
 	var li = document.createElement('li');
 	var a = document.createElement('a');
 	li.setAttribute('role', 'presentation');
@@ -33,7 +35,7 @@ function addItemToMenu(menu, item){
 	a.setAttribute('id', tag);
 	a.innerHTML = item.name;
 	li.appendChild(a);
-	menu.appendChild(li);
+	menuul.appendChild(li);
 }
 
 // http://www.bootply.com/92189 (Manage/Listen)
