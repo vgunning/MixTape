@@ -3,6 +3,7 @@ $(document).ready(function() {
 	
 	$('#btnBookmarkEdit').click(function() {
 
+
 	    //$('#bookmarkName_entry').val($('#bookmarkName').text())		    
 	    var caller = $(this)
 	    popBookmarkEditor(caller);
