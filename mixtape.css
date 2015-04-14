@@ -1,1 +1,54 @@
 /* This is the css file for mixtape*/
+.small_pill{
+	width: 200px;
+}
+
+.music_controls{
+	width: auto;
+	height: 75px;
+	background-color: #B8B8B8;
+	position: relative;
+}
+
+#btnPlay{
+	width: 50px;
+	border-radius: 20px;
+	position: absolute;
+	left: 40%;
+	top: 15px;
+}
+
+.track_background{
+	width: auto;
+	height: 75px;
+	padding-top: 10px;
+	position: relative;
+}
+
+.track{
+	width: 100%;
+	height: 2px;
+	background-color: #B8B8B8;	
+	z-index: 10; /*Below progress bar*/
+	position: absolute;
+	top: 16px;
+}
+
+.progress_bar{
+	width: 15px;
+	height: 2px;
+	background-color: #286090;
+	z-index: 30; /*above track*/
+	position: absolute;
+	top: 16px;
+}
+
+.progress_thumb{
+	width: 8px;
+	height: 12px;
+	background-color: #286090;
+	z-index: 30; /*above track*/
+	position: absolute;
+	left:15px;
+	border: 1px solid;
+}
