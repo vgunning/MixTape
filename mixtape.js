@@ -11,6 +11,8 @@ function newPlaylist(){
 // http://www.bootply.com/92189 (Manage/Listen)
 // http://www.jonathanbriehl.com/2014/01/17/vertical-menu-for-bootstrap-3/ (Vertical Menu)
 // http://earmbrust.github.io/bootstrap-window/ (windows for menu/editing?)
+// http://startbootstrap.com/template-overviews/simple-sidebar/ (hidden menus)
+// http://www.prepbootstrap.com/bootstrap-template/collapsepanels (collapsible?)
 
 // change to the listening mode
 function listenMode(){
