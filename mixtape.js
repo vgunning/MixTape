@@ -19,6 +19,15 @@ $(document).ready(function() {
     if ($.getUrlVar('')) {
     }
 
+    $('.list-group-item').on('mouseover', function(event) {
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+    $('.list-group-item').on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
+
 
     //Gabriel Modifications. START
     // var music_clip_window = document.getElementById('music-clip-window');
@@ -82,19 +91,42 @@ function manageMode(){
 // add to the menu a new item
 // Needs to be modified!!
 function addItemToMenu(menu, item){
-	var menuul = menu.children[0];
-	console.log(menuul);
-	var li = document.createElement('li');
-	var a = document.createElement('a');
-	li.setAttribute('role', 'presentation');
-	a.setAttribute('role', 'menuitem');
-	a.setAttribute('tabindex', '-1');
-	// a.setAttribute('onClick', item.func);
+	var menuul = menu.children[0].children[1];
+	var itemContainer = document.createElement('li');
+	var itemSubmenu = document.createElement('ul');
+	var itemRemove = document.createElement('li');
+	var itemEdit = document.createElement('li');
+	var itemRemoveIcon = document.createElement('span');
+	var itemEditIcon = document.createElement('span');
+
+	itemContainer.innerHTML = item.name;
+	itemContainer.setAttribute('class', "list-group-item");
+	itemSubmenu.setAttribute('class', "list-group-submenu");
+	itemRemove.setAttribute('class', "list-group-submenu-item danger");
+	itemEdit.setAttribute('class', "list-group-submenu-item primary");
+	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-remove");
+	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
+	
+	itemRemove.appendChild(itemRemoveIcon);
+	itemEdit.appendChild(itemEditIcon);
+
+	itemSubmenu.appendChild(itemRemove);
+	itemSubmenu.appendChild(itemEdit);
+
+	itemContainer.appendChild(itemSubmenu);
+
 	var tag = menu.id + '-' + item.name;
-	a.setAttribute('id', tag);
-	a.innerHTML = item.name;
-	li.appendChild(a);
-	menuul.appendChild(li);
+	itemContainer.setAttribute('id', tag);
+	$(itemContainer).on('mouseover', function(event){
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+	$(itemContainer).on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
+
+	menuul.appendChild(itemContainer);
 }
 
 // toggles the active state of the button passed
@@ -207,17 +239,3 @@ function togglePlay(e){
 }
 
 //Gabriel Modification. END
-$(function () {
-	    $('.list-group-item').on('mouseover', function(event) {
-	event.preventDefault();
-	$(this).closest('li').addClass('open');
-});
-  $('.list-group-item').on('mouseout', function(event) {
-	event.preventDefault();
-	$(this).closest('li').removeClass('open');
-});
-});
-
-
-
-

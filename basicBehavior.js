@@ -18,6 +18,7 @@ $(document).ready(function() {
 		$(this).click(function(e) {
 			var name = ($(this).text()).trim();
 			console.log(name);
+			console.log(e.target);
 		});
 	});	
 	
