@@ -81,11 +81,25 @@ function setCurrentBookmark(bookmarkIndex){
 // change to the listening mode
 function listenMode(){
 	console.log('listen');
+	// get all the glyphicon-remove
+	$('.glyphicon-remove').addClass('glyphicon-play');
+	$('.glyphicon-remove').removeClass('glyphicon-remove');
+	$('.remove').addClass('play');
+	$('.remove').addClass('success');
+	$('.remove').removeClass('danger');
+	$('.remove').removeClass('remove');
 }
 
 // change to the create mode
 function manageMode(){
 	console.log('manage');
+	// get all the glyphicon-remove
+	$('.glyphicon-play').addClass('glyphicon-remove');
+	$('.glyphicon-play').removeClass('glyphicon-play');
+	$('.play').addClass('remove');
+	$('.play').addClass('danger');
+	$('.play').removeClass('success');
+	$('.play').removeClass('play');
 }
 
 // add to the menu a new item
@@ -102,8 +116,8 @@ function addItemToMenu(menu, item){
 	itemContainer.innerHTML = item.name;
 	itemContainer.setAttribute('class', "list-group-item");
 	itemSubmenu.setAttribute('class', "list-group-submenu");
-	itemRemove.setAttribute('class', "list-group-submenu-item danger");
-	itemEdit.setAttribute('class', "list-group-submenu-item primary");
+	itemRemove.setAttribute('class', "list-group-submenu-item remove danger");
+	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
 	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-remove");
 	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
 	
