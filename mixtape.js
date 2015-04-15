@@ -1,8 +1,41 @@
+
+var playlistMenu;
+var clipMenu;
+var bookmarkMenu;
+var currentPlaylist;
+var currentClip;
+var currentBookmark;
+
+$(document).ready(function() {
+	playlistMenu = document.getElementById('playlists');
+	clipMenu = document.getElementById('clips');
+	bookmarkMenu = document.getElementById('bookmarks');
+
+    // get any params
+    if ($.getUrlVar('')) {
+    }
+
+
+    //Gabriel Modifications. START
+    // var music_clip_window = document.getElementById('music-clip-window');
+    // var progress_bar = document.getElementById('progress_bar_id');
+    // var progress_thumb = document.getElementById('progress_thumb_id');
+
+    // progress_thumb.addEventListener('mousedown', startDragging);
+    // document.addEventListener('mouseup', endDragging);
+
+    // var btnPlay = document.getElementById('btnPlay');
+    // btnPlay.addEventListener('click', togglePlay);
+    //Gabriel Modifications. END
+
+
+});
+
 // pull up the playlist dialog
 function newPlaylist(){
 	bootbox.alert('Create A Playlist Dialog Goes Here?');
-	var clip = new Clip('First Clip');
-	addItemToMenu(playlistMenu, clip);
+	var playlist = new Playlist().init_name('First Playlist');
+	addItemToMenu(playlistMenu, playlist);
 }
 
 // good places to look
@@ -11,6 +44,8 @@ function newPlaylist(){
 // http://www.bootply.com/92189 (Manage/Listen)
 // http://www.jonathanbriehl.com/2014/01/17/vertical-menu-for-bootstrap-3/ (Vertical Menu)
 // http://earmbrust.github.io/bootstrap-window/ (windows for menu/editing?)
+// http://startbootstrap.com/template-overviews/simple-sidebar/ (hidden menus)
+// http://www.prepbootstrap.com/bootstrap-template/collapsepanels (collapsible?)
 
 // change to the listening mode
 function listenMode(){
@@ -23,8 +58,10 @@ function manageMode(){
 }
 
 // add to the menu a new item
+// Needs to be modified!!
 function addItemToMenu(menu, item){
 	var menuul = menu.children[0];
+	console.log(menuul);
 	var li = document.createElement('li');
 	var a = document.createElement('a');
 	li.setAttribute('role', 'presentation');
@@ -153,32 +190,19 @@ function trackTimer() {
 
 //Gabriel Modification. END
 
-// the menus
-var playlistMenu;
-var clipMenu;
-var bookmarkMenu;
-$(document).ready(function() {
-	playlistMenu = document.getElementById('playlist');
-	clipMenu = document.getElementById('clip');
-	bookmarkMenu = document.getElementById('bookmark');
-
-    // get any params
-    if ($.getUrlVar('')) {
-    }
 
 
-    //Gabriel Modifications. START
-    var music_clip_window = document.getElementById('music-clip-window');
-    var progress_bar = document.getElementById('progress_bar_id');
-    var progress_thumb = document.getElementById('progress_thumb_id');
+   $(function () {
+		    $('.list-group-item').on('mouseover', function(event) {
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+      $('.list-group-item').on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
+	});
 
-    progress_thumb.addEventListener('mousedown', startDragging);
-    document.addEventListener('mouseup', endDragging);
-
-    var btnPlay = document.getElementById('btnPlay');
-    btnPlay.addEventListener('click', togglePlay);
-    //Gabriel Modifications. END
 
 
-});
 

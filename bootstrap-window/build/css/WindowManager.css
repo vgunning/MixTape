@@ -1,0 +1,29 @@
+.disable-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.window-pane {
+  z-index: 999;
+}
+.window-pane .label {
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.window-pane .label .close {
+  float: none;
+  font-size: 14px;
+  margin-left: 4px;
+}
+.window-pane .label + .label {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
