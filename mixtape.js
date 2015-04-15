@@ -1,3 +1,13 @@
+
+
+var currentPlaylist;
+var currentClip;
+var currentBookmark;
+
+$(document).ready(function() {
+	console.log("Here2");
+	
+});
 // pull up the playlist dialog
 function newPlaylist(){
 	bootbox.alert('Create A Playlist Dialog Goes Here?');
@@ -23,6 +33,7 @@ function manageMode(){
 }
 
 // add to the menu a new item
+// Needs to be modified!!
 function addItemToMenu(menu, item){
 	var menuul = menu.children[0];
 	var li = document.createElement('li');
