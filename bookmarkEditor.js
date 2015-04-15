@@ -1,20 +1,22 @@
 
 (function ($) {
 	
+	//Make all button declarations here or before!
 	var bookmark = $('#btnBookmarkEdit');
 	addBookmarkEditorFunctionality(bookmark);
 	var bookmark2 = $('#btnBookmarkEdit2');
 	addBookmarkEditorFunctionality(bookmark2);
+	///////////////////////////////////////////////
 	
 	var SEMAPHORE = 0; 	
 	var bookmarkId;
+	
 	function addBookmarkEditorFunctionality(bookmark){
 		
 		bookmark.click(function() {
-
-	    	//$('#bookmarkName_entry').val($('#bookmarkName').text())		    
+		    
 		    var caller = $(this);
-		    console.log(bookmarkId);
+		    // console.log(bookmarkId);
 
 		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
 	    		popBookmarkEditor(caller);
@@ -140,7 +142,6 @@ function checkEmpty(element_string) {
 function popBookmarkEditor(caller) {     	
 	var bookmarkName = caller.text();
 	var rect = caller[0].getBoundingClientRect();
-	console.log(rect.top);
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
