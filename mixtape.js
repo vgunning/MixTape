@@ -34,8 +34,8 @@ $(document).ready(function() {
 // pull up the playlist dialog
 function newPlaylist(){
 	bootbox.alert('Create A Playlist Dialog Goes Here?');
-	var clip = new Clip().init_name('First Clip');
-	addItemToMenu(playlistMenu, clip);
+	var playlist = new Playlist().init_name('First Playlist');
+	addItemToMenu(playlistMenu, playlist);
 }
 
 // good places to look
