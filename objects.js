@@ -29,6 +29,7 @@ Playlist.prototype.init_name = function(name){
 	this.name = name;
 	this.id = name;
 	this.clips = [];
+	return this;
 }
 
 // clip object
