@@ -29,6 +29,7 @@ Playlist.prototype.init_name = function(name){
 	this.name = name;
 	this.id = name;
 	this.clips = [];
+	return this;
 }
 
 // clip object
@@ -77,7 +78,7 @@ function Bookmark(){
 	this.type = 'bookmark';
 	this.text = '';
 }
-Clip.prototype = {
+Bookmark.prototype = {
 	addText: function(newText){
 		this.text = newText;
 	},
@@ -87,7 +88,7 @@ Clip.prototype = {
 	}
 }
 
-Clip.prototype.init_name = function(name){
+Bookmark.prototype.init_name = function(name){
 	this.name = name;
 	return this;
 }
