@@ -1,10 +1,14 @@
 
-var playlistMenu;
+var playlistMenu; // these are the menu containers
 var clipMenu;
 var bookmarkMenu;
 var currentPlaylist;
 var currentClip;
 var currentBookmark;
+var currentPlaylistIndex;
+var currentBookmarkIndex;
+var currentClipIndex;
+var playlists = []; // this will hold all the created playlists
 
 $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
@@ -34,8 +38,26 @@ $(document).ready(function() {
 // pull up the playlist dialog
 function newPlaylist(){
 	bootbox.alert('Create A Playlist Dialog Goes Here?');
-	var playlist = new Playlist().init_name('First Playlist');
-	addItemToMenu(playlistMenu, playlist);
+	// TODO: add items from the playlist dialog or create a dumby for now :)
+	playlists = createDummyItems();
+	updateMenus();
+}
+
+// this might change for usability, like take a playlistname instead?
+function setCurrentPlaylist(playlistIndex){
+	currentPlaylist = playlists[playlistIndex];
+	currentPlaylistIndex = playlistIndex;
+	return currentPlaylist;
+}
+function setCurrentClip(clipIndex){
+	currentClip = currentPlaylist[clipIndex];
+	currentClipIndex = clipIndex;
+	return currentClip;
+}
+function setCurrentBookmark(bookmarkIndex){
+	currentBookmark = currentClip[bookmarkIndex];
+	currentBookmarkIndex = bookmarkIndex;
+	return currentBookmark;
 }
 
 // good places to look
@@ -75,8 +97,10 @@ function addItemToMenu(menu, item){
 	menuul.appendChild(li);
 }
 
-// http://www.bootply.com/92189 (Manage/Listen)
+// toggles the active state of the button passed
+// works on the manage/create mode
 function toggleMode(button){
+	// http://www.bootply.com/92189 (Manage/Listen)
     $(button).find('.btn').toggleClass('active');  
     
     if ($(button).find('.btn-primary').size()>0) {
@@ -95,6 +119,19 @@ function toggleMode(button){
     $(button).find('.btn').toggleClass('btn-default');	
 }
 
+// repopulate the menus with the current items
+function updateMenus(){
+	$('.list-group-item').remove();
+	// iterate through all the playlists and add the clips
+	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
+	for(var p = 0; p < playlists.length; p++){
+		addItemToMenu(playlistMenu, playlists[p]);
+	}
+	// add all the active clips
+	for(var c = 0; c < currentPlaylist.clips.length; c++){
+		addItemToMenu(clipMenu, currentPlaylist.clips[c]);
+	}
+}
 
 
 //Gabriel Modification. START
@@ -170,19 +207,16 @@ function togglePlay(e){
 }
 
 //Gabriel Modification. END
-
-
-
-   $(function () {
-		    $('.list-group-item').on('mouseover', function(event) {
-		event.preventDefault();
-		$(this).closest('li').addClass('open');
-	});
-      $('.list-group-item').on('mouseout', function(event) {
-    	event.preventDefault();
-		$(this).closest('li').removeClass('open');
-	});
-	});
+$(function () {
+	    $('.list-group-item').on('mouseover', function(event) {
+	event.preventDefault();
+	$(this).closest('li').addClass('open');
+});
+  $('.list-group-item').on('mouseout', function(event) {
+	event.preventDefault();
+	$(this).closest('li').removeClass('open');
+});
+});
 
 
 
