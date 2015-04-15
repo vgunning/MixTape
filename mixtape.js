@@ -60,9 +60,9 @@ function manageMode(){
 // add to the menu a new item
 // Needs to be modified!!
 function addItemToMenu(menu, item){
-	var menuul = menu.children[0];
+	var menuul = menu.children[0].children[1];
 	console.log(menuul);
-	var li = document.createElement('li');
+	var itemContainer = document.createElement('li');
 	var a = document.createElement('a');
 	li.setAttribute('role', 'presentation');
 	a.setAttribute('role', 'menuitem');
