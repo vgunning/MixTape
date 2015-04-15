@@ -2,21 +2,318 @@
 <head>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="jquery/external/jquery/jquery.js"></script>
-    <script type="text/javascript" src="jquery/jquery-ui.js"></script>
-    <link type="text/css" href="bookmarkEditor.css" rel="stylesheet">
+    
+    <link type="text/css" href="bookmarkEditor.css" rel="stylesheet">    
     <link href="./jquery/jquery-ui.css" rel="stylesheet">
-    <script type="text/javascript" src="bookmarkEditor.js"></script>
 
     
 
-    <title>Dummy Page</title>
+    <link rel="stylesheet" href="bootstrap-window/dist/css/bootstrap-window.css">
+    <link rel="stylesheet" href="bootstrap-window/src/demo/css/index.css">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap-theme.min.css" rel="stylesheet" >
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/styles/magula.css" rel="stylesheet">
+    
+
+
+    
+
+    <title>Dummy Page</title> 
 
 </head>
 
 <body>
 
-<button id="btnBookmarkEdit">Idee Fixee 1</button >
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar">
+              </span>
+              <span class="icon-bar">
+              </span>
+              <span class="icon-bar">
+              </span>
+            </button>
+            <a class="navbar-brand" href="./">
+              bootstrap-window
+            </a>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="new_basic">
+                <a href="#">
+                  Add Basic Window
+                </a>
+              </li>
+              <li class="new_table">
+                <a href="#">
+                  Add Table Window
+                </a>
+              </li>
+              <li class="new_form">
+                <a href="#">
+                  Add Form Window
+                </a>
+              </li>
+              <li class="new_parent">
+                <a href="#">
+                  Add Parent Window
+                </a>
+              </li>
+              <li class="new_modal">
+                <a data-toggle="modal" href="#myModal">
+                  Add Modal
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!--/.nav-collapse -->
+        </div>
+      </div>
+
+<div><button id="btnBookmarkEdit">Idee Fixee 1</button ></div>
+<div><button id="btnBookmarkEdit2">Idee Fixee 2</button ></div>
+
+
+	<div class="container theme-showcase">
+	</div>
+
+	<div id="windowPane">
+      </div>
+      
+      <script type="template/text" id="basic_window_template">
+        <div class="window">
+          <div class="window-header">
+            <button type="button" class="close" data-dismiss="window" aria-hidden="true">
+              x
+            </button>
+            <h4 class="window-title">
+            </h4>
+          </div>
+          <div class="window-body">
+          </div>
+          <div class="window-footer">
+            
+          </div>
+        </div>
+      </script>
+      <script type="template/text" id="table_window_template">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                #
+              </th>
+              <th>
+                Column heading
+              </th>
+              <th>
+                Column heading
+              </th>
+              <th>
+                Column heading
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="active">
+              <td>
+                1
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+            <tr>
+              <td>
+                2
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+            <tr class="success">
+              <td>
+                3
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+            <tr>
+              <td>
+                4
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+            <tr class="warning">
+              <td>
+                5
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+            <tr>
+              <td>
+                6
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+            <tr class="danger">
+              <td>
+                7
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+              <td>
+                Column content
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </script>
+      
+      <script type="text/template" id="form_window_template">
+        <form class="bs-example" role="form">
+          <div class="form-group">
+            <label for="exampleInputEmail1">
+              Email address
+            </label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">
+              Password
+            </label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputFile">
+              File input
+            </label>
+            <input type="file" id="exampleInputFile">
+            <p class="help-block">
+              Example block-level help text here.
+            </p>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox">
+              Check me out
+            </label>
+          </div>
+        </form>
+      </script>
+      
+      <script type="template/text" id="parent_window_template">
+        <div class="window">
+          <div class="window-header">
+            <button type="button" class="close" data-dismiss="window" aria-hidden="true">
+              x
+            </button>
+            <h4 class="window-title">
+            </h4>
+          </div>
+          <div class="window-body">
+
+          <button type="button" class="btn btn-default new_child">Open child</button>
+          </div>
+          <div class="window-footer">
+            
+          </div>
+        </div>
+      </script>
+      <script type="text/template" id="parent_window_body">
+      <button type="button" class="btn btn-default new_child">Open child</button>
+
+      </script>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+              </button>
+              <h4 class="modal-title">
+                Modal title
+              </h4>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
+              <button type="button" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+    <script type="text/javascript" src="jquery/external/jquery/jquery.js"></script>
+    <script type="text/javascript" src="jquery/jquery-ui.js"></script>
+    
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script> 
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/7.3/highlight.min.js"></script>-->
+    <script type="text/javascript" src="bootstrap-window/dist/js/bootstrap-window.js"></script> 
+    <script type="text/javascript" src="bootstrap-window/src/demo/js/index.js"></script>
+    <script type="text/javascript" src="bookmarkEditor.js"></script>
 
 
 </body>

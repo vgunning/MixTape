@@ -1,91 +1,123 @@
 
-$(document).ready(function() {
+(function ($) {
 	
-	$('#btnBookmarkEdit').click(function() {
+	//Make all button declarations here or before!
+	var bookmark = $('#btnBookmarkEdit');
+	addBookmarkEditorFunctionality(bookmark);
+	var bookmark2 = $('#btnBookmarkEdit2');
+	addBookmarkEditorFunctionality(bookmark2);
+	///////////////////////////////////////////////
+	
+	var SEMAPHORE = 0; 	
+	var bookmarkId;
+	
+	function addBookmarkEditorFunctionality(bookmark){
+		
+		bookmark.click(function() {
+		    
+		    var caller = $(this);
+		    // console.log(bookmarkId);
 
-	    //$('#bookmarkName_entry').val($('#bookmarkName').text())		    
-	    var caller = $(this)
-	    popBookmarkEditor(caller);
-
-
-		$( "#note" )
-        	.resizable({
-      			maxWidth: 250,
-      			maxHeight: 500,
-      			minHeight: 275,
-      			minWidth: 200
-    		})
-        	.draggable();
-
-        //When the bookmark name is double clicked, it becomes at text field that has the name of the bookmark selected
-	    $('#bookmarkName').dblclick(function() {
-		    $('#bookmarkName').css('display', 'none');
-		    $('#bookmarkName_entry')
-		        .val($('#bookmarkName').text())
-		        .css('display', '')
-		        .select()
-		        .focus();
-		});
-
-	    //When the bookmark input field looses focus, it changes the name of the bookmark (if the name is not empty)
-		$('#bookmarkName_entry').blur(function() {
-		    $('#bookmarkName_entry').css('display', 'none');
-	        if (checkEmpty("bookmarkName_entry")){
-		    	$('#bookmarkName').text($('#bookmarkName_entry').val());
+		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
+	    		popBookmarkEditor(caller);
+	    		caller[0].setAttribute("data-clicked","true");
+	    		SEMAPHORE = 1;
+	    		bookmarkId = caller[0];
+		    	
+		    }else {
+		    	if (bookmarkId==caller[0]){
+		    		$('#note').remove(); 
+		    		caller[0].removeAttribute("data-clicked");
+		    		SEMAPHORE = 0;
+		    	}
+		    	
 		    }
-		        $('#bookmarkName').css('display', '');
-		});
+		    
+		    $(this).draggable();
 
-		//When enter is pressed on the bookmark name input, it changes the name of the bookmark (if the name is not empty)
-		$("#bookmarkName_entry").keypress(function(event) {
-	    //13 is the key code for the enter key.
-	    if (event.which == 13) {
-	        event.preventDefault();
-	        $('#bookmarkName_entry').css('display', 'none');
-	        if (checkEmpty("bookmarkName_entry")){
-		    	$('#bookmarkName').text($('#bookmarkName_entry').val());
+			$( "#note" )
+	        	.resizable({
+	      			maxWidth: 250,
+	      			maxHeight: 500,
+	      			minHeight: 275,
+	      			minWidth: 200
+	    		})
+	        	.draggable();
+
+	        //When the bookmark name is double clicked, it becomes at text field that has the name of the bookmark selected
+		    $('#bookmarkName').dblclick(function() {
+			    $('#bookmarkName').css('display', 'none');
+			    $('#bookmarkName_entry')
+			        .val($('#bookmarkName').text())
+			        .css('display', '')
+			        .select()
+			        .focus();
+			});
+
+		    //When the bookmark input field looses focus, it changes the name of the bookmark (if the name is not empty)
+			$('#bookmarkName_entry').blur(function() {
+			    $('#bookmarkName_entry').css('display', 'none');
+		        if (checkEmpty("bookmarkName_entry")){
+			    	$('#bookmarkName').text($('#bookmarkName_entry').val());
+			    }
+			        $('#bookmarkName').css('display', '');
+			});
+
+			//When enter is pressed on the bookmark name input, it changes the name of the bookmark (if the name is not empty)
+			$("#bookmarkName_entry").keypress(function(event) {
+		    //13 is the key code for the enter key.
+		    if (event.which == 13) {
+		        event.preventDefault();
+		        $('#bookmarkName_entry').css('display', 'none');
+		        if (checkEmpty("bookmarkName_entry")){
+			    	$('#bookmarkName').text($('#bookmarkName_entry').val());
+			    }
+			        $('#bookmarkName').css('display', '');
+			    $( "#btnDone" ).focus();
+		                                                                      
 		    }
-		        $('#bookmarkName').css('display', '');
-	                                                                      
-	    }
+		    });
+			$( "#btnDone" ).button({
+				icons: {
+					primary: "ui-icon-check"
+
+				},
+				text: false
+		    });
+
+		    $( "#btnCancel" ).button({
+				icons: {
+					primary: "ui-icon-close"
+
+				},
+				text: false
+		    });
+
+		    //When the done button is clicked, the name in the caller button is changed and the editor widget is closed
+		    $( "#btnDone" ).click(function(){
+				if (checkEmpty("bookmarkName_entry")){
+					caller.text( $('#bookmarkName_entry').val());
+				}
+				$('#note').remove();
+				caller[0].removeAttribute("data-clicked");
+				SEMAPHORE = 0;
+				//caller.prop('disabled', false);
+		    });
+
+		    //The editor widget is closed without changing anything in the bookmark.
+		    $( "#btnCancel" ).click(function(){
+				$('#note').remove();
+				caller[0].removeAttribute("data-clicked");
+				SEMAPHORE = 0;
+				//caller.prop('disabled', false);
 	    });
-		$( "#btnDone" ).button({
-			icons: {
-				primary: "ui-icon-check"
 
-			},
-			text: false
-	    });
-
-	    $( "#btnCancel" ).button({
-			icons: {
-				primary: "ui-icon-close"
-
-			},
-			text: false
-	    });
-
-	    //When the done button is clicked, the name in the caller button is changed and the editor widget is closed
-	    $( "#btnDone" ).click(function(){
-			if (checkEmpty("bookmarkName_entry")){
-				caller.text( $('#bookmarkName_entry').val());
-			}
-			$('#note').remove();
-			caller.prop('disabled', false);
-	    });
-
-	    //The editor widget is closed without changing anything in the bookmark.
-	    $( "#btnCancel" ).click(function(){
-			$('#note').remove();
-			caller.prop('disabled', false);
-	    });
-
-	    caller.prop('disabled', true);
+	    //caller.prop('disabled', true);	    
 
 	});
+	}
+	
  	
-
-});
 
 /**
   * Returns true if the value of element_string is not empty.
@@ -105,10 +137,13 @@ function checkEmpty(element_string) {
   * Creates a bookmark note widget. For now it adds it to the end of the html. Ideally we can use the information of the position of the caller
   * to make it appear right next to it.
   * @param {$(Node)} caller is a jquery element that contains the button (or the container of the button) that calls the widget. 
-  *					Its text must be the name of the bookmark.
+  *					Its text must be the name of the bookmark. 
   */
 function popBookmarkEditor(caller) {     	
 	var bookmarkName = caller.text();
+	var rect = caller[0].getBoundingClientRect();
+
+	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
 	var bookmarkNameContainer = document.createElement("h3");
 	var bookmarkNameLabel = document.createElement("label");
@@ -118,6 +153,9 @@ function popBookmarkEditor(caller) {
 	var cancelButton = document.createElement("button");
 	var doneButton = document.createElement("button");  	
 
+	bookmarkEditorContainer.style.position = "absolute";
+	bookmarkEditorContainer.style.left = rect.right + 5;
+	bookmarkEditorContainer.style.top = rect.top - 5;
 	
 	bookmarkEditor.setAttribute("id","note");
 	bookmarkEditor.setAttribute("class","ui-widget-content");
@@ -152,6 +190,19 @@ function popBookmarkEditor(caller) {
 	bookmarkEditor.appendChild(noteContainer);
 	bookmarkEditor.appendChild(cancelButton);
 	bookmarkEditor.appendChild(doneButton);
-	document.body.appendChild(bookmarkEditor);
-	
+	bookmarkEditorContainer.appendChild(bookmarkEditor)
+	document.body.appendChild(bookmarkEditorContainer);
 }
+
+   $(function () {
+		    $('.list-group-item').on('mouseover', function(event) {
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+      $('.list-group-item').on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
+	});
+	
+}(jQuery));
