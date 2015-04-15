@@ -115,7 +115,18 @@ function dragProgressElements(e){
 	}
 }
 
+function adjustProgressElements(){
+	var progress_percent = clip_time_played_ms/clip_time_length_ms;
+	console.log('Percent played: ' + progress_percent);
+	document.getElementById('progress_thumb_id').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent)+'px';
+	document.getElementById('progress_bar_id').style.width = (document.getElementById('track_background_id').offsetWidth*progress_percent)+'px';
+
+}
+
 var playing_clip = false;
+var interval_function;
+var clip_time_length_ms = 180000;
+var clip_time_played_ms = 0; //Time of the currently selected clip, in milliseconds.
 
 //Toggles between playing the selected clip.
 function togglePlay(e){
@@ -124,12 +135,20 @@ function togglePlay(e){
 	$('#btnPlay_icon').toggleClass('glyphicon-pause');
 	if(playing_clip){
 		playing_clip = false;
+		clearInterval(interval_function);
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
+		interval_function = setInterval(function () {trackTimer()}, 250);
 		console.log('Started Playing');
 	}
 
+}
+
+function trackTimer() {
+	clip_time_played_ms += 250;
+	adjustProgressElements();
+	//console.log('Time played in ms: ' + clip_time_played_ms);
 }
 
 //Gabriel Modification. END
