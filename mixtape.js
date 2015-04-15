@@ -135,31 +135,44 @@ function togglePlay(e){
 //Gabriel Modification. END
 
 // the menus
-var playlistMenu;
-var clipMenu;
-var bookmarkMenu;
-$(document).ready(function() {
-	playlistMenu = document.getElementById('playlist');
-	clipMenu = document.getElementById('clip');
-	bookmarkMenu = document.getElementById('bookmark');
+// var playlistMenu;
+// var clipMenu;
+// var bookmarkMenu;
+// $(document).ready(function() {
+// 	playlistMenu = document.getElementById('playlist');
+// 	clipMenu = document.getElementById('clip');
+// 	bookmarkMenu = document.getElementById('bookmark');
 
-    // get any params
-    if ($.getUrlVar('')) {
-    }
-
-
-    //Gabriel Modifications. START
-    var music_clip_window = document.getElementById('music-clip-window');
-    var progress_bar = document.getElementById('progress_bar_id');
-    var progress_thumb = document.getElementById('progress_thumb_id');
-
-    progress_thumb.addEventListener('mousedown', startDragging);
-    document.addEventListener('mouseup', endDragging);
-
-    var btnPlay = document.getElementById('btnPlay');
-    btnPlay.addEventListener('click', togglePlay);
-    //Gabriel Modifications. END
+//     // get any params
+//     if ($.getUrlVar('')) {
+//     }
 
 
-});
+//     //Gabriel Modifications. START
+//     var music_clip_window = document.getElementById('music-clip-window');
+//     var progress_bar = document.getElementById('progress_bar_id');
+//     var progress_thumb = document.getElementById('progress_thumb_id');
+
+//     progress_thumb.addEventListener('mousedown', startDragging);
+//     document.addEventListener('mouseup', endDragging);
+
+//     var btnPlay = document.getElementById('btnPlay');
+//     btnPlay.addEventListener('click', togglePlay);
+//     //Gabriel Modifications. END
+
+
+// });
+   $(function () {
+		    $('.list-group-item').on('mouseover', function(event) {
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+      $('.list-group-item').on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
+	});
+
+
+
 
