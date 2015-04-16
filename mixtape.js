@@ -47,6 +47,10 @@ $(document).ready(function() {
 // pull up the playlist dialog
 function newPlaylist(){
 	$('.modal').modal('show'); // call rachel's playlist dialog
+}
+
+function savePlaylists(){
+	$('.modal').modal('hide'); // close the dialog box
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	playlists = createDummyItems();
 	updateMenus();
