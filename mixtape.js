@@ -32,10 +32,14 @@ $(document).ready(function() {
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
     var progress_bar = document.getElementById('progress_bar_id');
+    var track = document.getElementById('track_id');
     var progress_thumb = document.getElementById('progress_thumb_id');
 
     progress_thumb.addEventListener('mousedown', startDragging);
     document.addEventListener('mouseup', endDragging);
+    track.addEventListener('click', clickTrack);
+    progress_bar.addEventListener('click', clickTrack);
+
 
     var btnPlay = document.getElementById('btnPlay');
     btnPlay.addEventListener('click', togglePlay);
@@ -55,6 +59,8 @@ $(document).ready(function() {
 	    }else{
 	    	$(".time_length").html(""+minutes+":"+seconds);
 	    }
+
+	    $(".time_passed").html("0:00");
 
     });
     //Gabriel Modifications. END
@@ -269,6 +275,7 @@ function updateMenus(){
 
 
 //Gabriel Modification. START
+
 var dragging_thumb = false;
 document.onmousemove = dragProgressElements;
 
@@ -401,6 +408,34 @@ function trackTimer() {
 		adjustProgressElements();
 	}
 	//console.log('Time played in ms: ' + clip_time_played_ms);
+}
+
+function clickTrack(e){
+	var parent_pos = $('#music-clip-column').position();
+	var new_pos = ''+(e.clientX-parent_pos.left-17);
+	//console.log('new_pos: ' + new_pos);
+	//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
+	var max_width = document.getElementById('track_background_id').offsetWidth;
+	if(new_pos < 0){
+		document.getElementById('progress_thumb_id').style.left = 0+'px';
+		document.getElementById('progress_bar_id').style.width = 0+'px';
+	} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
+		document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
+		document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
+	} else {
+		document.getElementById('progress_thumb_id').style.left = new_pos+'px';
+		document.getElementById('progress_bar_id').style.width = new_pos+'px';
+	}
+	var current_width = document.getElementById('progress_bar_id').offsetWidth;
+	var progress_percent = current_width/max_width;
+    clip_time_played_ms = (clip_time_length_ms*progress_percent);
+    clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+
+    updateTimePassed();
+
+    //Must come after updateTimePassed();
+    var clip = document.getElementById('current-clip');
+	clip.currentTime = Math.floor(clip_time_played_ms/1000);
 }
 
 //Gabriel Modification. END
