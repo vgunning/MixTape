@@ -107,26 +107,44 @@ function manageMode(){
 function addItemToMenu(menu, item){
 	var menuul = menu.children[0].children[1];
 	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('span');
 	var itemSubmenu = document.createElement('ul');
 	var itemRemove = document.createElement('li');
 	var itemEdit = document.createElement('li');
 	var itemRemoveIcon = document.createElement('span');
 	var itemEditIcon = document.createElement('span');
 
-	itemContainer.innerHTML = item.name;
-	itemContainer.setAttribute('class', "list-group-item");
+	itemText.innerHTML = item.name;
+	itemContainer.setAttribute('class', "list-group-item " + item.type);
 	itemSubmenu.setAttribute('class', "list-group-submenu");
 	itemRemove.setAttribute('class', "list-group-submenu-item remove danger");
 	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
 	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-remove");
 	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
 	
+	$(itemRemove).click(function(e) {
+			// var name = ($(this).text()).trim();
+		e.stopPropagation();
+		console.log('In cancel');
+	});
 	itemRemove.appendChild(itemRemoveIcon);
+	
+
+	// $(itemEdit).click(function(e) {
+	// 	// var name = ($(this).text()).trim();
+	// 	e.stopPropagation();
+	// 	var caller = e.currentTarget.offsetParent.offsetParent;
+	// 	popBookmarkEditor(caller);
+	// 	console.log('In edit ' + ($(caller).text()).trim());
+	// });
 	itemEdit.appendChild(itemEditIcon);
+	addBookmarkEditorFunctionality($(itemEdit));
+
 
 	itemSubmenu.appendChild(itemRemove);
 	itemSubmenu.appendChild(itemEdit);
 
+	itemContainer.appendChild(itemText);
 	itemContainer.appendChild(itemSubmenu);
 
 	var tag = menu.id + '-' + item.name;
@@ -138,6 +156,11 @@ function addItemToMenu(menu, item){
 	$(itemContainer).on('mouseout', function(event) {
     	event.preventDefault();
 		$(this).closest('li').removeClass('open');
+	});
+
+	$(itemContainer).on('click', function(e) {
+			var name = ($(this).text()).trim();
+			console.log(name);
 	});
 
 	menuul.appendChild(itemContainer);
