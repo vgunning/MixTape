@@ -330,13 +330,14 @@ function dragProgressElements(e){
                
 	}
 }
-
+/*
 //CLick event for bookmark menu
 {
 	clip_time_played_ms = currentBookmark.startTime;
 	updateTimePassed();
 	document.getElementById('current-clip').currentTime = Math.floor(clip_time_played_ms/1000);
 }
+*/
 
 //Update time_passed
 function updateTimePassed(){
