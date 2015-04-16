@@ -42,10 +42,10 @@ $(document).ready(function() {
 
 
 
-    var clip = document.getElementById('current_clip');
+    var clip = document.getElementById('current-clip');
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
-	    clip_time_length_ms = document.getElementById('current_clip').duration*1000;
+	    clip_time_length_ms = document.getElementById('current-clip').duration*1000;
 	    console.log(clip_time_length_ms);
 	    var minutes = Math.floor(clip_time_length_ms/(1000*60));
 	    var seconds = Math.floor(clip_time_length_ms/1000)%60;
@@ -65,6 +65,7 @@ $(document).ready(function() {
 // pull up the playlist dialog
 function newPlaylist(){
 	$('.modal').modal('show'); // call rachel's playlist dialog
+	fillDummyDialog();
 }
 
 function savePlaylists(){
@@ -188,6 +189,48 @@ function addItemToMenu(menu, item){
 	menuul.appendChild(itemContainer);
 }
 
+// add to the menu a new item
+// Needs to be modified!!
+function addItemToDialog(computer, item, matching, func){
+	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('span');
+
+	itemText.innerHTML = item;
+	itemContainer.setAttribute('class', "list-group-item btn btn-default");
+	itemContainer.setAttribute('onClick', func);
+	itemContainer.setAttribute('id', item.split(' ').join('_') + matching);
+	itemContainer.appendChild(itemText);
+
+	computer.appendChild(itemContainer);
+}
+
+// toggle it active and also add to the other side of the menu
+function selectMusic(button){
+	console.log(button);
+	$(button).toggleClass('active');  
+	button.setAttribute('onClick', 'removeMatching(this)');
+
+	var otherMenu = document.getElementById('added-container');
+	addItemToDialog(otherMenu, button.firstChild.innerHTML, '-matching', 'removeMusic(this)');
+}
+
+function removeMatching(button){
+	document.getElementById(button.id + '-matching').remove();
+	$(button).toggleClass('active');
+	document.getElementById(button.id).setAttribute('onClick', 'selectMusic(this)');
+}
+
+function removeMusic(button){
+	button.remove();
+	// find partner and toggle the active and give back the function
+	var otherid = button.id.split('-');
+	otherid.pop();
+	otherid = otherid.join('-');
+	var otheritem = document.getElementById(otherid);
+	otheritem.setAttribute('onClick', 'selectMusic(this)');
+	$('#' + otherid).toggleClass('active');
+}
+
 // toggles the active state of the button passed
 // works on the manage/create mode
 function toggleMode(button){
@@ -257,7 +300,7 @@ function startDragging(e){
 function endDragging(e){
 		if(dragging_thumb){
 	        dragging_thumb = false;
-	        var clip = document.getElementById('current_clip');
+	        var clip = document.getElementById('current-clip');
 			clip.currentTime = Math.floor(clip_time_played_ms/1000);
 	        console.log("End dragging");
 	    }
@@ -335,13 +378,13 @@ function togglePlay(e){
 	if(playing_clip){
 		playing_clip = false;
 		clearInterval(interval_function);
-		var clip = document.getElementById('current_clip');
+		var clip = document.getElementById('current-clip');
 		clip.pause();
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
 		interval_function = setInterval(function () {trackTimer()}, 250);
-		var clip = document.getElementById('current_clip');
+		var clip = document.getElementById('current-clip');
 		clip.play();
 		console.log('Started Playing');
 	}
