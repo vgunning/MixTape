@@ -77,14 +77,48 @@ function setCurrentPlaylist(playlistIndex){
 	return currentPlaylist;
 }
 function setCurrentClip(clipIndex){
-	currentClip = currentPlaylist[clipIndex];
+	currentClip = currentPlaylist.clips[clipIndex];
 	currentClipIndex = clipIndex;
 	return currentClip;
 }
 function setCurrentBookmark(bookmarkIndex){
-	currentBookmark = currentClip[bookmarkIndex];
+	currentBookmark = currentClip.bookmarks[bookmarkIndex];
 	currentBookmarkIndex = bookmarkIndex;
 	return currentBookmark;
+}
+
+function updateCurrentMenus(selection){
+	var selectionIndex = selection.index();
+	if (selection.hasClass('bookmark')){
+		setCurrentBookmark(selectionIndex);
+	}else if (selection.hasClass('clip')){
+		setCurrentClip(selectionIndex);
+		if (currentClip.bookmarks.length > 0){
+			setCurrentBookmark(0);
+		}else{
+			currentBookmark = null;
+			currentBookmarIndex = -1;
+		}
+	}else if (selection.hasClass('playlist')){
+		setCurrentPlaylist(selectionIndex);
+		if (currentPlaylist.clips.length > 0){
+			setCurrentClip(0);
+			if (currentClip.bookmarks.lenght > 0){
+				setCurrentBookmark(0);
+			}else{
+				currentBookmark = null;
+				currentBookmarIndex = -1;
+			}
+		}else{
+			currentClip = null;
+			currentClipIndex = -1;
+			currentBookmark = null;
+			currentBookmarIndex = -1;
+		}		
+		
+	}else{
+		console.log("This is an error. UpdateCurrentMenus should never get here");
+	}
 }
 
 // good places to look
@@ -124,7 +158,8 @@ function manageMode(){
 // Needs to be modified!!
 function addItemToMenu(menu, item){
 	var menuul = menu.children[0].children[1];
-	console.log(menuul);
+	console.log("Adding menus");
+
 	var itemContainer = document.createElement('li');
 	var itemText = document.createElement('span');
 	var itemSubmenu = document.createElement('ul');
@@ -144,7 +179,11 @@ function addItemToMenu(menu, item){
 	$(itemRemove).click(function(e) {
 			// var name = ($(this).text()).trim();
 		e.stopPropagation();
+		var selection = $(e.currentTarget.offsetParent.offsetParent)
+		console.log(selection.index())
+		removeItemFromMenu(menu,selection);
 		console.log('In cancel');
+		
 	});
 	itemRemove.appendChild(itemRemoveIcon);
 	
@@ -170,11 +209,27 @@ function addItemToMenu(menu, item){
 	});
 
 	$(itemContainer).on('click', function(e) {
-			var name = ($(this).text()).trim();
-			console.log(name);
+		updateCurrentMenus($(this));
+		console.log('clicked on item');
 	});
 
 	menuul.appendChild(itemContainer);
+}
+
+function removeItemFromMenu(menu,item){
+	var menuul = menu.children[0].children[1];
+	var removalIndex = item.index();
+	console.log(item);
+	// if (removalIndex>=0){
+	// 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
+	// }else{
+
+	// }
+	console.log(menuul.childNodes[removalIndex]);
+	menuul.removeChild(item[0]);
+
+
+
 }
 
 // toggles the active state of the button passed
