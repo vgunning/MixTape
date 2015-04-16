@@ -46,7 +46,7 @@ $(document).ready(function() {
 
 // pull up the playlist dialog
 function newPlaylist(){
-	bootbox.alert('Create A Playlist Dialog Goes Here?');
+	$('.modal').modal('show'); // call rachel's playlist dialog
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	playlists = createDummyItems();
 	updateMenus();

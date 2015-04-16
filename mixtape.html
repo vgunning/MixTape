@@ -24,7 +24,8 @@
     <script type='text/javascript' src='bootstrap/js/bootstrap.min.js'></script>
     <script type='text/javascript' src='external_js/bootbox.min.js'></script>
     <script type='text/javascript' src='bookmarkEditor.js'></script>
-    
+
+    <script type='text/javascript' src='basicBehavior.js'></script>
     <script type='text/javascript' src='objects.js'></script>
     <script type='text/javascript' src='dummy.js'></script>
 	<script type='text/javascript' src='mixtape.js'></script>
@@ -56,11 +57,12 @@
 
     </script>
 
-    
+
 
 </head>
 
     <body>
+
         <div class='jumbotron'>
             <div class='container' id='top-row'>
                 <button type='button' class='btn btn-lg btn-default' onClick='newPlaylist();'>+ New Playlist</button>
@@ -176,9 +178,75 @@
                   </ul>
                 </div>
             </div>
-        </div>
+        </div>  
 
-    <script type='text/javascript' src='basicBehavior.js'></script>
+        <!-- NewPlaylist modal -->
+        <div class="modal fade" id="np-window" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <form>
+                    <input placeholder="New Playlist Name" type="text" class="form-control" id="recipient-name">
+                </form>
+                <h4 class="modal-title" id="np-name">Add music to this playlist</h4>
+              </div>
+
+              <div class="modal-body">
+                <div class="container-fluid">
+                    <div class = "row">
+
+                      <div class="col-md-6 panel panel-default" id="np-clipSource" role="tabpanel">
+                        <div class="panel-body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#np-computerTab" role="tab" data-toggle="tab">From your Computer</a></li>
+                          <li role="presentation"><a href="#np-urlTab" role="tab" data-toggle="tab">Paste a URL</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                          <div role="tabpanel" class="tab-pane active" id="np-computerTab">computer</div>
+                          <div role="tabpanel" class="tab-pane" id="np-urlTab">
+                            <label class=" control-label" for="url">Paste a music URL here:</label> 
+                            <input name="url" type="text" > </input>
+
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="col-md-1" id="np-addClipArrow">
+                        <button type="button" class="btn btn-default">
+                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        </button>
+                      </div>
+
+
+                      <div class="col-md-5 panel panel-default" id="np-addedClips">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Added Clips</h3>
+                        </div>
+                        <div class="panel-body">
+                          clips
+                        </div>
+
+                      </div>
+                    </div>
+                    </div>
+              </div>
+
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="np-saveButton">Save</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
 
     </body>
 
