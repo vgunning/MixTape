@@ -194,6 +194,8 @@ function manageMode(){
 	// get all the glyphicon-remove
 	$('.glyphicon-play').addClass('glyphicon-trash');
 	$('.glyphicon-play').removeClass('glyphicon-play');
+	$('.editor-button').removeClass('glyphicon-trash');
+	$('.editor-button').addClass('glyphicon-play');
 	$('.play').addClass('trash');
 	$('.play').addClass('danger');
 	$('.play').removeClass('success');
@@ -267,16 +269,16 @@ function addItemToMenu(menu, item){
 
 
 function removeItemFromMenu(menu,item){
-	var menuul = menu.children[0].children[1];
-	var removalIndex = item.index();
-	console.log(item);
-	// if (removalIndex>=0){
-	// 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
-	// }else{
+	// var menuul = menu.children[0].children[1];
+	// var removalIndex = item.index();
+	// console.log(item);
+	// // if (removalIndex>=0){
+	// // 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
+	// // }else{
 
-	// }
-	console.log(menuul.childNodes[removalIndex]);
-	menuul.removeChild(item[0]);
+	// // }
+	// console.log(menuul.childNodes[removalIndex]);
+	// menuul.removeChild(item[0]);
 
 }
 
