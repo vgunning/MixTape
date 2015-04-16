@@ -34,6 +34,9 @@ $(document).ready(function() {
     var progress_bar = document.getElementById('progress_bar_id');
     var track = document.getElementById('track_id');
     var progress_thumb = document.getElementById('progress_thumb_id');
+    var bookmark_btn = document.getElementById('btnBookmark');
+
+    bookmark_btn.addEventListener('click', addBookmark);
 
     progress_thumb.addEventListener('mousedown', startDragging);
     document.addEventListener('mouseup', endDragging);
@@ -93,6 +96,32 @@ function setCurrentBookmark(bookmarkIndex){
 	return currentBookmark;
 }
 
+//Author: Gabrielj. Adds bookmarks to bookmark list
+function addBookmark(e){
+	var start_time = $(inputStartTime).val();
+	var end_time = $(inputEndTime).val();
+	var array_start_time = start_time.split(":");
+	var array_end_time = end_time.split(":");
+	console.log(array_end_time[0]);
+	console.log(array_end_time[1]);
+	if(array_start_time.length != 2 || array_end_time.length != 2 
+		|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) || isNaN(parseInt(array_end_time[0])) || isNaN(parseInt(array_end_time[1])) ){
+		$(inputStartTime).val("Format 'minutes:seconds'");
+		$(inputEndTime).val("Format 'minutes:seconds'");
+	} else {
+		start_time = parseInt(array_start_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
+		end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
+		if(start_time > 0 && start_time < clip_time_length_ms){
+			if(end_time > start_time && end_time < clip_time_length_ms){
+				//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
+				var new_bookmark = new Bookmark.prototype.init_name_times('NewBookmark', start_time, end_time);
+				currentClip.addBookmark(new_bookmark);
+				updateMenus();
+			}
+		}
+	}
+}
+
 // good places to look
 // http://www.jque.re/plugins/version3/bootstrap.switch/
 // http://www.bootstraptoggle.com/
@@ -112,6 +141,9 @@ function listenMode(){
 	$('.remove').addClass('success');
 	$('.remove').removeClass('danger');
 	$('.remove').removeClass('remove');
+
+	document.getElementById('bookmark_background_id').style.visibility = "hidden";
+	document.getElementById('btnPlay').style.visibility = "visible";
 }
 
 // change to the create mode
@@ -124,6 +156,9 @@ function manageMode(){
 	$('.play').addClass('danger');
 	$('.play').removeClass('success');
 	$('.play').removeClass('play');
+
+	document.getElementById('bookmark_background_id').style.visibility = "visible";
+	document.getElementById('btnPlay').style.visibility = "hidden";
 }
 
 // add to the menu a new item
@@ -294,6 +329,13 @@ function dragProgressElements(e){
         updateTimePassed();
                
 	}
+}
+
+//CLick event for bookmark menu
+{
+	clip_time_played_ms = currentBookmark.startTime;
+	updateTimePassed();
+	document.getElementById('current-clip').currentTime = Math.floor(clip_time_played_ms/1000);
 }
 
 //Update time_passed

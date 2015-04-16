@@ -18,6 +18,21 @@
 	top: 15px;
 }
 
+#btnBookmark{
+	border-radius: 2px;
+	padding: 10px;
+}
+
+#inputStartTime{
+	width: 100px;
+	border-radius: 5px;
+}
+
+#inputEndTime{
+	width: 100px;
+	border-radius: 5px;
+}
+
 .time_passed{
 	width: 50px;
 	height: 45px;
@@ -41,6 +56,13 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.bookmark_background{
+	position: absolute;
+	height: 30px;
+	top: 10px;
+	left: 10px;
 }
 
 .track_background{
