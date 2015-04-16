@@ -50,7 +50,7 @@ $(document).ready(function() {
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
 	    clip_time_length_ms = document.getElementById('current-clip').duration*1000;
-	    //console.log(clip_time_length_ms);
+	    console.log(clip_time_length_ms);
 	    var minutes = Math.floor(clip_time_length_ms/(1000*60));
 	    var seconds = Math.floor(clip_time_length_ms/1000)%60;
 	    
@@ -71,6 +71,11 @@ $(document).ready(function() {
 // pull up the playlist dialog
 function newPlaylist(){
 	$('.modal').modal('show'); // call rachel's playlist dialog
+	fillDummyDialog();
+}
+
+function savePlaylists(){
+	$('.modal').modal('hide'); // close the dialog box
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	playlists = createDummyItems();
 	updateMenus();
@@ -83,14 +88,48 @@ function setCurrentPlaylist(playlistIndex){
 	return currentPlaylist;
 }
 function setCurrentClip(clipIndex){
-	currentClip = currentPlaylist[clipIndex];
+	currentClip = currentPlaylist.clips[clipIndex];
 	currentClipIndex = clipIndex;
 	return currentClip;
 }
 function setCurrentBookmark(bookmarkIndex){
-	currentBookmark = currentClip[bookmarkIndex];
+	currentBookmark = currentClip.bookmarks[bookmarkIndex];
 	currentBookmarkIndex = bookmarkIndex;
 	return currentBookmark;
+}
+
+function updateCurrentMenus(selection){
+	var selectionIndex = selection.index();
+	if (selection.hasClass('bookmark')){
+		setCurrentBookmark(selectionIndex);
+	}else if (selection.hasClass('clip')){
+		setCurrentClip(selectionIndex);
+		if (currentClip.bookmarks.length > 0){
+			setCurrentBookmark(0);
+		}else{
+			currentBookmark = null;
+			currentBookmarIndex = -1;
+		}
+	}else if (selection.hasClass('playlist')){
+		setCurrentPlaylist(selectionIndex);
+		if (currentPlaylist.clips.length > 0){
+			setCurrentClip(0);
+			if (currentClip.bookmarks.lenght > 0){
+				setCurrentBookmark(0);
+			}else{
+				currentBookmark = null;
+				currentBookmarIndex = -1;
+			}
+		}else{
+			currentClip = null;
+			currentClipIndex = -1;
+			currentBookmark = null;
+			currentBookmarIndex = -1;
+		}		
+		
+	}else{
+		console.log("This is an error. UpdateCurrentMenus should never get here");
+	}
 }
 
 // good places to look
@@ -106,21 +145,21 @@ function setCurrentBookmark(bookmarkIndex){
 function listenMode(){
 	console.log('listen');
 	// get all the glyphicon-remove
-	$('.glyphicon-remove').addClass('glyphicon-play');
-	$('.glyphicon-remove').removeClass('glyphicon-remove');
-	$('.remove').addClass('play');
-	$('.remove').addClass('success');
-	$('.remove').removeClass('danger');
-	$('.remove').removeClass('remove');
+	$('.glyphicon-trash').addClass('glyphicon-play');
+	$('.glyphicon-trash').removeClass('glyphicon-trash');
+	$('.trash').addClass('play');
+	$('.trash').addClass('success');
+	$('.trash').removeClass('danger');
+	$('.trash').removeClass('trash');
 }
 
 // change to the create mode
 function manageMode(){
 	console.log('manage');
 	// get all the glyphicon-remove
-	$('.glyphicon-play').addClass('glyphicon-remove');
+	$('.glyphicon-play').addClass('glyphicon-trash');
 	$('.glyphicon-play').removeClass('glyphicon-play');
-	$('.play').addClass('remove');
+	$('.play').addClass('trash');
 	$('.play').addClass('danger');
 	$('.play').removeClass('success');
 	$('.play').removeClass('play');
@@ -130,6 +169,8 @@ function manageMode(){
 // Needs to be modified!!
 function addItemToMenu(menu, item){
 	var menuul = menu.children[0].children[1];
+	console.log("Adding menus");
+
 	var itemContainer = document.createElement('li');
 	var itemText = document.createElement('span');
 	var itemSubmenu = document.createElement('ul');
@@ -141,26 +182,22 @@ function addItemToMenu(menu, item){
 	itemText.innerHTML = item.name;
 	itemContainer.setAttribute('class', "list-group-item " + item.type);
 	itemSubmenu.setAttribute('class', "list-group-submenu");
-	itemRemove.setAttribute('class', "list-group-submenu-item remove danger");
+	itemRemove.setAttribute('class', "list-group-submenu-item trash danger");
 	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
-	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-remove");
+	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-trash");
 	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
 	
 	$(itemRemove).click(function(e) {
 			// var name = ($(this).text()).trim();
 		e.stopPropagation();
+		var selection = $(e.currentTarget.offsetParent.offsetParent)
+		console.log(selection.index())
+		removeItemFromMenu(menu,selection);
 		console.log('In cancel');
+		
 	});
 	itemRemove.appendChild(itemRemoveIcon);
 	
-
-	// $(itemEdit).click(function(e) {
-	// 	// var name = ($(this).text()).trim();
-	// 	e.stopPropagation();
-	// 	var caller = e.currentTarget.offsetParent.offsetParent;
-	// 	popBookmarkEditor(caller);
-	// 	console.log('In edit ' + ($(caller).text()).trim());
-	// });
 	itemEdit.appendChild(itemEditIcon);
 	addBookmarkEditorFunctionality($(itemEdit));
 
@@ -183,11 +220,68 @@ function addItemToMenu(menu, item){
 	});
 
 	$(itemContainer).on('click', function(e) {
-			var name = ($(this).text()).trim();
-			console.log(name);
+		updateCurrentMenus($(this));
+		console.log('clicked on item');
 	});
 
 	menuul.appendChild(itemContainer);
+}
+
+
+function removeItemFromMenu(menu,item){
+	var menuul = menu.children[0].children[1];
+	var removalIndex = item.index();
+	console.log(item);
+	// if (removalIndex>=0){
+	// 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
+	// }else{
+
+	// }
+	console.log(menuul.childNodes[removalIndex]);
+	menuul.removeChild(item[0]);
+
+}
+
+// add to the menu a new item
+// Needs to be modified!!
+function addItemToDialog(computer, item, matching, func){
+	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('span');
+
+	itemText.innerHTML = item;
+	itemContainer.setAttribute('class', "list-group-item btn btn-default");
+	itemContainer.setAttribute('onClick', func);
+	itemContainer.setAttribute('id', item.split(' ').join('_') + matching);
+	itemContainer.appendChild(itemText);
+
+	computer.appendChild(itemContainer);
+}
+
+// toggle it active and also add to the other side of the menu
+function selectMusic(button){
+	console.log(button);
+	$(button).toggleClass('active');  
+	button.setAttribute('onClick', 'removeMatching(this)');
+
+	var otherMenu = document.getElementById('added-container');
+	addItemToDialog(otherMenu, button.firstChild.innerHTML, '-matching', 'removeMusic(this)');
+}
+
+function removeMatching(button){
+	document.getElementById(button.id + '-matching').remove();
+	$(button).toggleClass('active');
+	document.getElementById(button.id).setAttribute('onClick', 'selectMusic(this)');
+}
+
+function removeMusic(button){
+	button.remove();
+	// find partner and toggle the active and give back the function
+	var otherid = button.id.split('-');
+	otherid.pop();
+	otherid = otherid.join('-');
+	var otheritem = document.getElementById(otherid);
+	otheritem.setAttribute('onClick', 'selectMusic(this)');
+	$('#' + otherid).toggleClass('active');
 }
 
 // toggles the active state of the button passed
