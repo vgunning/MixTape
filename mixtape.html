@@ -172,10 +172,21 @@
                     </ul>
                 </div>
             </div>
-            <div class='col-md-6'>
-                <div id='music-clip-window'>
+            <div class='col-md-6' id='music-clip-column'>
+                <div class= 'noselect'id='music-clip-window'>
                   <ul class="nav nav-pills nav-stacked">
                     <li class="active"><a>Editing Window</a></li>
+                        <div class="music_controls">
+                            <div class="time_passed">0:00</div>
+                            <audio src="01 Glad You Came.mp3" type="audio/mpeg" id="current_clip"></audio>
+                            <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
+                            <div class="time_length">3:00</div>
+                        </div>
+                        <div class="track_background" id="track_background_id">
+                            <div class="track"></div>
+                            <div class="progress_bar" id="progress_bar_id"></div>
+                            <div class="progress_thumb" id="progress_thumb_id"></div>
+                        </div>
                   </ul>
                 </div>
             </div>
