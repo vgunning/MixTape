@@ -157,8 +157,6 @@ function popBookmarkEditor(caller) {
 	var doneButton = document.createElement("button");  	
 
 	bookmarkEditorContainer.style.position = "absolute";
-	// bookmarkEditorContainer.style.left = rect.right + 5;
-	// bookmarkEditorContainer.style.top = rect.top - 5;
 	$(bookmarkEditorContainer).offset({ top: rect.top, left: rect.right});
 	console.log(rect.top);
 	console.log(bookmarkEditorContainer.style.left);
