@@ -32,20 +32,24 @@ $(document).ready(function() {
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
     var progress_bar = document.getElementById('progress_bar_id');
+    var track = document.getElementById('track_id');
     var progress_thumb = document.getElementById('progress_thumb_id');
 
     progress_thumb.addEventListener('mousedown', startDragging);
     document.addEventListener('mouseup', endDragging);
+    track.addEventListener('click', clickTrack);
+    progress_bar.addEventListener('click', clickTrack);
+
 
     var btnPlay = document.getElementById('btnPlay');
     btnPlay.addEventListener('click', togglePlay);
 
 
 
-    var clip = document.getElementById('current_clip');
+    var clip = document.getElementById('current-clip');
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
-	    clip_time_length_ms = document.getElementById('current_clip').duration*1000;
+	    clip_time_length_ms = document.getElementById('current-clip').duration*1000;
 	    console.log(clip_time_length_ms);
 	    var minutes = Math.floor(clip_time_length_ms/(1000*60));
 	    var seconds = Math.floor(clip_time_length_ms/1000)%60;
@@ -56,6 +60,8 @@ $(document).ready(function() {
 	    	$(".time_length").html(""+minutes+":"+seconds);
 	    }
 
+	    $(".time_passed").html("0:00");
+
     });
     //Gabriel Modifications. END
 
@@ -65,6 +71,11 @@ $(document).ready(function() {
 // pull up the playlist dialog
 function newPlaylist(){
 	$('.modal').modal('show'); // call rachel's playlist dialog
+	fillDummyDialog();
+}
+
+function savePlaylists(){
+	$('.modal').modal('hide'); // close the dialog box
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	playlists = createDummyItems();
 	updateMenus();
@@ -216,6 +227,7 @@ function addItemToMenu(menu, item){
 	menuul.appendChild(itemContainer);
 }
 
+
 function removeItemFromMenu(menu,item){
 	var menuul = menu.children[0].children[1];
 	var removalIndex = item.index();
@@ -228,8 +240,48 @@ function removeItemFromMenu(menu,item){
 	console.log(menuul.childNodes[removalIndex]);
 	menuul.removeChild(item[0]);
 
+}
 
+// add to the menu a new item
+// Needs to be modified!!
+function addItemToDialog(computer, item, matching, func){
+	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('span');
 
+	itemText.innerHTML = item;
+	itemContainer.setAttribute('class', "list-group-item btn btn-default");
+	itemContainer.setAttribute('onClick', func);
+	itemContainer.setAttribute('id', item.split(' ').join('_') + matching);
+	itemContainer.appendChild(itemText);
+
+	computer.appendChild(itemContainer);
+}
+
+// toggle it active and also add to the other side of the menu
+function selectMusic(button){
+	console.log(button);
+	$(button).toggleClass('active');  
+	button.setAttribute('onClick', 'removeMatching(this)');
+
+	var otherMenu = document.getElementById('added-container');
+	addItemToDialog(otherMenu, button.firstChild.innerHTML, '-matching', 'removeMusic(this)');
+}
+
+function removeMatching(button){
+	document.getElementById(button.id + '-matching').remove();
+	$(button).toggleClass('active');
+	document.getElementById(button.id).setAttribute('onClick', 'selectMusic(this)');
+}
+
+function removeMusic(button){
+	button.remove();
+	// find partner and toggle the active and give back the function
+	var otherid = button.id.split('-');
+	otherid.pop();
+	otherid = otherid.join('-');
+	var otheritem = document.getElementById(otherid);
+	otheritem.setAttribute('onClick', 'selectMusic(this)');
+	$('#' + otherid).toggleClass('active');
 }
 
 // toggles the active state of the button passed
@@ -270,6 +322,7 @@ function updateMenus(){
 
 
 //Gabriel Modification. START
+
 var dragging_thumb = false;
 document.onmousemove = dragProgressElements;
 
@@ -301,7 +354,7 @@ function startDragging(e){
 function endDragging(e){
 		if(dragging_thumb){
 	        dragging_thumb = false;
-	        var clip = document.getElementById('current_clip');
+	        var clip = document.getElementById('current-clip');
 			clip.currentTime = Math.floor(clip_time_played_ms/1000);
 	        console.log("End dragging");
 	    }
@@ -379,13 +432,13 @@ function togglePlay(e){
 	if(playing_clip){
 		playing_clip = false;
 		clearInterval(interval_function);
-		var clip = document.getElementById('current_clip');
+		var clip = document.getElementById('current-clip');
 		clip.pause();
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
 		interval_function = setInterval(function () {trackTimer()}, 250);
-		var clip = document.getElementById('current_clip');
+		var clip = document.getElementById('current-clip');
 		clip.play();
 		console.log('Started Playing');
 	}
@@ -402,6 +455,34 @@ function trackTimer() {
 		adjustProgressElements();
 	}
 	//console.log('Time played in ms: ' + clip_time_played_ms);
+}
+
+function clickTrack(e){
+	var parent_pos = $('#music-clip-column').position();
+	var new_pos = ''+(e.clientX-parent_pos.left-17);
+	//console.log('new_pos: ' + new_pos);
+	//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
+	var max_width = document.getElementById('track_background_id').offsetWidth;
+	if(new_pos < 0){
+		document.getElementById('progress_thumb_id').style.left = 0+'px';
+		document.getElementById('progress_bar_id').style.width = 0+'px';
+	} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
+		document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
+		document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
+	} else {
+		document.getElementById('progress_thumb_id').style.left = new_pos+'px';
+		document.getElementById('progress_bar_id').style.width = new_pos+'px';
+	}
+	var current_width = document.getElementById('progress_bar_id').offsetWidth;
+	var progress_percent = current_width/max_width;
+    clip_time_played_ms = (clip_time_length_ms*progress_percent);
+    clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+
+    updateTimePassed();
+
+    //Must come after updateTimePassed();
+    var clip = document.getElementById('current-clip');
+	clip.currentTime = Math.floor(clip_time_played_ms/1000);
 }
 
 //Gabriel Modification. END
