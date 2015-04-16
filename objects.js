@@ -94,6 +94,12 @@ Bookmark.prototype.init_name = function(name){
 	return this;
 }
 
+Bookmark.prototype.init_name_times = function(name, startTime, endTime){
+	this.name = name;
+	this.startTime = startTime;
+	this.endTime = endTime;
+	return this;
+}
 Bookmark.prototype.init_name_clip = function(name, clip){
 	this.name = name;
 	this.clip = clip;
