@@ -18,6 +18,22 @@
 	top: 15px;
 }
 
+.time_passed{
+	width: 50px;
+	height: 45px;
+	position: absolute;
+	left: 30%;
+	top: 55px;
+}
+
+.time_length{
+	width: 50px;
+	height: 45px;
+	position: absolute;
+	left: 55%;
+	top: 55px;
+}
+
 .track_background{
 	width: auto;
 	height: 75px;
@@ -35,7 +51,7 @@
 }
 
 .progress_bar{
-	width: 15px;
+	width: 0px;
 	height: 2px;
 	background-color: #286090;
 	z-index: 30; /*above track*/
@@ -49,7 +65,7 @@
 	background-color: #286090;
 	z-index: 30; /*above track*/
 	position: absolute;
-	left:15px;
+	left:0px;
 	border: 1px solid;
 }
 

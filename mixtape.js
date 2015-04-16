@@ -17,15 +17,33 @@ $(document).ready(function() {
 
 
     //Gabriel Modifications. START
-    // var music_clip_window = document.getElementById('music-clip-window');
-    // var progress_bar = document.getElementById('progress_bar_id');
-    // var progress_thumb = document.getElementById('progress_thumb_id');
+    var music_clip_window = document.getElementById('music-clip-window');
+    var progress_bar = document.getElementById('progress_bar_id');
+    var progress_thumb = document.getElementById('progress_thumb_id');
 
-    // progress_thumb.addEventListener('mousedown', startDragging);
-    // document.addEventListener('mouseup', endDragging);
+    progress_thumb.addEventListener('mousedown', startDragging);
+    document.addEventListener('mouseup', endDragging);
 
-    // var btnPlay = document.getElementById('btnPlay');
-    // btnPlay.addEventListener('click', togglePlay);
+    var btnPlay = document.getElementById('btnPlay');
+    btnPlay.addEventListener('click', togglePlay);
+
+
+
+    var clip = document.getElementById('current_clip');
+    clip.loop = false;
+    clip.addEventListener('loadedmetadata', function() {
+	    clip_time_length_ms = document.getElementById('current_clip').duration*1000;
+	    console.log(clip_time_length_ms);
+	    var minutes = Math.floor(clip_time_length_ms/(1000*60));
+	    var seconds = Math.floor(clip_time_length_ms/1000)%60;
+	    
+	    if(seconds < 10){
+	    	$(".time_length").html(""+minutes+":0"+seconds);
+	    }else{
+	    	$(".time_length").html(""+minutes+":"+seconds);
+	    }
+
+    });
     //Gabriel Modifications. END
 
 
@@ -118,14 +136,21 @@ function startDragging(e){
         //Above the arrows
         img_dragged.style.zIndex = "35";
       */
+      	if(playing_clip){
+      		togglePlay();
+      	}
         dragging_thumb = true;
         console.log("Start dragging");
     }
 
 //Sets the variable 'dragging_thumb' to false
 function endDragging(e){
-        dragging_thumb = false;
-        console.log("End dragging");
+		if(dragging_thumb){
+	        dragging_thumb = false;
+	        var clip = document.getElementById('current_clip');
+			clip.currentTime = Math.floor(clip_time_played_ms/1000);
+	        console.log("End dragging");
+	    }
     }
 
 //This is for when dragging after having pressed down on the track thumb.
@@ -137,6 +162,7 @@ function dragProgressElements(e){
 		var new_pos = ''+(e.clientX-parent_pos.left-17);
 		//console.log('new_pos: ' + new_pos);
 		//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
+		var max_width = document.getElementById('track_background_id').offsetWidth;
 		if(new_pos < 0){
 			document.getElementById('progress_thumb_id').style.left = 0+'px';
 			document.getElementById('progress_bar_id').style.width = 0+'px';
@@ -146,17 +172,43 @@ function dragProgressElements(e){
 		} else {
 			document.getElementById('progress_thumb_id').style.left = new_pos+'px';
 			document.getElementById('progress_bar_id').style.width = new_pos+'px';
-
 		}
-        
+		var current_width = document.getElementById('progress_bar_id').offsetWidth;
+		var progress_percent = current_width/max_width;
+        clip_time_played_ms = (clip_time_length_ms*progress_percent);
+        clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+
+        updateTimePassed();
+               
 	}
+}
+
+//Update time_passed
+function updateTimePassed(){
+    var minutes = Math.floor(clip_time_played_ms/(60*1000));
+    var seconds = Math.floor(clip_time_played_ms/1000)%60;
+    if(seconds < 10){
+    	$(".time_passed").html(""+minutes+":0"+seconds);
+    }else{
+    	$(".time_passed").html(""+minutes+":"+seconds);
+    }
+}
+
+function resetProgressElements(){
+	document.getElementById('progress_thumb_id').style.left = 0+'px';
+	document.getElementById('progress_bar_id').style.width = 0+'px';
+	clip_time_played_ms = 0;
+
+	updateTimePassed();
 }
 
 function adjustProgressElements(){
 	var progress_percent = clip_time_played_ms/clip_time_length_ms;
-	console.log('Percent played: ' + progress_percent);
+	//console.log('Percent played: ' + progress_percent);
 	document.getElementById('progress_thumb_id').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent)+'px';
 	document.getElementById('progress_bar_id').style.width = (document.getElementById('track_background_id').offsetWidth*progress_percent)+'px';
+
+	updateTimePassed();
 
 }
 
@@ -173,18 +225,28 @@ function togglePlay(e){
 	if(playing_clip){
 		playing_clip = false;
 		clearInterval(interval_function);
+		var clip = document.getElementById('current_clip');
+		clip.pause();
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
 		interval_function = setInterval(function () {trackTimer()}, 250);
+		var clip = document.getElementById('current_clip');
+		clip.play();
 		console.log('Started Playing');
 	}
 
 }
 
 function trackTimer() {
-	clip_time_played_ms += 250;
-	adjustProgressElements();
+	if(clip_time_played_ms >= clip_time_length_ms){
+		togglePlay();
+		clearInterval(interval_function);
+		resetProgressElements();
+	} else{
+		clip_time_played_ms += 250;
+		adjustProgressElements();
+	}
 	//console.log('Time played in ms: ' + clip_time_played_ms);
 }
 
