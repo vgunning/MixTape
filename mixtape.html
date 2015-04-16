@@ -78,67 +78,70 @@
             <div class='col-md-2'>
                 <div id='playlists'>
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#">Playlists</a><ul class="list-group-header">
-                            <li id = "addPlaylistBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
+                        <li class="active" onClick="newPlaylist();"><a >Playlists</a><ul class="list-group-header" >
+                                    <li id = "addPlaylistBttn" class="list-group-header-item">
+                                        <span class="glyphicon glyphicon-plus" >
 
-                            <ul class="list-group">
-                                <li class="list-group-item">
-                                    <span>Playlist 1</span>
+                                    </span></li></ul></li>
 
-                                    <ul class="list-group-submenu">
-                                        <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                        <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                    </ul>
-                                </li>
-                                <li class="list-group-item">
-                                    Playlist 2
 
-                                    <ul class="list-group-submenu">
-                                        <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                        <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                    </ul>
-                                </li>
-                                <li class="list-group-item">
-                                    Playlist 3
-                                    <ul class="list-group-submenu">
-                                        <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                        <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                        
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <span>Lecture 1</span>
+                            
+                                <ul class="list-group-submenu">
+                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item">
+                                Lecture 2
+                        
+                                <ul class="list-group-submenu">
+                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item">
+                                Lecture 3
+                                <ul class="list-group-submenu">
+                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
-                <div class='col-md-2'>
-                    <div id='clips'>
-                        <ul class="nav nav-pills nav-stacked">
-                            <li class="active"><a href="#">Clips</a><ul class="list-group-header">
-                                <li id = "addClipBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
 
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        Clip 1
-
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                        </ul>
-                                    </li>
-                                    <li class="list-group-item">
-                                        Clip 2
-
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                        </ul>
-                                    </li>
-                                    <li class="list-group-item">
-                                        Clip 3
-                                        <ul class="list-group-submenu">
-                                            <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                            <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                        </ul>
-                                    </li>
+            <div class='col-md-2'>
+                <div id='clips'>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active" onClick="newPlaylist();"><a >Clips</a><ul class="list-group-header">
+                                    <li id = "addClipBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
+                        
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Clip 1
+                            
+                                <ul class="list-group-submenu">
+                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item">
+                                Clip 2
+                        
+                                <ul class="list-group-submenu">
+                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                </ul>
+                            </li>
+                            <li class="list-group-item">
+                                Clip 3
+                                <ul class="list-group-submenu">
+                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
                                 </ul>
                             </ul>
                         </div>
@@ -151,6 +154,7 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li class="active"><a href="#">Bookmarks</a><ul class="list-group-header">
                                     <li id = "addBookmarkBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
+
 
                                     <ul class="list-group">
                                         <li class="list-group-item bookmark">Bookmark 1<ul class="list-group-submenu">
@@ -170,6 +174,7 @@
                                     </ul>
                                 </li>
                             </ul>
+
                         </ul>
                     </div>
                 </div>
