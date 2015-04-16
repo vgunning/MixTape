@@ -1,5 +1,4 @@
 
-(function ($) {
 	
 	//Make all button declarations here or before!
 	var bookmark = $('#btnBookmarkEdit');
@@ -13,12 +12,15 @@
 	
 	function addBookmarkEditorFunctionality(bookmark){
 		
-		bookmark.click(function() {
+		bookmark.click(function(e) {
 		    
-		    var caller = $(this);
+		    e.stopPropagation();
+		    var caller = $(e.currentTarget.offsetParent.offsetParent);
+		    
 		    // console.log(bookmarkId);
 
 		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
+	    		console.log(caller);
 	    		popBookmarkEditor(caller);
 	    		caller[0].setAttribute("data-clicked","true");
 	    		SEMAPHORE = 1;
@@ -33,7 +35,6 @@
 		    	
 		    }
 		    
-		    $(this).draggable();
 
 			$( "#note" )
 	        	.resizable({
@@ -96,7 +97,7 @@
 		    //When the done button is clicked, the name in the caller button is changed and the editor widget is closed
 		    $( "#btnDone" ).click(function(){
 				if (checkEmpty("bookmarkName_entry")){
-					caller.text( $('#bookmarkName_entry').val());
+					caller[0].firstChild.innerHTML = ($('#bookmarkName_entry').val());
 				}
 				$('#note').remove();
 				caller[0].removeAttribute("data-clicked");
@@ -141,7 +142,9 @@ function checkEmpty(element_string) {
   */
 function popBookmarkEditor(caller) {     	
 	var bookmarkName = caller.text();
-	var rect = caller[0].getBoundingClientRect();
+	var rect = caller.offset();
+
+	console.log(rect);
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
@@ -154,8 +157,11 @@ function popBookmarkEditor(caller) {
 	var doneButton = document.createElement("button");  	
 
 	bookmarkEditorContainer.style.position = "absolute";
-	bookmarkEditorContainer.style.left = rect.right + 5;
-	bookmarkEditorContainer.style.top = rect.top - 5;
+	// bookmarkEditorContainer.style.left = rect.right + 5;
+	// bookmarkEditorContainer.style.top = rect.top - 5;
+	$(bookmarkEditorContainer).offset({ top: rect.top, left: rect.right});
+	console.log(rect.top);
+	console.log(bookmarkEditorContainer.style.left);
 	
 	bookmarkEditor.setAttribute("id","note");
 	bookmarkEditor.setAttribute("class","ui-widget-content");
@@ -205,4 +211,3 @@ function popBookmarkEditor(caller) {
 	});
 	});
 	
-}(jQuery));
