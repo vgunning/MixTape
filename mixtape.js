@@ -1,10 +1,14 @@
 
-var playlistMenu;
+var playlistMenu; // these are the menu containers
 var clipMenu;
 var bookmarkMenu;
 var currentPlaylist;
 var currentClip;
 var currentBookmark;
+var currentPlaylistIndex;
+var currentBookmarkIndex;
+var currentClipIndex;
+var playlists = []; // this will hold all the created playlists
 
 $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
@@ -14,6 +18,15 @@ $(document).ready(function() {
     // get any params
     if ($.getUrlVar('')) {
     }
+
+    $('.list-group-item').on('mouseover', function(event) {
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+    $('.list-group-item').on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
 
 
     //Gabriel Modifications. START
@@ -51,9 +64,27 @@ $(document).ready(function() {
 
 // pull up the playlist dialog
 function newPlaylist(){
-	bootbox.alert('Create A Playlist Dialog Goes Here?');
-	var playlist = new Playlist().init_name('First Playlist');
-	addItemToMenu(playlistMenu, playlist);
+	$('.modal').modal('show'); // call rachel's playlist dialog
+	// TODO: add items from the playlist dialog or create a dumby for now :)
+	playlists = createDummyItems();
+	updateMenus();
+}
+
+// this might change for usability, like take a playlistname instead?
+function setCurrentPlaylist(playlistIndex){
+	currentPlaylist = playlists[playlistIndex];
+	currentPlaylistIndex = playlistIndex;
+	return currentPlaylist;
+}
+function setCurrentClip(clipIndex){
+	currentClip = currentPlaylist[clipIndex];
+	currentClipIndex = clipIndex;
+	return currentClip;
+}
+function setCurrentBookmark(bookmarkIndex){
+	currentBookmark = currentClip[bookmarkIndex];
+	currentBookmarkIndex = bookmarkIndex;
+	return currentBookmark;
 }
 
 // good places to look
@@ -68,33 +99,95 @@ function newPlaylist(){
 // change to the listening mode
 function listenMode(){
 	console.log('listen');
+	// get all the glyphicon-remove
+	$('.glyphicon-remove').addClass('glyphicon-play');
+	$('.glyphicon-remove').removeClass('glyphicon-remove');
+	$('.remove').addClass('play');
+	$('.remove').addClass('success');
+	$('.remove').removeClass('danger');
+	$('.remove').removeClass('remove');
 }
 
 // change to the create mode
 function manageMode(){
 	console.log('manage');
+	// get all the glyphicon-remove
+	$('.glyphicon-play').addClass('glyphicon-remove');
+	$('.glyphicon-play').removeClass('glyphicon-play');
+	$('.play').addClass('remove');
+	$('.play').addClass('danger');
+	$('.play').removeClass('success');
+	$('.play').removeClass('play');
 }
 
 // add to the menu a new item
 // Needs to be modified!!
 function addItemToMenu(menu, item){
-	var menuul = menu.children[0];
-	console.log(menuul);
-	var li = document.createElement('li');
-	var a = document.createElement('a');
-	li.setAttribute('role', 'presentation');
-	a.setAttribute('role', 'menuitem');
-	a.setAttribute('tabindex', '-1');
-	// a.setAttribute('onClick', item.func);
+	var menuul = menu.children[0].children[1];
+	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('span');
+	var itemSubmenu = document.createElement('ul');
+	var itemRemove = document.createElement('li');
+	var itemEdit = document.createElement('li');
+	var itemRemoveIcon = document.createElement('span');
+	var itemEditIcon = document.createElement('span');
+
+	itemText.innerHTML = item.name;
+	itemContainer.setAttribute('class', "list-group-item " + item.type);
+	itemSubmenu.setAttribute('class', "list-group-submenu");
+	itemRemove.setAttribute('class', "list-group-submenu-item remove danger");
+	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
+	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-remove");
+	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
+	
+	$(itemRemove).click(function(e) {
+			// var name = ($(this).text()).trim();
+		e.stopPropagation();
+		console.log('In cancel');
+	});
+	itemRemove.appendChild(itemRemoveIcon);
+	
+
+	// $(itemEdit).click(function(e) {
+	// 	// var name = ($(this).text()).trim();
+	// 	e.stopPropagation();
+	// 	var caller = e.currentTarget.offsetParent.offsetParent;
+	// 	popBookmarkEditor(caller);
+	// 	console.log('In edit ' + ($(caller).text()).trim());
+	// });
+	itemEdit.appendChild(itemEditIcon);
+	addBookmarkEditorFunctionality($(itemEdit));
+
+
+	itemSubmenu.appendChild(itemRemove);
+	itemSubmenu.appendChild(itemEdit);
+
+	itemContainer.appendChild(itemText);
+	itemContainer.appendChild(itemSubmenu);
+
 	var tag = menu.id + '-' + item.name;
-	a.setAttribute('id', tag);
-	a.innerHTML = item.name;
-	li.appendChild(a);
-	menuul.appendChild(li);
+	itemContainer.setAttribute('id', tag);
+	$(itemContainer).on('mouseover', function(event){
+		event.preventDefault();
+		$(this).closest('li').addClass('open');
+	});
+	$(itemContainer).on('mouseout', function(event) {
+    	event.preventDefault();
+		$(this).closest('li').removeClass('open');
+	});
+
+	$(itemContainer).on('click', function(e) {
+			var name = ($(this).text()).trim();
+			console.log(name);
+	});
+
+	menuul.appendChild(itemContainer);
 }
 
-// http://www.bootply.com/92189 (Manage/Listen)
+// toggles the active state of the button passed
+// works on the manage/create mode
 function toggleMode(button){
+	// http://www.bootply.com/92189 (Manage/Listen)
     $(button).find('.btn').toggleClass('active');  
     
     if ($(button).find('.btn-primary').size()>0) {
@@ -113,6 +206,19 @@ function toggleMode(button){
     $(button).find('.btn').toggleClass('btn-default');	
 }
 
+// repopulate the menus with the current items
+function updateMenus(){
+	$('.list-group-item').remove();
+	// iterate through all the playlists and add the clips
+	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
+	for(var p = 0; p < playlists.length; p++){
+		addItemToMenu(playlistMenu, playlists[p]);
+	}
+	// add all the active clips
+	for(var c = 0; c < currentPlaylist.clips.length; c++){
+		addItemToMenu(clipMenu, currentPlaylist.clips[c]);
+	}
+}
 
 
 //Gabriel Modification. START
@@ -251,20 +357,3 @@ function trackTimer() {
 }
 
 //Gabriel Modification. END
-
-
-
-   $(function () {
-		    $('.list-group-item').on('mouseover', function(event) {
-		event.preventDefault();
-		$(this).closest('li').addClass('open');
-	});
-      $('.list-group-item').on('mouseout', function(event) {
-    	event.preventDefault();
-		$(this).closest('li').removeClass('open');
-	});
-	});
-
-
-
-
