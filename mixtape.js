@@ -36,22 +36,49 @@ function savePlaylists(){
 	updateMenus();
 }
 
-// this might change for usability, like take a playlistname instead?
-function setCurrentPlaylist(playlistIndex){
-	currentPlaylist = playlists[playlistIndex];
-	currentPlaylistIndex = playlistIndex;
-	return currentPlaylist;
-}
-function setCurrentClip(clipIndex){
-	currentClip = currentPlaylist.clips[clipIndex];
-	currentClipIndex = clipIndex;
-	return currentClip;
-}
 function setCurrentBookmark(bookmarkIndex){
-	currentBookmark = currentClip.bookmarks[bookmarkIndex];
+	if (bookmarkIndex >=  0){
+		currentBookmark = currentClip.bookmarks[bookmarkIndex];
+	}else{
+		currentBookmark = null;
+	}
 	currentBookmarkIndex = bookmarkIndex;
 	return currentBookmark;
 }
+
+function setCurrentClip(clipIndex){
+	currentClipIndex = clipIndex;
+	if (clipIndex >= 0){
+		currentClip = currentPlaylist.clips[clipIndex];
+		if (currentClip.bookmarks.length > 0){
+			setCurrentBookmark(0);
+		}else{
+			setCurrentBookmark(-1);
+		}
+	}else{
+		currentClip = null;
+	}	
+	
+	return currentClip;
+}
+
+// this might change for usability, like take a playlistname instead?
+function setCurrentPlaylist(playlistIndex){
+	if (playlistIndex >= 0){
+		currentPlaylist = playlists[playlistIndex];	
+		if (currentPlaylist.clips.length > 0){
+			setCurrentClip(0);
+		}else{
+			setCurrentClip(-1);
+		}	
+	}else{
+		currentPlaylist = null;
+	}
+	currentPlaylistIndex = playlistIndex;
+	
+	return currentPlaylist;
+}
+
 
 //Author: Gabrielj. Adds bookmarks to bookmark list
 function addBookmark(e){
@@ -82,39 +109,7 @@ function addBookmark(e){
 	}
 }
 
-function updateCurrentMenus(selection){
-	var selectionIndex = selection.index();
-	if (selection.hasClass('bookmark')){
-		setCurrentBookmark(selectionIndex);
-	}else if (selection.hasClass('clip')){
-		setCurrentClip(selectionIndex);
-		if (currentClip.bookmarks.length > 0){
-			setCurrentBookmark(0);
-		}else{
-			currentBookmark = null;
-			currentBookmarIndex = -1;
-		}
-	}else if (selection.hasClass('playlist')){
-		setCurrentPlaylist(selectionIndex);
-		if (currentPlaylist.clips.length > 0){
-			setCurrentClip(0);
-			if (currentClip.bookmarks.lenght > 0){
-				setCurrentBookmark(0);
-			}else{
-				currentBookmark = null;
-				currentBookmarIndex = -1;
-			}
-		}else{
-			currentClip = null;
-			currentClipIndex = -1;
-			currentBookmark = null;
-			currentBookmarIndex = -1;
-		}		
-		
-	}else{
-		console.log("This is an error. UpdateCurrentMenus should never get here");
-	}
-}
+
 
 // good places to look
 // http://www.jque.re/plugins/version3/bootstrap.switch/
@@ -173,6 +168,23 @@ function manageMode(){
 	document.getElementById('btnPlay').style.visibility = "hidden";
 }
 
+function updateMenusCurrentSelection(menu, index){
+	var whichMenu = menu.getAttribute('id');
+
+	var selectionIndex = index;
+	if (whichMenu == 'bookmarks'){
+		setCurrentBookmark(selectionIndex);
+	}else if (whichMenu = 'clips'){
+		setCurrentClip(selectionIndex);
+
+	}else if (whichMenu == 'playlists'){
+		setCurrentPlaylist(selectionIndex);	
+		
+	}else{
+		console.log("This is an error. UpdateCurrentMenus should never get here");
+	}
+}
+
 // add to the menu a new item
 // Needs to be modified!!
 function addItemToMenu(menu, item){
@@ -217,15 +229,6 @@ function addItemToMenu(menu, item){
 
 	var tag = menu.id + '-' + item.name;
 	itemContainer.setAttribute('id', tag);
-	$(itemContainer).on('mouseover', function(event){
-		event.preventDefault();
-		console.log($(this).closest('li'));
-		$(this).closest('li').addClass('visible');
-	});
-	$(itemContainer).on('mouseout', function(event) {
-    	event.preventDefault();
-		$(this).closest('li').removeClass('visible');
-	});
 
 	$(itemContainer).on('click', function(e) {
 		updateCurrentMenus($(this));
@@ -237,16 +240,16 @@ function addItemToMenu(menu, item){
 
 
 function removeItemFromMenu(menu,item){
-	// var menuul = menu.children[0].children[1];
-	// var removalIndex = item.index();
-	// console.log(item);
-	// // if (removalIndex>=0){
-	// // 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
-	// // }else{
+	var menuul = menu.children[0].children[1];
+	var removalIndex = item.index();
+	console.log(item);
+	// if (removalIndex>=0){
+	// 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
+	// }else{
 
-	// // }
-	// console.log(menuul.childNodes[removalIndex]);
-	// menuul.removeChild(item[0]);
+	// }
+	console.log(menuul.childNodes[removalIndex]);
+	menuul.removeChild(item[0]);
 
 }
 
