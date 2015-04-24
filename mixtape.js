@@ -134,12 +134,12 @@ function listenMode(){
 	$('.trash').removeClass('trash');
 
 	// toggle the buttons, make active and primary
-	$('#manageBtn').removeClass('btn-primary');
-	$('#manageBtn').removeClass('active');
-	$('#manageBtn').addClass('btn-default');
-	$('#listenBtn').addClass('btn-primary');
-	$('#listenBtn').addClass('active');
-	$('#listenBtn').removeClass('btn-default');
+	$('#listenBtn').removeClass('btn-primary');
+	$('#listenBtn').removeClass('active');
+	$('#listenBtn').addClass('btn-default');
+	$('#manageBtn').addClass('btn-primary');
+	$('#manageBtn').addClass('active');
+	$('#manageBtn').removeClass('btn-default');
 
 	document.getElementById('bookmark_background_id').style.visibility = "hidden";
 	document.getElementById('btnPlay').style.visibility = "visible";
@@ -159,12 +159,12 @@ function manageMode(){
 	$('.play').removeClass('play');
 
 	// toggle the buttons, make active and primary
-	$('#listenBtn').removeClass('btn-primary');
-	$('#listenBtn').removeClass('active');
-	$('#listenBtn').addClass('btn-default');
-	$('#manageBtn').addClass('btn-primary');
-	$('#manageBtn').addClass('active');
-	$('#manageBtn').removeClass('btn-default');
+	$('#manageBtn').removeClass('btn-primary');
+	$('#manageBtn').removeClass('active');
+	$('#manageBtn').addClass('btn-default');
+	$('#listenBtn').addClass('btn-primary');
+	$('#listenBtn').addClass('active');
+	$('#listenBtn').removeClass('btn-default');
 
 	document.getElementById('bookmark_background_id').style.visibility = "visible";
 	document.getElementById('btnPlay').style.visibility = "hidden";
