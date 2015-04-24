@@ -125,6 +125,8 @@ function addBookmark(e){
 				updateMenus();
 			}
 		}
+	}
+}
 
 function updateCurrentMenus(selection){
 	var selectionIndex = selection.index();
