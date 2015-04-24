@@ -29,6 +29,7 @@
     <script type='text/javascript' src='basicBehavior.js'></script>
     <script type='text/javascript' src='objects.js'></script>
     <script type='text/javascript' src='dummy.js'></script>
+    <script type='text/javascript' src='player.js'></script>
     <script type='text/javascript' src='mixtape.js'></script>
     <script type='text/javascript'>
         // pset 2 parse url args
@@ -68,7 +69,7 @@
             <div class='container' id='top-row'>
                 <h1 class='title'>MixTape</h1>
                 <button type='button' class='btn btn-lg btn-default' onClick='newPlaylist();'>+ New Playlist</button>
-                <div class='btn-group btn-toggle' onClick='toggleMode(this)'>
+                <div class='btn-group btn-toggle'>
                     <button class='btn btn-lg btn-primary active' id='listenBtn' onClick='manageMode();'>Manage</button>
                     <button class='btn btn-lg btn-default' id='manageBtn' onClick='listenMode();'>Listen</button>
                 </div>
