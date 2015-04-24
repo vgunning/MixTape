@@ -59,7 +59,7 @@ function savePlaylists(){
 	document.getElementById('recipient-name').value = '';
 	var playlist = new Playlist().init_name(playlistName);
 	for (var i = 0; i < clipsToAdd.length; i++){
-		var clip = new Clip().init_name_playlist(clipsToAdd[i].textContent, playlist.name);
+		var clip = new Clip().init_name_playlist(clipsToAdd[i].textContent, playlist);
 		playlist.addClip(clip);
 	}
 	// add a new playlist for now
