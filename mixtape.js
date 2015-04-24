@@ -231,11 +231,36 @@ function addItemToMenu(menu, item){
 	itemContainer.setAttribute('id', tag);
 
 	$(itemContainer).on('click', function(e) {
-		updateCurrentMenus($(this));
+		deactivate(this);
+		makeActive(this);
 		console.log('clicked on item');
+		console.log(this);
 	});
 
 	menuul.appendChild(itemContainer);
+}
+
+function makeActive(item){
+	$('#' + item.id).addClass('active');
+}
+
+function deactivate(item){
+	// figure out which items need to be deactivated
+	var type;
+	if(item.classList.contains('playlist')){
+		type = 'playlist';
+	}
+	else if(item.classList.contains('clip')){
+		type = 'clip';
+	}
+	else if(item.classList.contains('bookmark')){
+		type = 'bookmark';
+	}
+	else{
+		console.log('warning');
+	}
+	// get the items of that class and make them all not active
+	$('.' + type).removeClass('active');
 }
 
 function removeItemFromMenu(menu,item){
