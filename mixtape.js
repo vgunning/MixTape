@@ -25,12 +25,12 @@ $(document).ready(function() {
 
 // pull up the playlist dialog
 function newPlaylist(){
-	$('.modal').modal('show'); // call rachel's playlist dialog
+	$('#newPlaylistWindow').modal('show'); // call rachel's playlist dialog
 	fillDummyDialog();
 }
 
 function savePlaylists(){
-	$('.modal').modal('hide'); // close the dialog box
+	$('#newPlaylistWindow').modal('hide'); // close the dialog box
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	playlists = createDummyItems();
 	updateMenus();
@@ -194,8 +194,8 @@ function addItemToMenu(menu, item){
 	var itemContainer = document.createElement('li');
 	var itemText = document.createElement('div');
 	var itemSubmenu = document.createElement('ul');
-	var itemRemove = document.createElement('li');
-	var itemEdit = document.createElement('li');
+	var itemRemove = document.createElement('a');
+	var itemEdit = document.createElement('a');
 	var itemRemoveIcon = document.createElement('span');
 	var itemEditIcon = document.createElement('span');
 
@@ -203,6 +203,9 @@ function addItemToMenu(menu, item){
 	itemContainer.setAttribute('class', "list-group-item" + " " + item.type);
 	itemSubmenu.setAttribute('class', "list-group-submenu");
 	itemRemove.setAttribute('class', "list-group-submenu-item trash danger");
+	itemEdit.setAttribute('href','#noteContainer');
+	itemEdit.setAttribute('data-backdrop','false');
+	itemEdit.setAttribute('data-toggle','modal');
 	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
 	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-trash");
 	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
