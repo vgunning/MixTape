@@ -11,7 +11,7 @@
 #note{
   position: relative;
   border-color: rgb(200, 200, 200);
-  border-width: 5px;
+  border-width: 1px;
   border-style: outset;
   border-radius: 10px;
   width: 200px; height: 275px; 
@@ -43,7 +43,7 @@
     right: 0;
     bottom: 7;
     margin: 5px;
-  }
+}
 
 #btnCancel{
 	position: absolute;
