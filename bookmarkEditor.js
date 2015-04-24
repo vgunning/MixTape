@@ -144,7 +144,10 @@ function popBookmarkEditor(caller) {
 	var bookmarkName = caller.text();
 	var rect = caller.offset();
 
-	console.log(rect);
+	var bookmarkTop = rect.top - 10;
+	var bookmarkLeft = rect.left + caller.outerWidth() + caller.children('.list-group-submenu').outerWidth();
+
+	console.log(caller.children('.list-group-submenu').outerWidth());
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
@@ -157,8 +160,8 @@ function popBookmarkEditor(caller) {
 	var doneButton = document.createElement("button");  	
 
 	bookmarkEditorContainer.style.position = "absolute";
-	$(bookmarkEditorContainer).offset({ top: rect.top, left: rect.right});
-	console.log(rect.top);
+	$(bookmarkEditorContainer).offset({ top: bookmarkTop, left: bookmarkLeft});
+	console.log(bookmarkLeft);
 	console.log(bookmarkEditorContainer.style.left);
 	
 	bookmarkEditor.setAttribute("id","note");
@@ -198,14 +201,4 @@ function popBookmarkEditor(caller) {
 	document.body.appendChild(bookmarkEditorContainer);
 }
 
-   $(function () {
-		    $('.list-group-item').on('mouseover', function(event) {
-		event.preventDefault();
-		$(this).closest('li').addClass('open');
-	});
-      $('.list-group-item').on('mouseout', function(event) {
-    	event.preventDefault();
-		$(this).closest('li').removeClass('open');
-	});
-	});
 	
