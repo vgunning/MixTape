@@ -2,9 +2,11 @@
 var playlistMenu; // these are the menu containers
 var clipMenu;
 var bookmarkMenu;
-var currentPlaylist;
+
+var currentPlaylist; // these are the current item/object
 var currentClip;
 var currentBookmark;
+
 var currentPlaylistIndex;
 var currentBookmarkIndex;
 var currentClipIndex;
@@ -229,7 +231,7 @@ function addItemToMenu(menu, item){
 
 	var tag = menu.id + '-' + item.name;
 	itemContainer.setAttribute('id', tag);
-
+	item.id = tag;
 	$(itemContainer).on('click', function(e) {
 		deactivate(this);
 		makeActive(this);
@@ -241,7 +243,44 @@ function addItemToMenu(menu, item){
 }
 
 function makeActive(item){
+	// add the active class
 	$('#' + item.id).addClass('active');
+	// figure out the active class to update
+	if(item.classList.contains('playlist')){
+		currentPlaylist = item;
+		// the things on the playlist menu
+		for(var i = 0; i < playlists.length; i++){
+			if (item.id == playlists[i].id){
+				currentPlaylistIndex = i;
+			}
+		}
+	}
+	else if(item.classList.contains('clip')){
+		currentClip = item;
+		// the things on the clip menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
+				// set the matching index
+				currentClipIndex = i;
+			}
+		}
+	}
+	else if(item.classList.contains('bookmark')){
+		currentBookmark = item;
+		// the things on the bookmark menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
+				// set the matching index
+				currentBookmarkIndex = i;
+			}
+		}
+	}
+	else{
+		console.log('warning');
+	}
+		
+	// update the active index
+
 }
 
 function deactivate(item){
