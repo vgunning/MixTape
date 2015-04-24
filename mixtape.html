@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <!--
-  COLLABORATORS: vgunning
+COLLABORATORS: vgunning
 -->
 <html>
 
@@ -15,6 +15,7 @@
     <!-- Load style sheets -->
     <link rel='stylesheet' type='text/css' href='bootstrap/css/bootstrap.min.css' />
     <link rel="stylesheet" type="text/css" href="mixtape.css" />
+    <link rel='stylesheet' type='text/css' href='color-management.css'/>
     <!-- comment or uncomment based on whether the navigation should be hover or click -->
     <!-- <link rel='stylesheet' type='text/css' href='hoverNav.css' />  -->
 
@@ -29,153 +30,175 @@
     <script type='text/javascript' src='basicBehavior.js'></script>
     <script type='text/javascript' src='objects.js'></script>
     <script type='text/javascript' src='dummy.js'></script>
-	<script type='text/javascript' src='mixtape.js'></script>
+    <script type='text/javascript' src='player.js'></script>
+    <script type='text/javascript' src='playlist.js'></script>
+    <script type='text/javascript' src='mixtape.js'></script>
     <script type='text/javascript'>
-        // pset 2 parse url args
-        $.extend({
-            getUrlVars : function() {
-                var vars = [], hash;
-                var hashes = window.location.href.slice(
-                        window.location.href.indexOf('?') + 1).split('&');
-                for ( var i = 0; i < hashes.length; i++) {
-                    hash = hashes[i].split('=');
-                    vars.push(hash[0]);
-                    vars[hash[0]] = hash[1];
-                }
-                return vars;
-            },
-            getUrlVar : function(name) {
-                return $.getUrlVars()[name];
-            }
-        });
-		// get a username
-        var username;
-        $(document).ready(function() {
-            if ($.getUrlVar('user')) {
-                usernum = $.getUrlVar('user');
-            }
-        });
+// pset 2 parse url args
+$.extend({
+    getUrlVars : function() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(
+            window.location.href.indexOf('?') + 1).split('&');
+        for ( var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    },
+    getUrlVar : function(name) {
+        return $.getUrlVars()[name];
+    }
+});
+// get a username
+var username;
+$(document).ready(function() {
+    if ($.getUrlVar('user')) {
+        usernum = $.getUrlVar('user');
+    }
+});
 
-    </script>
+</script>
 
 
 
 </head>
 
-    <body>
+<body>
 
-        <div class='jumbotron'>
-            <div class='container' id='top-row'>
-                <button type='button' class='btn btn-lg btn-default' onClick='newPlaylist();'>+ New Playlist</button>
-                <div class='btn-group btn-toggle' onClick='toggleMode(this)'>
-                    <button class='btn btn-lg btn-default' onClick='manageMode();'>Manage</button>
-                    <button class='btn btn-lg btn-primary active' onClick='listenMode();'>Listen</button>
-                </div>
+    <div class='jumbotron'>
+        <div class='container' id='top-row'>
+            <h1 class='title'>MixTape</h1>
+            <button type='button' class='btn btn-lg btn-default' onClick='newPlaylist();'>+ New Playlist</button>
+            <div class='btn-group btn-toggle'>
+                <button class='btn btn-lg btn-primary active' id='manageBtn' onClick='manageMode();'>Manage</button>
+                <button class='btn btn-lg btn-default' id='listenBtn' onClick='listenMode();'>Listen</button>
             </div>
-        </div>    
-        <div class='container'>
-            <div class='col-md-2'>
-                <div id='playlists'>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#">Playlists</a><ul class="list-group-header">
-                                    <li id = "addPlaylistBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
-                        
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <span>Menu 1</span>
-                            
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item">
-                                Menu 2
-                        
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item">
-                                Menu 3
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
+        </div>
+    </div>    
+    <div class='container'>
+        <div class='col-md-2'>
+            <div id='playlists'>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active indigo" onClick="newPlaylist();"><a>Playlists</a>
+                        <ul class="list-group-header" >
+                            <li id = "addPlaylistBttn" class="list-group-header-item">
+                                <span class="glyphicon glyphicon-plus" ></span>
                             </li>
                         </ul>
+                    </li>
+                    <ul class="list-group" role="menu" aria-labelledby="dropdownMenu">
+                        <li class="list-group-item">
+                            <div>Lecture 1 - NameAfterASuperLongThingThatIneedForTesting</div>
+
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            Lecture 2
+
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            Lecture 3
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                            </ul>
+                        </li>
                     </ul>
-                </div>
+                </ul>
             </div>
-            <div class='col-md-2'>
-                <div id='clips'>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#">Clips</a><ul class="list-group-header">
-                                    <li id = "addClipBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
-                        
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                Menu 1
-                            
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item">
-                                Menu 2
-                        
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item">
-                                Menu 3
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
+        </div>
+
+        <div class='col-md-2'>
+            <div id='clips'>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active indigo" onClick="newPlaylist();"><a >Clips</a>
+                        <ul class="list-group-header">
+                            <li id = "addClipBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span>
                             </li>
                         </ul>
+                    </li>
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Clip 1
+
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            Clip 2
+
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span>
+                                </li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item">
+                            Clip 3
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span>
+                                </li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
-                </div>
+                </ul>
             </div>
+        </div>
 
-
-
-            <div class='col-md-2'>
-                <div id='bookmarks'>
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#">Bookmarks</a><ul class="list-group-header">
-                                    <li id = "addBookmarkBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span></li></ul></li>
-                        
-                        <ul class="list-group">
-                            <li class="list-group-item bookmark">Menu 1<ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item bookmark">Menu 2<ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
-                            </li>
-                            <li class="list-group-item bookmark">Menu 3
-                                <ul class="list-group-submenu">
-                                    <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-remove"></span></li>
-                                    <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
-                                </ul>
+        <div class='col-md-2'>
+            <div id='bookmarks'>
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active indigo"><a href="#">Bookmarks</a>
+                        <ul class="list-group-header">
+                            <li id = "addBookmarkBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span>
                             </li>
                         </ul>
+                    </li>
+
+
+                    <ul class="list-group">
+                        <li class="list-group-item bookmark">Bookmark 1
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item bookmark">Bookmark 2
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                            </ul>
+                        </li>
+                        <li class="list-group-item bookmark">Bookmark 3
+                            <ul class="list-group-submenu">
+                                <li class="list-group-submenu-item primary"><span class="glyphicon glyphicon-pencil"></span></li>
+                                <li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li>
+                            </ul>
+                        </li>
                     </ul>
+
                 </div>
             </div>
             <div class='col-md-6' id='music-clip-column'>
                 <div class= 'noselect'id='music-clip-window'>
-                  <ul class="nav nav-pills nav-stacked">
-                    <li class="active"><a>Editing Window</a></li>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active indigo"><a>Editing Window</a></li>
                         <div class="music_controls">
                             <div class="bookmark_background" id="bookmark_background_id">
                                 <button type="button" class= "btn btn-info btn-lg" id="btnBookmark">Add Bookmark</button>
@@ -183,8 +206,15 @@
                                 <input id="inputEndTime" type="text" placeholder="End TIme"/>
                             </div>
                             <div class="time_passed"></div>
+<!--<<<<<<< HEAD -->
+<!--
                             <audio src="01 Glad You Came.mp3" type="audio/mpeg" id="current-clip"></audio>
-                            <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
+                            <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="editor-button glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
+                        -->
+                            <audio src="music\ShelteringSky-TXST.mp3" type="audio/mpeg" id="current-clip"></audio>
+                            <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="editor-button glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
+<!-- >>>>>>> 21147fcda46d6c791b51477a9c23a6729295a6cf
+-->
                             <div class="time_length"></div>
                         </div>
                         <div class="track_background" id="track_background_id">
@@ -192,79 +222,98 @@
                             <div class="progress_bar" id="progress_bar_id"></div>
                             <div class="progress_thumb" id="progress_thumb_id"></div>
                         </div>
-                  </ul>
+                    </ul>
                 </div>
             </div>
         </div>  
 
         <!-- NewPlaylist modal -->
-        <div class="modal fade" id="np-window" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
-          <div class="modal-dialog modal-lg">
-            <div class="modal-content">
+        <div id="newPlaylistWindow" class="modal fade" id="np-window" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <form>
+                            <input placeholder="New Playlist Name" type="text" class="form-control" id="recipient-name">
+                        </form>
+                        <h4 class="modal-title" id="np-name">Add music to this playlist</h4>
+                    </div>
 
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <form>
-                    <input placeholder="New Playlist Name" type="text" class="form-control" id="recipient-name">
-                </form>
-                <h4 class="modal-title" id="np-name">Add music to this playlist</h4>
-              </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class = "row">
+                                <div class="col-md-6 panel panel-default" id="np-clipSource" role="tabpanel">
+                                    <div class="panel-body">
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li role="presentation" class="active"><a href="#np-computerTab" role="tab" data-toggle="tab">From your Computer</a></li>
+                                            <li role="presentation"><a href="#np-urlTab" role="tab" data-toggle="tab">Paste a URL</a></li>
+                                        </ul>
 
-              <div class="modal-body">
-                <div class="container-fluid">
-                    <div class = "row">
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <div role="tabpanel" class="tab-pane active" id="np-computerTab">
+                                                <div class="panel panel-default panel-body" id='computer-container'>computer </div>        
+                                                <ul></ul>                    
+                                            </div>
+                                            <div role="tabpanel" class="tab-pane" id="np-urlTab">
+                                                <div class="panel panel-default panel-body" id='url-container'>                            
+                                                    <label class=" control-label" for="url">Paste a music URL here:</label> 
+                                                    <input name="url" type="text" > </input>
+                                                </div>                            
 
-                      <div class="col-md-6 panel panel-default" id="np-clipSource" role="tabpanel">
-                        <div class="panel-body">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                          <li role="presentation" class="active"><a href="#np-computerTab" role="tab" data-toggle="tab">From your Computer</a></li>
-                          <li role="presentation"><a href="#np-urlTab" role="tab" data-toggle="tab">Paste a URL</a></li>
-                        </ul>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                          <div role="tabpanel" class="tab-pane active" id="np-computerTab">computer</div>
-                          <div role="tabpanel" class="tab-pane" id="np-urlTab">
-                            <label class=" control-label" for="url">Paste a music URL here:</label> 
-                            <input name="url" type="text" > </input>
+                                </div>
 
+                                <div class="col-md-1" id="np-addClipArrow">
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+
+
+                                <div class="col-md-5 panel panel-default" id="np-addedClips">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Added Clips</h3>
+                                        <div class="panel panel-default panel-body">                                
+                                            <ul id='added-container' class='list-group'></ul>     
+                                        </div>
+                                    </div>               
+                                </div>
                             </div>
-                          </div>
                         </div>
-
-                      </div>
-
-                      <div class="col-md-1" id="np-addClipArrow">
-                        <button type="button" class="btn btn-default">
-                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        </button>
-                      </div>
-
-
-                      <div class="col-md-5 panel panel-default" id="np-addedClips">
-                        <div class="panel-heading">
-                          <h3 class="panel-title">Added Clips</h3>
-                        </div>
-                        <div class="panel-body">
-                          clips
-                        </div>
-
-                      </div>
                     </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="np-saveButton" onClick='savePlaylists();'>Save</button>
                     </div>
-              </div>
-
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="np-saveButton">Save</button>
-              </div>
+                </div>
             </div>
-          </div>
-
         </div>
 
-    </body>
+<!--         <div id="noteContainer" class="modal" style="position: absolute;">
+            <div id="note" class="ui-widget-content effect1 ui-resizable ui-draggable ui-draggable-handle">
+                <h3 class="ui-widget-header">
+                    <label id="bookmarkName">Clocking-I</label>
+                    <input id="bookmarkName_entry" style="display: none;">
+                </h3><div class="center">
+                <textarea id="text"></textarea>
+            </div>
+            <button id="btnCancel">Cancel</button>
+            <button id="btnDone">Done</button>
+            <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>
+            <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
+            <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div>
+            </div>
+        </div> -->
+
+    </div>
+
+</body>
 
 </html>
