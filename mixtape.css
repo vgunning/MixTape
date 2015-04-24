@@ -14,7 +14,7 @@
 	width: 50px;
 	border-radius: 20px;
 	position: absolute;
-	left: 40%;
+	left: 41%;
 	top: 15px;
 }
 
@@ -24,18 +24,20 @@
 }
 
 #inputStartTime{
-	width: 100px;
+	width: 125px;
 	border-radius: 5px;
 }
 
 #inputEndTime{
-	width: 100px;
+	width: 125px;
 	border-radius: 5px;
 }
 
 .time_passed{
 	width: 50px;
 	height: 45px;
+	font-weight: bold;
+	font-size: 17px;
 	position: absolute;
 	left: 30%;
 	top: 55px;
@@ -44,6 +46,8 @@
 .time_length{
 	width: 50px;
 	height: 45px;
+	font-weight: bold;
+	font-size: 17px;
 	position: absolute;
 	left: 55%;
 	top: 55px;
