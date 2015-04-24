@@ -174,6 +174,14 @@ function listenMode(){
 	$('.trash').removeClass('danger');
 	$('.trash').removeClass('trash');
 
+	// toggle the buttons, make active and primary
+	$('#manageBtn').removeClass('btn-primary');
+	$('#manageBtn').removeClass('active');
+	$('#manageBtn').addClass('btn-default');
+	$('#listenBtn').addClass('btn-primary');
+	$('#listenBtn').addClass('active');
+	$('#listenBtn').removeClass('btn-default');
+
 	document.getElementById('bookmark_background_id').style.visibility = "hidden";
 	document.getElementById('btnPlay').style.visibility = "visible";
 }
@@ -190,6 +198,14 @@ function manageMode(){
 	$('.play').addClass('danger');
 	$('.play').removeClass('success');
 	$('.play').removeClass('play');
+
+	// toggle the buttons, make active and primary
+	$('#listenBtn').removeClass('btn-primary');
+	$('#listenBtn').removeClass('active');
+	$('#listenBtn').addClass('btn-default');
+	$('#manageBtn').addClass('btn-primary');
+	$('#manageBtn').addClass('active');
+	$('#manageBtn').removeClass('btn-default');
 
 	document.getElementById('bookmark_background_id').style.visibility = "visible";
 	document.getElementById('btnPlay').style.visibility = "hidden";
@@ -314,28 +330,6 @@ function removeMusic(button){
 	$('#' + otherid).toggleClass('active');
 }
 
-// toggles the active state of the button passed
-// works on the manage/create mode
-function toggleMode(button){
-	// http://www.bootply.com/92189 (Manage/Listen)
-    $(button).find('.btn').toggleClass('active');  
-    
-    if ($(button).find('.btn-primary').size()>0) {
-    	$(button).find('.btn').toggleClass('btn-primary');
-    }
-    if ($(button).find('.btn-danger').size()>0) {
-    	$(button).find('.btn').toggleClass('btn-danger');
-    }
-    if ($(button).find('.btn-success').size()>0) {
-    	$(button).find('.btn').toggleClass('btn-success');
-    }
-    if ($(button).find('.btn-info').size()>0) {
-    	$(button).find('.btn').toggleClass('btn-info');
-    }
-    
-    $(button).find('.btn').toggleClass('btn-default');	
-}
-
 // repopulate the menus with the current items
 function updateMenus(){
 	$('.list-group-item').remove();
@@ -349,7 +343,6 @@ function updateMenus(){
 		addItemToMenu(clipMenu, currentPlaylist.clips[c]);
 	}
 }
-
 
 //Gabriel Modification. START
 
