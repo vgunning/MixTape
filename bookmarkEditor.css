@@ -2,7 +2,7 @@
 
 #text {
     width  : 95%;
-    height : 90%;
+    height : 85%;
     font-size: 0.9em;
     resize: none;
     margin: 5px;
@@ -10,13 +10,13 @@
 
 #note{
   position: relative;
-  border-color: rgb(200, 200, 200);
   border-width: 1px;
+  border-color: #DDDDDD;
   border-style: outset;
-  border-radius: 10px;
-  width: 200px; height: 275px; 
+  width: 200px; height: 325px; 
+  background-color: white;
   padding: 0px;
-/*  margin: 5px;*/
+  z-index: 10;
 
 }
 
@@ -27,7 +27,7 @@
 	box-shadow: 0 10px 6px -6px #777;
 }
 
-#note h3 { 
+#bookmarkNameContainer { 
 	text-align: center; 
 	margin: 0; 
 	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
@@ -41,14 +41,14 @@
 #btnDone{
 	position: absolute;
     right: 0;
-    bottom: 7;
+    bottom: 7px;
     margin: 5px;
-}
+  }
 
 #btnCancel{
 	position: absolute;
-    right: 45;
-    bottom: 7;
+    left: 0;
+    bottom: 7px;
     margin: 5px;
   }
 
@@ -71,7 +71,9 @@
 #bookmarkName_entry{
 	text-align:center; 
 	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
-  	font-size: 0.9em;
+  font-size: 0.9em;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 

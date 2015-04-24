@@ -2,11 +2,9 @@
 var playlistMenu; // these are the menu containers
 var clipMenu;
 var bookmarkMenu;
-
-var currentPlaylist; // these are the current item/object
+var currentPlaylist;
 var currentClip;
 var currentBookmark;
-
 var currentPlaylistIndex;
 var currentBookmarkIndex;
 var currentClipIndex;
@@ -24,6 +22,7 @@ $(document).ready(function() {
     if ($.getUrlVar('')) {
     }
 });
+
 
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
@@ -221,73 +220,15 @@ function addItemToMenu(menu, item){
 
 	var tag = menu.id + '-' + item.nospace;
 	itemContainer.setAttribute('id', tag);
-	item.id = tag;
+
 	$(itemContainer).on('click', function(e) {
-		deactivate(this);
-		makeActive(this);
+		updateCurrentMenus($(this));
 		console.log('clicked on item');
-		console.log(this);
 	});
 
 	menuul.appendChild(itemContainer);
 }
 
-function makeActive(item){
-	// add the active class
-	$('#' + item.id).addClass('active');
-	// figure out the active class to update
-	if(item.classList.contains('playlist')){
-		// the things on the playlist menu
-		for(var i = 0; i < playlists.length; i++){
-			if (item.id == playlists[i].id){
-				setCurrentPlaylist(i);
-			}
-		}
-	}
-	else if(item.classList.contains('clip')){
-		// the things on the clip menu
-		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
-			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
-				// set the matching index
-				setCurrentClip(i);
-			}
-		}
-	}
-	else if(item.classList.contains('bookmark')){
-		// the things on the bookmark menu
-		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
-			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
-				// set the matching index
-				setCurrentBookmark(i);
-			}
-		}
-	}
-	else{
-		console.log('warning');
-	}
-		
-	// update the active index
-
-}
-
-function deactivate(item){
-	// figure out which items need to be deactivated
-	var type;
-	if(item.classList.contains('playlist')){
-		type = 'playlist';
-	}
-	else if(item.classList.contains('clip')){
-		type = 'clip';
-	}
-	else if(item.classList.contains('bookmark')){
-		type = 'bookmark';
-	}
-	else{
-		console.log('warning');
-	}
-	// get the items of that class and make them all not active
-	$('.' + type).removeClass('active');
-}
 
 function removeItemFromMenu(menu,item){
 	var menuul = menu.children[0].children[1];
@@ -303,11 +244,53 @@ function removeItemFromMenu(menu,item){
 
 }
 
+// add to the menu a new item
+// Needs to be modified!!
+function addItemToDialog(computer, item, matching, func){
+	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('span');
+
+	itemText.innerHTML = item;
+	itemContainer.setAttribute('class', "list-group-item btn btn-default");
+	itemContainer.setAttribute('onClick', func);
+	itemContainer.setAttribute('id', item.split(' ').join('_') + matching);
+	itemContainer.appendChild(itemText);
+
+	computer.appendChild(itemContainer);
+}
+
+// toggle it active and also add to the other side of the menu
+function selectMusic(button){
+	console.log(button);
+	$(button).toggleClass('active');  
+	button.setAttribute('onClick', 'removeMatching(this)');
+
+	var otherMenu = document.getElementById('added-container');
+	addItemToDialog(otherMenu, button.firstChild.innerHTML, '-matching', 'removeMusic(this)');
+}
+
+function removeMatching(button){
+	document.getElementById(button.id + '-matching').remove();
+	$(button).toggleClass('active');
+	document.getElementById(button.id).setAttribute('onClick', 'selectMusic(this)');
+}
+
+function removeMusic(button){
+	button.remove();
+	// find partner and toggle the active and give back the function
+	var otherid = button.id.split('-');
+	otherid.pop();
+	otherid = otherid.join('-');
+	var otheritem = document.getElementById(otherid);
+	otheritem.setAttribute('onClick', 'selectMusic(this)');
+	$('#' + otherid).toggleClass('active');
+}
+
 // repopulate the menus with the current items
 function updateMenus(){
 	$('.list-group-item').remove();
 	// iterate through all the playlists and add the clips
-	var currentPlaylist = setCurrentPlaylist(currentPlaylistIndex); // assuming for now there is a playlist
+	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}
