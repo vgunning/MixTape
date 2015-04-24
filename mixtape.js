@@ -219,7 +219,7 @@ function addItemToMenu(menu, item){
 	itemContainer.appendChild(itemText);
 	itemContainer.appendChild(itemSubmenu);
 
-	var tag = menu.id + '-' + item.name;
+	var tag = menu.id + '-' + item.nospace;
 	itemContainer.setAttribute('id', tag);
 	item.id = tag;
 	$(itemContainer).on('click', function(e) {
