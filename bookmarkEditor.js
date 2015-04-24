@@ -28,7 +28,7 @@
 		    	
 		    }else {
 		    	if (bookmarkId==caller[0]){
-		    		$('#note').remove(); 
+		    		$('#noteContainer').remove(); 
 		    		caller[0].removeAttribute("data-clicked");
 		    		SEMAPHORE = 0;
 		    	}
@@ -44,6 +44,7 @@
 	      			minWidth: 200
 	    		})
 	        	.draggable();
+
 
 	        //When the bookmark name is double clicked, it becomes at text field that has the name of the bookmark selected
 		    $('#bookmarkName').dblclick(function() {
@@ -99,7 +100,7 @@
 				if (checkEmpty("bookmarkName_entry")){
 					caller[0].firstChild.innerHTML = ($('#bookmarkName_entry').val());
 				}
-				$('#note').remove();
+				$('#noteContainer').remove();
 				caller[0].removeAttribute("data-clicked");
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
@@ -107,10 +108,12 @@
 
 		    //The editor widget is closed without changing anything in the bookmark.
 		    $( "#btnCancel" ).click(function(){
-				$('#note').remove();
+				$('#noteContainer').remove();
 				caller[0].removeAttribute("data-clicked");
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
+
+
 	    });
 
 	    //caller.prop('disabled', true);	    
@@ -144,7 +147,10 @@ function popBookmarkEditor(caller) {
 	var bookmarkName = caller.text();
 	var rect = caller.offset();
 
-	console.log(rect);
+	var bookmarkTop = rect.top - 10;
+	var bookmarkLeft = rect.left + caller.outerWidth() + caller.children('.list-group-submenu').outerWidth();
+
+	console.log(caller.children('.list-group-submenu').outerWidth());
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
@@ -156,9 +162,11 @@ function popBookmarkEditor(caller) {
 	var cancelButton = document.createElement("button");
 	var doneButton = document.createElement("button");  	
 
+	bookmarkEditorContainer.setAttribute("id","noteContainer");
+	// bookmarkEditorContainer.setAttribute("class","modal");
 	bookmarkEditorContainer.style.position = "absolute";
-	$(bookmarkEditorContainer).offset({ top: rect.top, left: rect.right});
-	console.log(rect.top);
+	$(bookmarkEditorContainer).offset({ top: bookmarkTop, left: bookmarkLeft});
+	console.log(bookmarkLeft);
 	console.log(bookmarkEditorContainer.style.left);
 	
 	bookmarkEditor.setAttribute("id","note");
@@ -198,14 +206,4 @@ function popBookmarkEditor(caller) {
 	document.body.appendChild(bookmarkEditorContainer);
 }
 
-   $(function () {
-		    $('.list-group-item').on('mouseover', function(event) {
-		event.preventDefault();
-		$(this).closest('li').addClass('open');
-	});
-      $('.list-group-item').on('mouseout', function(event) {
-    	event.preventDefault();
-		$(this).closest('li').removeClass('open');
-	});
-	});
 	
