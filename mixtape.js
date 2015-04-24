@@ -39,6 +39,8 @@ function setCurrentClip(clipIndex){
 	currentClipIndex = clipIndex;
 	if (clipIndex >= 0){
 		currentClip = currentPlaylist.clips[clipIndex];
+		// also set the source to the correct file
+		document.getElementById('current-clip').src = 'music/' + currentClip.name + '.mp3';
 		if (currentClip.bookmarks.length > 0){
 			setCurrentBookmark(0);
 		}else{
