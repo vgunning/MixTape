@@ -19,16 +19,6 @@ $(document).ready(function() {
     if ($.getUrlVar('')) {
     }
 
-    $('.list-group-item').on('mouseover', function(event) {
-		event.preventDefault();
-		$(this).closest('li').addClass('open');
-	});
-    $('.list-group-item').on('mouseout', function(event) {
-    	event.preventDefault();
-		$(this).closest('li').removeClass('open');
-	});
-
-
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
     var progress_bar = document.getElementById('progress_bar_id');
@@ -212,7 +202,7 @@ function addItemToMenu(menu, item){
 	console.log("Adding menus");
 
 	var itemContainer = document.createElement('li');
-	var itemText = document.createElement('span');
+	var itemText = document.createElement('div');
 	var itemSubmenu = document.createElement('ul');
 	var itemRemove = document.createElement('li');
 	var itemEdit = document.createElement('li');
@@ -220,7 +210,7 @@ function addItemToMenu(menu, item){
 	var itemEditIcon = document.createElement('span');
 
 	itemText.innerHTML = item.name;
-	itemContainer.setAttribute('class', "list-group-item " + item.type);
+	itemContainer.setAttribute('class', "list-group-item" + " " + item.type);
 	itemSubmenu.setAttribute('class', "list-group-submenu");
 	itemRemove.setAttribute('class', "list-group-submenu-item trash danger");
 	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
@@ -241,10 +231,9 @@ function addItemToMenu(menu, item){
 	itemEdit.appendChild(itemEditIcon);
 	addBookmarkEditorFunctionality($(itemEdit));
 
-
-	itemSubmenu.appendChild(itemRemove);
 	itemSubmenu.appendChild(itemEdit);
-
+	itemSubmenu.appendChild(itemRemove);
+	
 	itemContainer.appendChild(itemText);
 	itemContainer.appendChild(itemSubmenu);
 
@@ -252,11 +241,12 @@ function addItemToMenu(menu, item){
 	itemContainer.setAttribute('id', tag);
 	$(itemContainer).on('mouseover', function(event){
 		event.preventDefault();
-		$(this).closest('li').addClass('open');
+		console.log($(this).closest('li'));
+		$(this).closest('li').addClass('visible');
 	});
 	$(itemContainer).on('mouseout', function(event) {
     	event.preventDefault();
-		$(this).closest('li').removeClass('open');
+		$(this).closest('li').removeClass('visible');
 	});
 
 	$(itemContainer).on('click', function(e) {
