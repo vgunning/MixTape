@@ -222,7 +222,6 @@ function addItemToMenu(menu, item){
 	itemContainer.setAttribute('id', tag);
 
 	$(itemContainer).on('click', function(e) {
-		updateCurrentMenus($(this));
 		console.log('clicked on item');
 	});
 
