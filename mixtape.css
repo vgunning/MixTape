@@ -106,7 +106,7 @@
 }
 
 
-.list-group-item>div{
+.list-group-item > div{
     overflow: hidden;
 	text-overflow: ellipsis;
 }
