@@ -25,19 +25,6 @@ $(document).ready(function() {
     }
 });
 
-// pull up the playlist dialog
-function newPlaylist(){
-	$('.modal').modal('show'); // call rachel's playlist dialog
-	fillDummyDialog();
-}
-
-function savePlaylists(){
-	$('.modal').modal('hide'); // close the dialog box
-	// TODO: add items from the playlist dialog or create a dumby for now :)
-	playlists = createDummyItems();
-	updateMenus();
-}
-
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
 		currentBookmark = currentClip.bookmarks[bookmarkIndex];
@@ -247,31 +234,28 @@ function makeActive(item){
 	$('#' + item.id).addClass('active');
 	// figure out the active class to update
 	if(item.classList.contains('playlist')){
-		currentPlaylist = item;
 		// the things on the playlist menu
 		for(var i = 0; i < playlists.length; i++){
 			if (item.id == playlists[i].id){
-				currentPlaylistIndex = i;
+				setCurrentPlaylist(i);
 			}
 		}
 	}
 	else if(item.classList.contains('clip')){
-		currentClip = item;
 		// the things on the clip menu
 		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
 			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
 				// set the matching index
-				currentClipIndex = i;
+				setCurrentClip(i);
 			}
 		}
 	}
 	else if(item.classList.contains('bookmark')){
-		currentBookmark = item;
 		// the things on the bookmark menu
 		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
 			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
 				// set the matching index
-				currentBookmarkIndex = i;
+				setCurrentBookmark(i);
 			}
 		}
 	}
@@ -320,7 +304,7 @@ function removeItemFromMenu(menu,item){
 function updateMenus(){
 	$('.list-group-item').remove();
 	// iterate through all the playlists and add the clips
-	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
+	var currentPlaylist = setCurrentPlaylist(currentPlaylistIndex); // assuming for now there is a playlist
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}
