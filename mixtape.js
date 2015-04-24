@@ -2,9 +2,11 @@
 var playlistMenu; // these are the menu containers
 var clipMenu;
 var bookmarkMenu;
-var currentPlaylist;
+
+var currentPlaylist; // these are the current item/object
 var currentClip;
 var currentBookmark;
+
 var currentPlaylistIndex;
 var currentBookmarkIndex;
 var currentClipIndex;
@@ -22,19 +24,6 @@ $(document).ready(function() {
     if ($.getUrlVar('')) {
     }
 });
-
-// pull up the playlist dialog
-function newPlaylist(){
-	$('#newPlaylistWindow').modal('show'); // call rachel's playlist dialog
-	fillDummyDialog();
-}
-
-function savePlaylists(){
-	$('#newPlaylistWindow').modal('hide'); // close the dialog box
-	// TODO: add items from the playlist dialog or create a dumby for now :)
-	playlists = createDummyItems();
-	updateMenus();
-}
 
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
@@ -232,7 +221,7 @@ function addItemToMenu(menu, item){
 
 	var tag = menu.id + '-' + item.name;
 	itemContainer.setAttribute('id', tag);
-
+	item.id = tag;
 	$(itemContainer).on('click', function(e) {
 		deactivate(this);
 		makeActive(this);
@@ -244,7 +233,41 @@ function addItemToMenu(menu, item){
 }
 
 function makeActive(item){
+	// add the active class
 	$('#' + item.id).addClass('active');
+	// figure out the active class to update
+	if(item.classList.contains('playlist')){
+		// the things on the playlist menu
+		for(var i = 0; i < playlists.length; i++){
+			if (item.id == playlists[i].id){
+				setCurrentPlaylist(i);
+			}
+		}
+	}
+	else if(item.classList.contains('clip')){
+		// the things on the clip menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
+				// set the matching index
+				setCurrentClip(i);
+			}
+		}
+	}
+	else if(item.classList.contains('bookmark')){
+		// the things on the bookmark menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
+				// set the matching index
+				setCurrentBookmark(i);
+			}
+		}
+	}
+	else{
+		console.log('warning');
+	}
+		
+	// update the active index
+
 }
 
 function deactivate(item){
@@ -284,7 +307,7 @@ function removeItemFromMenu(menu,item){
 function updateMenus(){
 	$('.list-group-item').remove();
 	// iterate through all the playlists and add the clips
-	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
+	var currentPlaylist = setCurrentPlaylist(currentPlaylistIndex); // assuming for now there is a playlist
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}

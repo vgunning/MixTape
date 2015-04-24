@@ -41,3 +41,30 @@ function removeMusic(button){
 	otheritem.setAttribute('onClick', 'selectMusic(this)');
 	$('#' + otherid).toggleClass('active');
 }
+
+// pull up the playlist dialog
+function newPlaylist(){
+	$('.modal').modal('show'); // call rachel's playlist dialog
+	fillDummyDialog();
+}
+
+function savePlaylists(){
+	$('.modal').modal('hide'); // close the dialog box
+	// TODO: add items from the playlist dialog or create a dumby for now :)
+	var clipsToAdd = document.getElementById('np-clipSource').getElementsByClassName('active btn'); // id has the clip name?
+	var playlistName = document.getElementById('recipient-name').value;
+	document.getElementById('recipient-name').value = '';
+	var playlist = new Playlist().init_name(playlistName);
+	for (var i = 0; i < clipsToAdd.length; i++){
+		var clip = new Clip().init_name_playlist(clipsToAdd[i].textContent, playlist.name);
+		playlist.addClip(clip);
+	}
+	// add a new playlist for now
+	// checking should be implemented
+	playlists.push(playlist);
+	setCurrentPlaylist(playlists.length - 1);
+	setCurrentClip(0);
+	updateMenus();
+	makeActive(document.getElementById(playlists[playlists.length - 1].id));
+	makeActive(document.getElementById(playlists[playlists.length - 1].clips[0].id));
+}
