@@ -79,7 +79,10 @@ Clip.prototype.init_name_playlist = function(name, playlist){
 function Bookmark(){
 	this.type = 'bookmark';
 	this.text = '';
+	this.startTime = -1; //In milliseconds
+	this.endTime = -1; //In milliseconds
 }
+
 Bookmark.prototype = {
 	addText: function(newText){
 		this.text = newText;
@@ -102,6 +105,7 @@ Bookmark.prototype.init_name_times = function(name, startTime, endTime){
 	this.endTime = endTime;
 	return this;
 }
+
 Bookmark.prototype.init_name_clip = function(name, clip){
 	this.name = name;
 	this.nospace = name.split('-').join('').split(' ').join('');
