@@ -27,7 +27,7 @@ Playlist.prototype = {
 // constructor with just the name
 Playlist.prototype.init_name = function(name){
 	this.name = name;
-	this.id = name.split(' ').join('_');
+	this.id = name.split('-').join('').split(' ').join('');
 	this.clips = [];
 	return this;
 }
@@ -69,7 +69,7 @@ Clip.prototype.init_name_playlist = function(name, playlist){
 	this.name = name;
 	this.playlist = playlist; //This is the parent/container playlist.
 	//This can possibly be the id that will be given to the corresponding html tag: P<playlist name>C<clip name>B<bookmark name>
-	this.id = this.playlist.id + '-' + name.split(' ').join('_');
+	this.id = this.playlist.id + '-' + name.split('-').join('').split(' ').join('');
 ;
 	this.bookmarks = [];
 	return this;
@@ -108,7 +108,7 @@ Bookmark.prototype.init_name_clip = function(name, clip){
 	this.name = name;
 	this.clip = clip;
 	//This can possibly be the id that will be given to the corresponding html tag: P<playlist name>C<clip name>B<bookmark name>
-	this.id = this.clip.id + '-' + name.split(' ').join('_');
+	this.id = this.clip.id + '-' + name.split('-').join('').split(' ').join('');
 	return this;
 }
 
@@ -116,6 +116,6 @@ Bookmark.prototype.init_name_clip_playlist = function(name, clip, playlist){
 	this.name = name;
 	this.clip = clip;
 	this.playlist = playlist;
-	this.id = this.playlist.id + '-' + this.clip.id + '-' + name.split(' ').join('_');
+	this.id = this.playlist.id + '-' + this.clip.id + '-' + name.split('-').join('').split(' ').join('');
 	return this;
 }
