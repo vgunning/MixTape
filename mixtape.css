@@ -3,6 +3,10 @@
 	width: 200px;
 }
 
+.modal-backdrop.in {
+	opacity: 0;
+}
+
 .music_controls{
 	width: auto;
 	height: 75px;
@@ -178,6 +182,8 @@
 	color: rgb(235, 235, 235);
 	border-radius: 5px;
 }
+
+
 
 .list-group-submenu .list-group-submenu-item.primary {
 	color: rgb(255, 255, 255);

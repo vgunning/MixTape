@@ -19,16 +19,20 @@
 		    
 		    // console.log(bookmarkId);
 
+		    
+
 		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
 	    		console.log(caller);
-	    		popBookmarkEditor(caller);
+
+	    		// popBookmarkEditor(caller);
 	    		caller[0].setAttribute("data-clicked","true");
 	    		SEMAPHORE = 1;
 	    		bookmarkId = caller[0];
 		    	
 		    }else {
 		    	if (bookmarkId==caller[0]){
-		    		$('#noteContainer').remove(); 
+		    		$('#noteContainer').modal('hide');
+		    		// $('#noteContainer').remove(); 
 		    		caller[0].removeAttribute("data-clicked");
 		    		SEMAPHORE = 0;
 		    	}
@@ -36,7 +40,7 @@
 		    }
 		    
 
-			$( "#note" )
+			$( "#noteContainer" )
 	        	.resizable({
 	      			maxWidth: 250,
 	      			maxHeight: 500,
@@ -100,7 +104,8 @@
 				if (checkEmpty("bookmarkName_entry")){
 					caller[0].firstChild.innerHTML = ($('#bookmarkName_entry').val());
 				}
-				$('#noteContainer').remove();
+				// $('#noteContainer').remove();
+				$('#noteContainer').modal('hide');
 				caller[0].removeAttribute("data-clicked");
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
@@ -108,7 +113,8 @@
 
 		    //The editor widget is closed without changing anything in the bookmark.
 		    $( "#btnCancel" ).click(function(){
-				$('#noteContainer').remove();
+				// $('#noteContainer').remove();
+				$('#noteContainer').modal('hide');
 				caller[0].removeAttribute("data-clicked");
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
@@ -144,6 +150,7 @@ function checkEmpty(element_string) {
   *					Its text must be the name of the bookmark. 
   */
 function popBookmarkEditor(caller) {     	
+	$('#noteContainer').modal('show');
 	var bookmarkName = caller.text();
 	var rect = caller.offset();
 
@@ -163,7 +170,7 @@ function popBookmarkEditor(caller) {
 	var doneButton = document.createElement("button");  	
 
 	bookmarkEditorContainer.setAttribute("id","noteContainer");
-	// bookmarkEditorContainer.setAttribute("class","modal");
+	bookmarkEditorContainer.setAttribute("class","modal");
 	bookmarkEditorContainer.style.position = "absolute";
 	$(bookmarkEditorContainer).offset({ top: bookmarkTop, left: bookmarkLeft});
 	console.log(bookmarkLeft);
