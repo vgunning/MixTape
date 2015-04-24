@@ -53,6 +53,9 @@ function savePlaylists(){
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	var clipsToAdd = document.getElementById('np-clipSource').getElementsByClassName('active btn'); // id has the clip name?
 	var playlistName = document.getElementById('recipient-name').value;
+	if (playlistName == ''){
+		playlistName = 'Playlist ' + (playlists.length + 1).toString();
+	}
 	document.getElementById('recipient-name').value = '';
 	var playlist = new Playlist().init_name(playlistName);
 	for (var i = 0; i < clipsToAdd.length; i++){
