@@ -12,6 +12,7 @@
 	var currentClipIndex;
 	var playlists = []; // this will hold all the created playlists
 
+
 	$(document).ready(function() {
 		playlistMenu = document.getElementById('playlists');
 		clipMenu = document.getElementById('clips');
@@ -68,6 +69,7 @@
 	});
 	//Gabriel Modifications. END
 });
+
 
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
@@ -257,7 +259,6 @@ function updateMenusCurrentSelection(menu, index){
 		console.log(selection.index())
 		removeItemFromMenu(menu,selection);
 		console.log('In cancel');
-
 	});
 		itemRemove.appendChild(itemRemoveIcon);
 
@@ -354,11 +355,12 @@ function removeItemFromMenu(menu,item){
 
 }
 
-	// repopulate the menus with the current items
-	function updateMenus(){
-		$('.list-group-item').remove();
+
+function updateMenus(){
+	$('.list-group-item').remove();
+
 	// iterate through all the playlists and add the clips
-	var currentPlaylist = setCurrentPlaylist(currentPlaylistIndex); // assuming for now there is a playlist
+	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}

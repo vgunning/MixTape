@@ -70,10 +70,10 @@ $(document).ready(function() {
     <div class='jumbotron'>
         <div class='container' id='top-row'>
             <h1 class='title'>MixTape</h1>
-            <button type='button' class='btn btn-lg btn-default' onClick='newPlaylist();'>+ New Playlist</button>
+            <button type='button' class='btn btn-lg btn-default indigo' onClick='newPlaylist();'>+ New Playlist</button>
             <div class='btn-group btn-toggle'>
-                <button class='btn btn-lg btn-primary active' id='manageBtn' onClick='manageMode();'>Manage</button>
-                <button class='btn btn-lg btn-default' id='listenBtn' onClick='listenMode();'>Listen</button>
+                <button class='btn btn-lg btn-primary active indigo' id='manageBtn' onClick='manageMode();'>Manage</button>
+                <button class='btn btn-lg btn-default indigo' id='listenBtn' onClick='listenMode();'>Listen</button>
             </div>
         </div>
     </div>    
@@ -206,15 +206,8 @@ $(document).ready(function() {
                                 <input id="inputEndTime" type="text" placeholder="End TIme"/>
                             </div>
                             <div class="time_passed"></div>
-<!--<<<<<<< HEAD -->
-<!--
-                            <audio src="01 Glad You Came.mp3" type="audio/mpeg" id="current-clip"></audio>
-                            <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="editor-button glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
-                        -->
                             <audio src="music\ShelteringSky-TXST.mp3" type="audio/mpeg" id="current-clip"></audio>
                             <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="editor-button glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
-<!-- >>>>>>> 21147fcda46d6c791b51477a9c23a6729295a6cf
--->
                             <div class="time_length"></div>
                         </div>
                         <div class="track_background" id="track_background_id">
@@ -296,21 +289,8 @@ $(document).ready(function() {
             </div>
         </div>
 
-<!--         <div id="noteContainer" class="modal" style="position: absolute;">
-            <div id="note" class="ui-widget-content effect1 ui-resizable ui-draggable ui-draggable-handle">
-                <h3 class="ui-widget-header">
-                    <label id="bookmarkName">Clocking-I</label>
-                    <input id="bookmarkName_entry" style="display: none;">
-                </h3><div class="center">
-                <textarea id="text"></textarea>
-            </div>
-            <button id="btnCancel">Cancel</button>
-            <button id="btnDone">Done</button>
-            <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>
-            <div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div>
-            <div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div>
-            </div>
-        </div> -->
+        
+        
 
     </div>
 

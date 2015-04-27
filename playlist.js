@@ -44,12 +44,12 @@ function removeMusic(button){
 
 // pull up the playlist dialog
 function newPlaylist(){
-	$('.modal').modal('show'); // call rachel's playlist dialog
+	$('#newPlaylistWindow').modal('show'); // call rachel's playlist dialog
 	fillDummyDialog();
 }
 
 function savePlaylists(){
-	$('.modal').modal('hide'); // close the dialog box
+	$('#newPlaylistWindow').modal('hide'); // close the dialog box
 	// TODO: add items from the playlist dialog or create a dumby for now :)
 	var clipsToAdd = document.getElementById('np-clipSource').getElementsByClassName('active btn'); // id has the clip name?
 	var playlistName = document.getElementById('recipient-name').value;

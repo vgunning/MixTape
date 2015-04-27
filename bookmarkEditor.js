@@ -40,11 +40,10 @@
 	        	.resizable({
 	      			maxWidth: 250,
 	      			maxHeight: 500,
-	      			minHeight: 275,
+	      			minHeight: 315,
 	      			minWidth: 200
 	    		})
 	        	.draggable();
-
 
 	        //When the bookmark name is double clicked, it becomes at text field that has the name of the bookmark selected
 		    $('#bookmarkName').dblclick(function() {
@@ -79,21 +78,6 @@
 		                                                                      
 		    }
 		    });
-			$( "#btnDone" ).button({
-				icons: {
-					primary: "ui-icon-check"
-
-				},
-				text: false
-		    });
-
-		    $( "#btnCancel" ).button({
-				icons: {
-					primary: "ui-icon-close"
-
-				},
-				text: false
-		    });
 
 		    //When the done button is clicked, the name in the caller button is changed and the editor widget is closed
 		    $( "#btnDone" ).click(function(){
@@ -113,8 +97,7 @@
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
 
-
-	    });
+		    });
 
 	    //caller.prop('disabled', true);	    
 
@@ -154,8 +137,9 @@ function popBookmarkEditor(caller) {
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
-	var bookmarkNameContainer = document.createElement("h3");
-	var bookmarkNameLabel = document.createElement("label");
+	var bookmarkNameContainerParent = document.createElement("ul");
+	var bookmarkNameContainer = document.createElement("li");
+	var bookmarkNameLabel = document.createElement("a");
 	var bookmarkNameEditor = document.createElement("input");
 	var noteContainer = document.createElement("div");
 	var note = document.createElement("textarea");
@@ -163,19 +147,18 @@ function popBookmarkEditor(caller) {
 	var doneButton = document.createElement("button");  	
 
 	bookmarkEditorContainer.setAttribute("id","noteContainer");
-	// bookmarkEditorContainer.setAttribute("class","modal");
 	bookmarkEditorContainer.style.position = "absolute";
 	$(bookmarkEditorContainer).offset({ top: bookmarkTop, left: bookmarkLeft});
 	console.log(bookmarkLeft);
 	console.log(bookmarkEditorContainer.style.left);
 	
 	bookmarkEditor.setAttribute("id","note");
-	bookmarkEditor.setAttribute("class","ui-widget-content");
 	$(bookmarkEditor).addClass("effect1");
 
-
-	bookmarkNameContainer.setAttribute("class","ui-widget-header");
-
+	bookmarkNameContainerParent.setAttribute("class","nav nav-pills nav-stacked")
+	
+	bookmarkNameContainer.setAttribute("id","bookmarkNameContainer")
+	bookmarkNameContainer.setAttribute("class","active indigo")
 	
 	bookmarkNameLabel.setAttribute("id","bookmarkName");
 	bookmarkNameLabel.innerHTML =  bookmarkName;
@@ -189,16 +172,19 @@ function popBookmarkEditor(caller) {
 
 	cancelButton.innerHTML = "Cancel";
 	cancelButton.setAttribute("id","btnCancel");
+	cancelButton.setAttribute("class","btn");
 
 
 	doneButton.innerHTML = "Done";
 	doneButton.setAttribute("id","btnDone");
+	doneButton.setAttribute("class","btn");
 
 	noteContainer.appendChild(note);
 	bookmarkNameContainer.appendChild(bookmarkNameLabel);
 	bookmarkNameContainer.appendChild(bookmarkNameEditor);
+	bookmarkNameContainerParent.appendChild(bookmarkNameContainer);
 	
-	bookmarkEditor.appendChild(bookmarkNameContainer);
+	bookmarkEditor.appendChild(bookmarkNameContainerParent);
 	bookmarkEditor.appendChild(noteContainer);
 	bookmarkEditor.appendChild(cancelButton);
 	bookmarkEditor.appendChild(doneButton);
