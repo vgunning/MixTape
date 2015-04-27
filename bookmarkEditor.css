@@ -1,0 +1,80 @@
+
+
+#text {
+    width  : 95%;
+    height : 85%;
+    font-size: 0.9em;
+    resize: none;
+    margin: 5px;
+}
+
+#note{
+  position: relative;
+  border-width: 1px;
+  border-color: #DDDDDD;
+  border-style: outset;
+  width: 200px; height: 325px; 
+  background-color: white;
+  padding: 0px;
+  z-index: 10;
+
+}
+
+
+.effect1{
+	-webkit-box-shadow: 0 10px 6px -6px #777;
+	-moz-box-shadow: 0 10px 6px -6px #777;
+	box-shadow: 0 10px 6px -6px #777;
+}
+
+#bookmarkNameContainer { 
+	text-align: center; 
+	margin: 0; 
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+  font-size: 1.1em;
+}
+
+.ui-widget-header {
+  border-radius: 5px;
+  }
+
+#btnDone{
+	position: absolute;
+    right: 0;
+    bottom: 7px;
+    margin: 5px;
+  }
+
+#btnCancel{
+	position: absolute;
+    left: 0;
+    bottom: 7px;
+    margin: 5px;
+  }
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5px;
+    width  : 99%;
+    height : 80%;
+}
+
+#doneContainer {
+    margin-top: 5px;
+    width  : 99%;
+    height : 10%;
+    right: 0;
+    bottom: 0;
+}
+
+#bookmarkName_entry{
+	text-align:center; 
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+  font-size: 0.9em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+

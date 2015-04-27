@@ -1,0 +1,16 @@
+git branch <name> (creates a new branch with name and is a copy of your current branch)
+git branch -vv (prints everything about your branches)
+git branch -u <upstream/branch> <local/branch/name> (sets one of your branches to track another)
+
+(on local branch)
+git status
+git pull
+
+(switching branches)
+git checkout <branch>
+
+(reverting changes)
+git checkout filename
+
+see git stash
+
