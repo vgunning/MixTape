@@ -3,7 +3,7 @@ var playlistMenu; // these are the menu containers
 var clipMenu;
 var bookmarkMenu;
 
-var currentPlaylist; // these are the current item/object
+var currentPlaylist = 0; // these are the current item/object
 var currentClip;
 var currentBookmark;
 
@@ -30,7 +30,8 @@ $(document).ready(function() {
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
 		currentBookmark = currentClip.bookmarks[bookmarkIndex];
-	}else{
+	}
+	else{
 		currentBookmark = null;
 	}
 	currentBookmarkIndex = bookmarkIndex;
@@ -41,46 +42,37 @@ function setCurrentClip(clipIndex){
 	currentClipIndex = clipIndex;
 	if (clipIndex >= 0){
 		currentClip = currentPlaylist.clips[clipIndex];
-	// also set the source to the correct file
-	document.getElementById('current-clip').src = 'music/' + currentClip.name + '.mp3';
-	if (currentClip.bookmarks.length > 0){
-		setCurrentBookmark(0);
-	}else{
-		setCurrentBookmark(-1);
+		// also set the source to the correct file
+		document.getElementById('current-clip').src = 'music/' + currentClip.name + '.mp3';
+		if (currentClip.bookmarks.length > 0){
+			setCurrentBookmark(0);
+		}
+		else{
+			setCurrentBookmark(-1);
+		}
 	}
-}else{
-	currentClip = null;
-}	
-
-return currentClip;
+	else{
+		currentClip = null;
+	}	
+	return currentClip;
 }
 
-	// this might change for usability, like take a playlistname instead?
-	function setCurrentPlaylist(playlistIndex){
-		if (playlistIndex >= 0){
-			currentPlaylist = playlists[playlistIndex];
-			if (currentPlaylist.clips.length > 0){
-				setCurrentClip(0);
-			}else{
-				setCurrentClip(-1);
-			}	
+// this might change for usability, like take a playlistname instead?
+function setCurrentPlaylist(playlistIndex){
+	if (playlistIndex >= 0){
+		currentPlaylist = playlists[playlistIndex];
+		if (currentPlaylist.clips.length > 0){
+			setCurrentClip(0);
 		}else{
-			currentPlaylist = null;
-		}
-		currentPlaylistIndex = playlistIndex;
-
-		return currentPlaylist;
+			setCurrentClip(-1);
+		}	
 	}
-
-
-	//Clears the help text from invalid bookmark time input
-	function clearHelpText(e){
-		var target = e.target;
-		var value = $(target).val();
-		if(value == "Format 'mm:ss'"){
-			$(target).val('');
-		}
+	else{
+		currentPlaylist = null;
 	}
+	currentPlaylistIndex = playlistIndex;
+	return currentPlaylist;
+}
 
 	// good places to look
 	// http://www.jque.re/plugins/version3/bootstrap.switch/
@@ -92,7 +84,7 @@ return currentClip;
 	// http://www.prepbootstrap.com/bootstrap-template/collapsepanels (collapsible?)
 
 	// change to the listening mode
-	function listenMode(){
+function listenMode(){
 		console.log('listen');
 	// get all the glyphicon-remove
 	$('.glyphicon-trash').addClass('glyphicon-play');
@@ -115,7 +107,7 @@ return currentClip;
 }
 
 	// change to the create mode
-	function manageMode(){
+function manageMode(){
 		console.log('manage');
 	// get all the glyphicon-remove
 	$('.glyphicon-play').addClass('glyphicon-trash');
@@ -156,39 +148,37 @@ function updateMenusCurrentSelection(menu, index){
 	}
 }
 
-	// add to the menu a new item
-	// Needs to be modified!!
-	function addItemToMenu(menu, item){
-		var menuul = menu.children[0].children[1];
-		console.log("Adding menus");
+// add to the menu a new item
+// Needs to be modified!!
+function addItemToMenu(menu, item){
+	var menuul = menu.children[0].children[1];
+	var itemContainer = document.createElement('li');
+	var itemText = document.createElement('div');
+	var itemSubmenu = document.createElement('ul');
+	var itemRemove = document.createElement('a');
+	var itemEdit = document.createElement('a');
+	var itemRemoveIcon = document.createElement('span');
+	var itemEditIcon = document.createElement('span');
 
-		var itemContainer = document.createElement('li');
-		var itemText = document.createElement('div');
-		var itemSubmenu = document.createElement('ul');
-		var itemRemove = document.createElement('a');
-		var itemEdit = document.createElement('a');
-		var itemRemoveIcon = document.createElement('span');
-		var itemEditIcon = document.createElement('span');
+	itemText.innerHTML = item.name;
+	itemContainer.setAttribute('class', "list-group-item" + " " + item.type);
+	itemSubmenu.setAttribute('class', "list-group-submenu");
+	itemRemove.setAttribute('class', "list-group-submenu-item trash danger");
+	itemEdit.setAttribute('href','#noteContainer');
+	itemEdit.setAttribute('data-backdrop','false');
+	itemEdit.setAttribute('data-toggle','modal');
+	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
+	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-trash");
+	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
 
-		itemText.innerHTML = item.name;
-		itemContainer.setAttribute('class', "list-group-item" + " " + item.type);
-		itemSubmenu.setAttribute('class', "list-group-submenu");
-		itemRemove.setAttribute('class', "list-group-submenu-item trash danger");
-		itemEdit.setAttribute('href','#noteContainer');
-		itemEdit.setAttribute('data-backdrop','false');
-		itemEdit.setAttribute('data-toggle','modal');
-		itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
-		itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-trash");
-		itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
-
-		$(itemRemove).click(function(e) {
+	$(itemRemove).click(function(e) {
 		// var name = ($(this).text()).trim();
 		e.stopPropagation();
 		var selection = $(e.currentTarget.offsetParent.offsetParent)
-		console.log(selection.index())
-		removeItemFromMenu(menu,selection);
-		console.log('In cancel');
-	});
+			console.log(selection.index())
+			removeItemFromMenu(menu,selection);
+			console.log('In cancel');
+		});
 		itemRemove.appendChild(itemRemoveIcon);
 
 		itemEdit.appendChild(itemEditIcon);
@@ -208,47 +198,56 @@ function updateMenusCurrentSelection(menu, index){
 			makeActive(this);
 			console.log('clicked on item');
 			console.log(this);
-		});
+	});
+	menuul.appendChild(itemContainer);
 
-		menuul.appendChild(itemContainer);
+	// change it to active if the active current clip or playlist
+	if (item == currentPlaylist){
+		$('#' + itemContainer.id).addClass('active');
 	}
+	if (item == currentClip){
+		$('#' + itemContainer.id).addClass('active');
+	}
+	if (item == currentBookmark){
+		$('#' + itemContainer.id).addClass('active');
+	}
+}
 
-	function makeActive(item){
+function makeActive(item){
 	// add the active class
 	$('#' + item.id).addClass('active');
 	// figure out the active class to update
 	if(item.classList.contains('playlist')){
-	// the things on the playlist menu
-	for(var i = 0; i < playlists.length; i++){
-		if (item.id == playlists[i].id){
-			setCurrentPlaylist(i);
+		// the things on the playlist menu
+		for(var i = 0; i < playlists.length; i++){
+			if (item.id == playlists[i].id){
+				setCurrentPlaylist(i);
+			}
 		}
 	}
-}
-else if(item.classList.contains('clip')){
-	// the things on the clip menu
-	for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
-		if (item.id == playlists[currentPlaylistIndex].clips[i].id){
-			// set the matching index
-			setCurrentClip(i);
+	else if(item.classList.contains('clip')){
+		// the things on the clip menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
+				// set the matching index
+				setCurrentClip(i);
+			}
 		}
 	}
-}
-else if(item.classList.contains('bookmark')){
-	// the things on the bookmark menu
-	for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
-		if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
-			// set the matching index
-			setCurrentBookmark(i);
+	else if(item.classList.contains('bookmark')){
+		// the things on the bookmark menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
+				// set the matching index
+				setCurrentBookmark(i);
+			}
 		}
 	}
-}
-else{
-	console.log('warning');
-}
-
-	// update the active index
-
+	else{
+		console.log('warning');
+	}
+	// update the currentIndex
+	updateMenus();
 }
 
 function deactivate(item){
@@ -287,9 +286,9 @@ function removeItemFromMenu(menu,item){
 
 function updateMenus(){
 	$('.list-group-item').remove();
+	console.log('update menus');
 
 	// iterate through all the playlists and add the clips
-	var currentPlaylist = setCurrentPlaylist(0); // assuming for now there is a playlist
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}
