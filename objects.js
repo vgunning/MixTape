@@ -42,7 +42,9 @@ Clip.prototype = {
 	// declare all the functions that clip should support to inherit
 	addBookmark: function(newBookmark){
 		//Should we check for the existence of the clip in the clip list?. What would clip equality be in that case?
-		// How does javascript take care of this? I will just check for the name for now. -X
+		// How does javascript take care of this? I will just check for the name for now. -
+		//GABRIEL Debug
+		console.log("Adding bookmark to " + this.name);
 		var canAdd = true;
 		for (bookmark in this.bookmarks){
 			if (bookmark.name == newBookmark.name){
