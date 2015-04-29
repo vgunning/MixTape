@@ -30,24 +30,57 @@ $(document).ready(function() {
     var clip = document.getElementById('current-clip');
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
-	    clip_time_length_ms = document.getElementById('current-clip').duration*1000;
-	    console.log(clip_time_length_ms);
-	    var minutes = Math.floor(clip_time_length_ms/(1000*60));
-	    var seconds = Math.floor(clip_time_length_ms/1000)%60;
-	    
-	    if(seconds < 10){
-	    	$(".time_length").html(""+minutes+":0"+seconds);
-	    }else{
-	    	$(".time_length").html(""+minutes+":"+seconds);
-	    }
+    	clip_time_length_ms = document.getElementById('current-clip').duration*1000;
+    	console.log(clip_time_length_ms);
+    	var minutes = Math.floor(clip_time_length_ms/(1000*60));
+    	var seconds = Math.floor(clip_time_length_ms/1000)%60;
 
-	    $(".time_passed").html("0:00");
+    	//currentClip = new Clip.prototype.init_name('Current Clip');
+
+    	if(seconds < 10){
+    		$(".time_length").html(""+minutes+":0"+seconds);
+    	}else{
+    		$(".time_length").html(""+minutes+":"+seconds);
+    	}
+
+    	$(".time_passed").html("0:00");
 
     });
-    //Gabriel Modifications. END
+	//Gabriel Modifications. END
 
 
 });
+
+//Gabriel Modification. START
+
+//Author: Gabrielj. Adds bookmarks to bookmark list
+function addNewBookmark(e){
+	var start_time = $(inputStartTime).val();
+	var end_time = $(inputEndTime).val();
+	var array_start_time = start_time.split(":");
+	var array_end_time = end_time.split(":");
+	console.log(array_end_time[0]);
+	console.log(array_end_time[1]);
+	if(array_start_time.length != 2 || array_end_time.length != 2 
+		|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) || isNaN(parseInt(array_end_time[0])) || isNaN(parseInt(array_end_time[1])) ){
+		$(inputStartTime).val("Format 'mm:ss'");
+	$(inputEndTime).val("Format 'mm:ss'");
+} else {
+		start_time = parseInt(array_start_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
+		end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_end_time[1])*1000; //In milliseconds
+		//console.log(start_time);
+		//console.log(end_time);
+		if(start_time > 0 && start_time < clip_time_length_ms){
+			if(end_time > start_time && end_time < clip_time_length_ms){
+				//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
+				var new_bookmark = new Bookmark.prototype.init_name_times('NewBookmark', start_time, end_time);
+				currentClip.addBookmark(new_bookmark);
+				updateMenus();
+				console.log("Done adding");
+			}
+		}
+	}
+}
 
 var dragging_thumb = false;
 document.onmousemove = dragProgressElements;
@@ -68,23 +101,23 @@ function startDragging(e){
         img_dragged = document.getElementById(e.target.id);
         //Above the arrows
         img_dragged.style.zIndex = "35";
-      */
-      	if(playing_clip){
-      		togglePlay();
-      	}
+        */
+        if(playing_clip){
+        	togglePlay();
+        }
         dragging_thumb = true;
         console.log("Start dragging");
     }
 
 //Sets the variable 'dragging_thumb' to false
 function endDragging(e){
-		if(dragging_thumb){
-	        dragging_thumb = false;
-	        var clip = document.getElementById('current-clip');
-			clip.currentTime = Math.floor(clip_time_played_ms/1000);
-	        console.log("End dragging");
-	    }
-    }
+	if(dragging_thumb){
+		dragging_thumb = false;
+		var clip = document.getElementById('current-clip');
+		clip.currentTime = Math.floor(clip_time_played_ms/1000);
+		console.log("End dragging");
+	}
+}
 
 //This is for when dragging after having pressed down on the track thumb.
 function dragProgressElements(e){
@@ -108,23 +141,39 @@ function dragProgressElements(e){
 		}
 		var current_width = document.getElementById('progress_bar_id').offsetWidth;
 		var progress_percent = current_width/max_width;
-        clip_time_played_ms = (clip_time_length_ms*progress_percent);
-        clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+		clip_time_played_ms = (clip_time_length_ms*progress_percent);
+		clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
 
-        updateTimePassed();
-               
+		updateTimePassed();
+		
 	}
 }
+/*
+//CLick event for bookmark menu
+{
+	clip_time_played_ms = currentBookmark.startTime;
+	updateTimePassed();
+	document.getElementById('current-clip').currentTime = Math.floor(clip_time_played_ms/1000);
+}
+*/
 
+//Clears the help text from invalid bookmark time input
+function clearHelpText(e){
+	var target = e.target;
+	var value = $(target).val();
+	if(value == "Format 'mm:ss'"){
+		$(target).val('');
+	}
+}
 //Update time_passed
 function updateTimePassed(){
-    var minutes = Math.floor(clip_time_played_ms/(60*1000));
-    var seconds = Math.floor(clip_time_played_ms/1000)%60;
-    if(seconds < 10){
-    	$(".time_passed").html(""+minutes+":0"+seconds);
-    }else{
-    	$(".time_passed").html(""+minutes+":"+seconds);
-    }
+	var minutes = Math.floor(clip_time_played_ms/(60*1000));
+	var seconds = Math.floor(clip_time_played_ms/1000)%60;
+	if(seconds < 10){
+		$(".time_passed").html(""+minutes+":0"+seconds);
+	}else{
+		$(".time_passed").html(""+minutes+":"+seconds);
+	}
 }
 
 function resetProgressElements(){
@@ -201,14 +250,11 @@ function clickTrack(e){
 	}
 	var current_width = document.getElementById('progress_bar_id').offsetWidth;
 	var progress_percent = current_width/max_width;
-    clip_time_played_ms = (clip_time_length_ms*progress_percent);
-    clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
-
-    updateTimePassed();
-
-    //Must come after updateTimePassed();
-    var clip = document.getElementById('current-clip');
-	clip.currentTime = Math.floor(clip_time_played_ms/1000);
+	clip_time_played_ms = (clip_time_length_ms*progress_percent);
+	clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+	
+	updateTimePassed();
+	
 }
 
 //Gabriel Modification. END
