@@ -51,7 +51,7 @@ Clip.prototype = {
 				canAdd = false;
 			}
 		} 
-		if (cannAdd) this.bookmarks.push(newBookmark);
+		if (canAdd) this.bookmarks.push(newBookmark);
 	},
 
 	removeBookmark: function(toRemoveBookmark){
