@@ -82,13 +82,14 @@ $(document).ready(function() {
         <div class='col-md-2'>
             <div id='playlists'>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active indigo" onClick="newPlaylist();"><a>Playlists</a>
-                        <ul class="list-group-header" >
-                            <li id = "addPlaylistBttn" class="list-group-header-item">
-                                <span class="glyphicon glyphicon-plus" ></span>
+                    <li class="active indigo" onClick="newPlaylist();"><a href="#">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Playlists</a>
+                        <ul class="list-group-header">
+                            <li id = "addBookmarkBttn" class="list-group-header-item">
                             </li>
                         </ul>
                     </li>
+
                     <ul class="list-group" role="menu" aria-labelledby="dropdownMenu">
                         <li class="list-group-item">
                             <div>Lecture 1 - NameAfterASuperLongThingThatIneedForTesting</div>
@@ -119,12 +120,14 @@ $(document).ready(function() {
             </div>
         </div>
 
+
         <div class='col-md-2'>
             <div id='clips'>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active indigo" onClick="newPlaylist();"><a >Clips</a>
+                    <li class="active indigo" onClick="newPlaylist();"><a href="#">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Clips</a>
                         <ul class="list-group-header">
-                            <li id = "addClipBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span>
+                            <li id = "addBookmarkBttn" class="list-group-header-item">
                             </li>
                         </ul>
                     </li>
@@ -165,9 +168,10 @@ $(document).ready(function() {
         <div class='col-md-2'>
             <div id='bookmarks'>
                 <ul class="nav nav-pills nav-stacked">
-                    <li class="active indigo"><a href="#">Bookmarks</a>
+                    <li class="active indigo"><a href="#">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Bookmarks</a>
                         <ul class="list-group-header">
-                            <li id = "addBookmarkBttn" class="list-group-header-item"><span class="glyphicon glyphicon-plus"></span>
+                            <li id = "addBookmarkBttn" class="list-group-header-item">
                             </li>
                         </ul>
                     </li>
