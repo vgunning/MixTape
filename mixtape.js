@@ -24,10 +24,6 @@ $(document).ready(function() {
 	// get any params
 	if ($.getUrlVar('')) {
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> f89eb711e805c6e077699dec897bb117f50e1562
 });
 
 

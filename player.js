@@ -14,7 +14,7 @@ $(document).ready(function() {
 
 	input_start_time.addEventListener("focus", clearHelpText);
 	input_end_time.addEventListener("focus", clearHelpText);
-    bookmark_btn.addEventListener('click', addBookmark);
+    bookmark_btn.addEventListener('click', addNewBookmark);
 
     progress_thumb.addEventListener('mousedown', startDragging);
     document.addEventListener('mouseup', endDragging);
