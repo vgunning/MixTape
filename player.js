@@ -9,7 +9,11 @@ $(document).ready(function() {
     var track = document.getElementById('track_id');
     var progress_thumb = document.getElementById('progress_thumb_id');
     var bookmark_btn = document.getElementById('btnBookmark');
+	var input_start_time = document.getElementById('inputStartTime');
+	var input_end_time = document.getElementById('inputEndTime');
 
+	input_start_time.addEventListener("focus", clearHelpText);
+	input_end_time.addEventListener("focus", clearHelpText);
     bookmark_btn.addEventListener('click', addBookmark);
 
     progress_thumb.addEventListener('mousedown', startDragging);
