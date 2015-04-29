@@ -102,7 +102,7 @@ return currentClip;
 	// this might change for usability, like take a playlistname instead?
 	function setCurrentPlaylist(playlistIndex){
 		if (playlistIndex >= 0){
-			currentPlaylist = playlists[playlistIndex];	
+			currentPlaylist = playlists[playlistIndex];
 			if (currentPlaylist.clips.length > 0){
 				setCurrentClip(0);
 			}else{
@@ -131,13 +131,16 @@ return currentClip;
 		$(inputEndTime).val("Format 'mm:ss'");
 	} else {
 			start_time = parseInt(array_start_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
-			end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
+			end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_end_time[1])*1000; //In milliseconds
+			console.log(start_time);
+			console.log(end_time);
 			if(start_time > 0 && start_time < clip_time_length_ms){
 				if(end_time > start_time && end_time < clip_time_length_ms){
 					//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
 					var new_bookmark = new Bookmark.prototype.init_name_times('NewBookmark', start_time, end_time);
 					currentClip.addBookmark(new_bookmark);
 					updateMenus();
+					console.log("Done adding");
 				}
 			}
 		}
