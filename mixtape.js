@@ -1,22 +1,22 @@
 
-	var playlistMenu; // these are the menu containers
-	var clipMenu;
-	var bookmarkMenu;
+var playlistMenu; // these are the menu containers
+var clipMenu;
+var bookmarkMenu;
 
-	var currentPlaylist; // these are the current item/object
-	var currentClip;
-	var currentBookmark;
+var currentPlaylist; // these are the current item/object
+var currentClip;
+var currentBookmark;
 
-	var currentPlaylistIndex;
-	var currentBookmarkIndex;
-	var currentClipIndex;
-	var playlists = []; // this will hold all the created playlists
+var currentPlaylistIndex;
+var currentBookmarkIndex;
+var currentClipIndex;
+var playlists = []; // this will hold all the created playlists
 
 
-	$(document).ready(function() {
-		playlistMenu = document.getElementById('playlists');
-		clipMenu = document.getElementById('clips');
-		bookmarkMenu = document.getElementById('bookmarks');
+$(document).ready(function() {
+	playlistMenu = document.getElementById('playlists');
+	clipMenu = document.getElementById('clips');
+	bookmarkMenu = document.getElementById('bookmarks');
 
 	// set the mode to manage at the page load
 	document.getElementById('manageBtn').click();
@@ -25,49 +25,6 @@
 	if ($.getUrlVar('')) {
 	}
 
-	//Gabriel Modifications. START
-	var music_clip_window = document.getElementById('music-clip-window');
-	var progress_bar = document.getElementById('progress_bar_id');
-	var track = document.getElementById('track_id');
-	var progress_thumb = document.getElementById('progress_thumb_id');
-	var bookmark_btn = document.getElementById('btnBookmark');
-	var input_start_time = document.getElementById('inputStartTime');
-	var input_end_time = document.getElementById('inputEndTime');
-
-	input_start_time.addEventListener("focus", clearHelpText);
-	input_end_time.addEventListener("focus", clearHelpText);
-
-	bookmark_btn.addEventListener('click', addBookmark);
-
-	progress_thumb.addEventListener('mousedown', startDragging);
-	document.addEventListener('mouseup', endDragging);
-	track.addEventListener('click', clickTrack);
-	progress_bar.addEventListener('click', clickTrack);
-
-
-	var btnPlay = document.getElementById('btnPlay');
-	btnPlay.addEventListener('click', togglePlay);
-
-
-
-	var clip = document.getElementById('current-clip');
-	clip.loop = false;
-	clip.addEventListener('loadedmetadata', function() {
-		clip_time_length_ms = document.getElementById('current-clip').duration*1000;
-		console.log(clip_time_length_ms);
-		var minutes = Math.floor(clip_time_length_ms/(1000*60));
-		var seconds = Math.floor(clip_time_length_ms/1000)%60;
-		
-		if(seconds < 10){
-			$(".time_length").html(""+minutes+":0"+seconds);
-		}else{
-			$(".time_length").html(""+minutes+":"+seconds);
-		}
-
-		$(".time_passed").html("0:00");
-
-	});
-	//Gabriel Modifications. END
 });
 
 
