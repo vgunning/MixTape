@@ -59,6 +59,11 @@ Clip.prototype = {
 		if (index>-1){
     		this.bookmarks.splice(index, 1);
 		}
+	},
+	
+	// set the src file for the clip (so we can change the name)
+	addSrc: function(srcString){
+		this.src = srcString;
 	}
 };
 
