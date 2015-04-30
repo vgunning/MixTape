@@ -299,4 +299,75 @@ function updateMenus(){
 	for(var b = 0; b < currentClip.bookmarks.length; b++){
 		addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);
 	}
+
+	// make things sortable
+	$('.list-group').sortable();
+	$('.list-group').disableSelection();
+	$('.list-group').on('sortupdate', reorderBackend);
+
+}
+
+function reorderBackend(event, ui){
+	// figure out which clip has changed position
+	var item = ui.item[0];
+	var holder;
+	// figure out which part of the backend needs to be updated
+	if(item.classList.contains('playlist')){
+		// the things on the playlist menu
+		for(var i = 0; i < playlists.length; i++){
+			if (item.id == playlists[i].id){
+				// temporarily remove from the old backend list
+				holder = playlists.splice(i,1);
+				break;
+			}
+		}
+		// insert into the backend where it is now
+		var currentOrder = document.getElementById('playlists').getElementsByClassName('playlist');
+		for(var i = 0; i < currentOrder.length; i++){
+			if(item.id == currentOrder[i].id){
+				playlists.splice(i, 0, holder[0]);
+				break;
+			}
+		}
+
+	}
+	else if(item.classList.contains('clip')){
+		// the things on the clip menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
+				// temporarily remove from the old backend list
+				holder = playlists[currentPlaylistIndex].clips.splice(i,1);
+				break;
+			}
+		}
+		// insert into the backend where it is now
+		var currentOrder = document.getElementById('clips').getElementsByClassName('clip');
+		for(var i = 0; i < currentOrder.length; i++){
+			if(item.id == currentOrder[i].id){
+				playlists[currentPlaylistIndex].clips.splice(i, 0, holder[0]);
+				break;
+			}
+		}
+	}
+	else if(item.classList.contains('bookmark')){
+		// the things on the bookmark menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
+				// temporarily remove from the old backend list
+				holder = playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.splice(i,1);
+				break;
+			}
+		}
+		// insert into the backend where it is now
+		var currentOrder = document.getElementById('bookmarks').getElementsByClassName('bookmark');
+		for(var i = 0; i < currentOrder.length; i++){
+			if(item.id == currentOrder[i].id){
+				playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.splice(i, 0, holder[0])
+				break;
+			}
+		}
+	}
+	else{
+		console.log('warning');
+	}
 }

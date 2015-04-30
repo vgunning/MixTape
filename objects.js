@@ -24,6 +24,7 @@ Playlist.prototype = {
     		this.clips.splice(index, 1);
 		}
 	},
+
 	addText: function(newText){
 		this.text = newText;
 	},
@@ -31,6 +32,13 @@ Playlist.prototype = {
 	removeText: function(){
 		this.text = "";
 	}
+
+	updateName: function(nameString){
+		this.name = nameString;
+		this.id = nameString.split('-').join('').split(' ').join('');
+		this.nospace = nameString.split('-').join('').split(' ').join('');
+	}	
+
 }
 // constructor with just the name
 Playlist.prototype.init_name = function(name){
@@ -74,6 +82,7 @@ Clip.prototype = {
 	addSrc: function(srcString){
 		this.src = srcString;
 	},
+
 	addText: function(newText){
 		this.text = newText;
 	},
@@ -81,6 +90,13 @@ Clip.prototype = {
 	removeText: function(){
 		this.text = "";
 	}
+
+	updateName: function(nameString){
+		this.name = nameString;
+		this.id = nameString.split('-').join('').split(' ').join('');
+		this.nospace = nameString.split('-').join('').split(' ').join('');
+	}	
+
 };
 
 Clip.prototype.init_name = function(name){
@@ -113,7 +129,13 @@ Bookmark.prototype = {
 
 	removeText: function(){
 		this.text = "";
-	}
+	},
+
+	updateName: function(nameString){
+		this.name = nameString;
+		this.id = nameString.split('-').join('').split(' ').join('');
+		this.nospace = nameString.split('-').join('').split(' ').join('');
+	}	
 }
 
 Bookmark.prototype.init_name = function(name){
