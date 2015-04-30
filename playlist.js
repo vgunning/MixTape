@@ -71,3 +71,11 @@ function savePlaylists(){
 	makeActive(document.getElementById(playlists[playlists.length - 1].id));
 	makeActive(document.getElementById(playlists[playlists.length - 1].clips[0].id));
 }
+
+
+// on closing without saving
+function clearPlaylistModal(){
+	$('#added-container .list-group-item').remove();
+	$('#newPlaylistWindow').find('form')[0].reset();
+}
+
