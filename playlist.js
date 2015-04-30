@@ -17,7 +17,6 @@ function addItemToDialog(computer, item, matching, func){
 
 // toggle it active and also add to the other side of the menu
 function selectMusic(button){
-	console.log(button);
 	$(button).toggleClass('active');  
 	button.setAttribute('onClick', 'removeMatching(this)');
 
