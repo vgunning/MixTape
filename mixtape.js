@@ -177,26 +177,26 @@ function addItemToMenu(menu, item){
 			console.log(selection.index())
 			removeItemFromMenu(menu,selection);
 			console.log('In cancel');
-		});
-		itemRemove.appendChild(itemRemoveIcon);
+	});
+	itemRemove.appendChild(itemRemoveIcon);
 
-		itemEdit.appendChild(itemEditIcon);
-		addBookmarkEditorFunctionality($(itemEdit));
+	itemEdit.appendChild(itemEditIcon);
+	addBookmarkEditorFunctionality($(itemEdit));
 
-		itemSubmenu.appendChild(itemEdit);
-		itemSubmenu.appendChild(itemRemove);
+	itemSubmenu.appendChild(itemEdit);
+	itemSubmenu.appendChild(itemRemove);
 
-		itemContainer.appendChild(itemText);
-		itemContainer.appendChild(itemSubmenu);
+	itemContainer.appendChild(itemText);
+	itemContainer.appendChild(itemSubmenu);
 
-		var tag = menu.id + '-' + item.nospace;
-		itemContainer.setAttribute('id', tag);
-		item.id = tag;
-		$(itemContainer).on('click', function(e) {
-			deactivate(this);
-			makeActive(this);
-			console.log('clicked on item');
-			console.log(this);
+	var tag = menu.id + '-' + item.nospace;
+	itemContainer.setAttribute('id', tag);
+	item.id = tag;
+	$(itemContainer).on('click', function(e) {
+		deactivate(this);
+		makeActive(this);
+		console.log('clicked on item');
+		console.log(this);
 	});
 	menuul.appendChild(itemContainer);
 

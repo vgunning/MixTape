@@ -2,6 +2,7 @@
 // playlist javascript doesn't have constructor overloading
 function Playlist(){
 	this.type = 'playlist';
+	this.text = '';
 }
 Playlist.prototype = {
 	// all the prototypes functions
@@ -22,6 +23,13 @@ Playlist.prototype = {
 		if (index>-1){
     		this.clips.splice(index, 1);
 		}
+	},
+	addText: function(newText){
+		this.text = newText;
+	},
+
+	removeText: function(){
+		this.text = "";
 	}
 }
 // constructor with just the name
@@ -36,6 +44,7 @@ Playlist.prototype.init_name = function(name){
 // clip object
 function Clip(){
 	this.type = 'clip';
+	this.text = '';
 }
 
 Clip.prototype = {
@@ -64,6 +73,13 @@ Clip.prototype = {
 	// set the src file for the clip (so we can change the name)
 	addSrc: function(srcString){
 		this.src = srcString;
+	},
+	addText: function(newText){
+		this.text = newText;
+	},
+
+	removeText: function(){
+		this.text = "";
 	}
 };
 
