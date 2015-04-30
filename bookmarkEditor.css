@@ -6,17 +6,20 @@
     font-size: 0.9em;
     resize: none;
     margin: 5px;
+    border-color: #DDDDDD;
+    border-radius: 5px;
 }
 
 #note{
   position: relative;
-  border-width: 1px;
+  border-width: 1px; 
   border-color: #DDDDDD;
-  border-style: outset;
+  border-style: solid;
+  border-radius: 5px;
   width: 200px; height: 325px; 
   background-color: white;
   padding: 0px;
-  z-index: 10;
+  z-index: 34;
 
 }
 
