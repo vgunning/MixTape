@@ -17,7 +17,6 @@ function addItemToDialog(computer, item, matching, func){
 
 // toggle it active and also add to the other side of the menu
 function selectMusic(button){
-	console.log(button);
 	$(button).toggleClass('active');  
 	button.setAttribute('onClick', 'removeMatching(this)');
 
@@ -60,6 +59,7 @@ function savePlaylists(){
 	var playlist = new Playlist().init_name(playlistName);
 	for (var i = 0; i < clipsToAdd.length; i++){
 		var clip = new Clip().init_name_playlist(clipsToAdd[i].textContent, playlist);
+		clip.addSrc('music/' + clip.name + '.mp3');
 		playlist.addClip(clip);
 	}
 	// add a new playlist for now
