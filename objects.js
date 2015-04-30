@@ -31,7 +31,7 @@ Playlist.prototype = {
 
 	removeText: function(){
 		this.text = "";
-	}
+	},
 
 	updateName: function(nameString){
 		this.name = nameString;
@@ -89,7 +89,7 @@ Clip.prototype = {
 
 	removeText: function(){
 		this.text = "";
-	}
+	},
 
 	updateName: function(nameString){
 		this.name = nameString;

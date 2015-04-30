@@ -16,9 +16,7 @@
 		    
 
 		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
-	    		console.log(caller[0].id);
 	    		itemBackEnd = getBackEndItem(caller[0])
-	    		console.log(itemBackEnd.name)
 	    		popBookmarkEditor(caller, itemBackEnd);
 	    		caller[0].setAttribute("data-clicked","true");
 	    		SEMAPHORE = 1;
@@ -81,9 +79,8 @@
 		    $( "#btnDone" ).click(function(){
 				if (checkEmpty("bookmarkName_entry")){
 					caller[0].firstChild.innerHTML = ($('#bookmarkName_entry').val());
-					itemBackEnd.name = ($('#bookmarkName_entry').val());
+					itemBackEnd.updateName($('#bookmarkName_entry').val());
 				}
-				updateMenus();
 				itemBackEnd.addText($("#text").val());
 				$('#noteContainer').remove();
 				caller[0].removeAttribute("data-clicked");
