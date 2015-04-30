@@ -10,22 +10,26 @@
 		    
 		    e.stopPropagation();
 		    var caller = $(e.currentTarget.offsetParent.offsetParent);
-		    var itemBackEnd
+		    var itemBackEnd = getBackEndItem(caller[0]);
 		    
 		    // console.log(bookmarkId);
-		    
-
-		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
-	    		itemBackEnd = getBackEndItem(caller[0])
+		    // console.log(itemBackEnd);
+		    // console.log(bookmarkId);
+		    if (!(itemBackEnd.isBeingEdited) && SEMAPHORE==0){
 	    		popBookmarkEditor(caller, itemBackEnd);
-	    		caller[0].setAttribute("data-clicked","true");
 	    		SEMAPHORE = 1;
-	    		bookmarkId = caller[0];
+	    		deactivate(caller[0]);
+				makeActive(caller[0]);
+				bookmarkId = itemBackEnd.id;
+				// console.log(bookmarkId);
+				itemBackEnd.changeIsBeingEdited();	    		
+				// caller[0].setAttribute("data-clicked","true");
 		    	
 		    }else {
-		    	if (bookmarkId==caller[0]){
+		    	if (bookmarkId==itemBackEnd.id){
 		    		$('#noteContainer').remove(); 
-		    		caller[0].removeAttribute("data-clicked");
+		    		itemBackEnd.changeIsBeingEdited();
+		    		// caller[0].removeAttribute("data-clicked");
 		    		SEMAPHORE = 0;
 		    	}
 		    	
@@ -83,15 +87,17 @@
 				}
 				itemBackEnd.addText($("#text").val());
 				$('#noteContainer').remove();
-				caller[0].removeAttribute("data-clicked");
+				itemBackEnd.changeIsBeingEdited();
+				bookmarkId = itemBackEnd.id;
 				SEMAPHORE = 0;
+				updateMenus();
 				//caller.prop('disabled', false);
 		    });
 
 		    //The editor widget is closed without changing anything in the bookmark.
 		    $( "#btnCancel" ).click(function(){
 				$('#noteContainer').remove();
-				caller[0].removeAttribute("data-clicked");
+				itemBackEnd.changeIsBeingEdited();
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
 
@@ -101,7 +107,7 @@
 
 	});
 	}
-	
+
  	
 
 /**
@@ -167,7 +173,7 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	var bookmarkTop = rect.top - 10;
 	var bookmarkLeft = rect.left + caller.outerWidth() + caller.children('.list-group-submenu').outerWidth();
 
-	console.log(caller.children('.list-group-submenu').outerWidth());
+	// console.log(caller.children('.list-group-submenu').outerWidth());
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
@@ -183,8 +189,8 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	bookmarkEditorContainer.setAttribute("id","noteContainer");
 	bookmarkEditorContainer.style.position = "absolute";
 	$(bookmarkEditorContainer).offset({ top: bookmarkTop, left: bookmarkLeft});
-	console.log(bookmarkLeft);
-	console.log(bookmarkEditorContainer.style.left);
+	// console.log(bookmarkLeft);
+	// console.log(bookmarkEditorContainer.style.left);
 	
 	bookmarkEditor.setAttribute("id","note");
 	$(bookmarkEditor).addClass("effect1");
