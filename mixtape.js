@@ -123,9 +123,12 @@ function addItemToMenu(menu, item){
 	$(itemRemove).click(function(e) {
 		// var name = ($(this).text()).trim();
 		e.stopPropagation();
-		var selection = $(e.currentTarget.offsetParent.offsetParent)
+		var selection = $(e.currentTarget.offsetParent.offsetParent);
+		deactivate($(e.currentTarget.offsetParent.offsetParent)[0]);
+		makeActive($(e.currentTarget.offsetParent.offsetParent)[0]);
+		
 			console.log(selection.index())
-			removeItemFromMenu(menu,selection);
+			// removeItemFromMenu(menu,selection);
 			console.log('In cancel');
 	});
 	itemRemove.appendChild(itemRemoveIcon);
