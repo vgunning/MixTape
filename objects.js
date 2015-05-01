@@ -42,7 +42,16 @@ Playlist.prototype = {
 
 	changeIsBeingEdited: function(){
 		this.isBeingEdited = !(this.isBeingEdited);
-	}	
+	},
+
+	remove: function(){
+		while (this.clips.length > 0){
+			this.clips[0].remove();
+		}
+	}
+
+
+
 
 }
 // constructor with just the name
@@ -106,6 +115,14 @@ Clip.prototype = {
 
 	changeIsBeingEdited: function(){
 		this.isBeingEdited = !(this.isBeingEdited);
+	},
+
+	remove: function(){
+		while (this.bookmarks.length > 0){
+			this.bookmarks.pop();
+		}
+
+		this.playlist.removeClip(this);
 	}	
 
 };
@@ -153,6 +170,10 @@ Bookmark.prototype = {
 
 	changeIsBeingEdited: function(){
 		this.isBeingEdited = !(this.isBeingEdited);
+	},
+
+	remove: function(){
+		this.clip.removeBookmark(this);
 	}	
 }
 

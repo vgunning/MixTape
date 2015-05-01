@@ -174,13 +174,11 @@ function addItemToMenu(menu, item){
 		// var name = ($(this).text()).trim();
 		e.stopPropagation();
 		var selection = $(e.currentTarget.offsetParent.offsetParent);
-		deactivate($(e.currentTarget.offsetParent.offsetParent)[0]);
-		makeActive($(e.currentTarget.offsetParent.offsetParent)[0]);
-		
-			console.log(selection.index())
-			// removeItemFromMenu(menu,selection);
-			console.log('In cancel');
+		var removalMenu = menuul;
+		removeItemFromMenu(removalMenu,selection);
+		console.log('In remove');
 	});
+
 	itemRemove.appendChild(itemRemoveIcon);
 
 	itemEdit.appendChild(itemEditIcon);
@@ -271,8 +269,7 @@ function deactivate(item){
 	$('.' + type).removeClass('active');
 }
 
-function removeItemFromMenu(menu,item){
-	var menuul = menu.children[0].children[1];
+function removeItemFromMenu(removalMenu,item){
 	var removalIndex = item.index();
 	console.log(item);
 	// if (removalIndex>=0){
@@ -280,8 +277,17 @@ function removeItemFromMenu(menu,item){
 	// }else{
 
 	// }
-	console.log(menuul.childNodes[removalIndex]);
-	menuul.removeChild(item[0]);
+	var removalBackEnd = getBackEndItem(item[0]);
+	removalBackEnd.remove();
+	if(item[0].classList.contains('playlist')){		
+		index = playlists.indexOf(removalBackEnd)
+		if (index > -1) {
+    		playlists.splice(index, 1);
+		}
+	}else
+	console.log(removalMenu.childNodes[removalIndex]);
+	// removalMenu.removeChild(item[0]);
+	updateMenus();
 
 }
 
