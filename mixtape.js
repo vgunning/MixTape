@@ -18,9 +18,6 @@ $(document).ready(function() {
 	clipMenu = document.getElementById('clips');
 	bookmarkMenu = document.getElementById('bookmarks');
 
-	// set the mode to manage at the page load
-	document.getElementById('manageBtn').click();
-
 	// get any params
 	if ($.getUrlVar('')) {
 	}
@@ -82,53 +79,6 @@ function setCurrentPlaylist(playlistIndex){
 	// http://startbootstrap.com/template-overviews/simple-sidebar/ (hidden menus)
 	// http://www.prepbootstrap.com/bootstrap-template/collapsepanels (collapsible?)
 
-	// change to the listening mode
-function listenMode(){
-		console.log('listen');
-	// get all the glyphicon-remove
-	$('.glyphicon-trash').addClass('glyphicon-play');
-	$('.glyphicon-trash').removeClass('glyphicon-trash');
-	$('.trash').addClass('play');
-	$('.trash').addClass('success');
-	$('.trash').removeClass('danger');
-	$('.trash').removeClass('trash');
-
-	// toggle the buttons, make active and primary
-	$('#manageBtn').removeClass('btn-primary');
-	$('#manageBtn').removeClass('active');
-	$('#manageBtn').addClass('btn-default');
-	$('#listenBtn').addClass('btn-primary');
-	$('#listenBtn').addClass('active');
-	$('#listenBtn').removeClass('btn-default');
-
-	document.getElementById('bookmark_background_id').style.visibility = "hidden";
-	document.getElementById('btnPlay').style.visibility = "visible";
-}
-
-	// change to the create mode
-function manageMode(){
-		console.log('manage');
-	// get all the glyphicon-remove
-	$('.glyphicon-play').addClass('glyphicon-trash');
-	$('.glyphicon-play').removeClass('glyphicon-play');
-	$('.editor-button').removeClass('glyphicon-trash');
-	$('.editor-button').addClass('glyphicon-play');
-	$('.play').addClass('trash');
-	$('.play').addClass('danger');
-	$('.play').removeClass('success');
-	$('.play').removeClass('play');
-
-	// toggle the buttons, make active and primary
-	$('#listenBtn').removeClass('btn-primary');
-	$('#listenBtn').removeClass('active');
-	$('#listenBtn').addClass('btn-default');
-	$('#manageBtn').addClass('btn-primary');
-	$('#manageBtn').addClass('active');
-	$('#manageBtn').removeClass('btn-default');
-
-	document.getElementById('bookmark_background_id').style.visibility = "visible";
-	document.getElementById('btnPlay').style.visibility = "hidden";
-}
 
 function updateMenusCurrentSelection(menu, index){
 	var whichMenu = menu.getAttribute('id');
