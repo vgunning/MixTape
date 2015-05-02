@@ -217,9 +217,7 @@ function togglePlay(e){
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
-		// Commenting this out because it makes the song restart every time you
-		// press play
-		//document.getElementById('current-clip').src = currentClip.src;
+		document.getElementById('current-clip').src = currentClip.src;
 		interval_function = setInterval(function () {trackTimer()}, 250);
 		var clip = document.getElementById('current-clip');
 		console.log('in toggle play play', clip.currentTime);
