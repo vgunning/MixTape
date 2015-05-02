@@ -43,16 +43,10 @@ $(document).ready(function() {
     		$(".time_length").html(""+minutes+":"+seconds);
     	}
 
-    	// I commented this out because it seems this is what 
-   		// tells the user the clips is starting from 0:00 everytime
     	$(".time_passed").html("0:00");
 
     });
 	//Gabriel Modifications. END
-
-	//clip.addEventListener('seeked', console.log('seeked'));
-	//clip.addEventListener('seeking', console.log('seeking'));
-	//clip.addEventListener('timeupdate', console.log('timeupdate'));
 
 });
 
@@ -206,7 +200,6 @@ var clip_time_played_ms = 0; //Time of the currently selected clip, in milliseco
 
 //Toggles between playing the selected clip.
 function togglePlay(e){
-	//var btnPlay_icon = document.getElementById('btnPlay_icon');
 	$('#btnPlay_icon').toggleClass('glyphicon-play');
 	$('#btnPlay_icon').toggleClass('glyphicon-pause');
 	if(playing_clip){
@@ -217,7 +210,6 @@ function togglePlay(e){
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
-		document.getElementById('current-clip').src = currentClip.src;
 		interval_function = setInterval(function () {trackTimer()}, 250);
 		var clip = document.getElementById('current-clip');
 		console.log('in toggle play play', clip.currentTime);
@@ -232,6 +224,7 @@ function trackTimer() {
 		togglePlay();
 		clearInterval(interval_function);
 		resetProgressElements();
+		console.log('clip time played',clip_time_played_ms, 'trackTimer()')
 	} else{
 		clip_time_played_ms += 250;
 		adjustProgressElements();
@@ -265,3 +258,24 @@ function clickTrack(e){
 }
 
 //Gabriel Modification. END
+
+
+function setCurrentClipPlayer(){
+
+	document.getElementById('current-clip').src = currentClip.src;
+	resetProgressElements();
+
+	if (playing_clip == true){
+		// then the pause icon is showing, make it play icon
+		$('#btnPlay_icon').toggleClass('glyphicon-play');
+		$('#btnPlay_icon').toggleClass('glyphicon-pause');
+	}
+	
+	playing_clip = false;
+	clearInterval(interval_function);
+	if (clip) {
+		clip.pause();
+	}
+	var clip = document.getElementById('current-clip');
+
+}

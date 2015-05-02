@@ -37,6 +37,7 @@ function setCurrentBookmark(bookmarkIndex){
 
 function setCurrentClip(clipIndex){
 	currentClipIndex = clipIndex;
+	var prevClip = currentClip;
 	if (clipIndex >= 0){
 		currentClip = currentPlaylist.clips[clipIndex];
 		// also set the source to the correct file
@@ -49,7 +50,12 @@ function setCurrentClip(clipIndex){
 	}
 	else{
 		currentClip = null;
-	}	
+	}
+	
+	if (prevClip != currentClip){
+		setCurrentClipPlayer();
+	}
+	
 	return currentClip;
 }
 
