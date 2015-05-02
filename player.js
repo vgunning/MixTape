@@ -43,11 +43,16 @@ $(document).ready(function() {
     		$(".time_length").html(""+minutes+":"+seconds);
     	}
 
+    	// I commented this out because it seems this is what 
+   		// tells the user the clips is starting from 0:00 everytime
     	$(".time_passed").html("0:00");
 
     });
 	//Gabriel Modifications. END
 
+	//clip.addEventListener('seeked', console.log('seeked'));
+	//clip.addEventListener('seeking', console.log('seeking'));
+	//clip.addEventListener('timeupdate', console.log('timeupdate'));
 
 });
 
@@ -212,9 +217,12 @@ function togglePlay(e){
 		console.log('Stopped Playing');
 	} else {
 		playing_clip = true;
-		document.getElementById('current-clip').src = currentClip.src;
+		// Commenting this out because it makes the song restart every time you
+		// press play
+		//document.getElementById('current-clip').src = currentClip.src;
 		interval_function = setInterval(function () {trackTimer()}, 250);
 		var clip = document.getElementById('current-clip');
+		console.log('in toggle play play', clip.currentTime);
 		clip.play();
 		console.log('Started Playing');
 	}
