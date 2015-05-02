@@ -137,12 +137,10 @@
 
 .list-group-item:hover>.list-group-submenu{
 	visibility: visible;
-	z-index: 4000;
 }
 
 .list-group-item:hover>.list-group-submenu > li{
 	/*display: inline;*/
-	z-index: 4000;
 }
 
 .list-group-item >  .list-group-submenu {
@@ -152,7 +150,7 @@
     padding: 0px;
     visibility: hidden;
     margin-top: -42px;
-    z-index: 4000;
+    z-index: 7;
 
 }
 
@@ -166,7 +164,6 @@
 	margin-bottom: -1px;
 	background-color: rgb(51, 51, 51);
 	color: rgb(235, 235, 235);
-	z-index: 4000;
 
 }
 
