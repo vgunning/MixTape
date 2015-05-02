@@ -70,6 +70,16 @@ function setCurrentPlaylist(playlistIndex){
 	return currentPlaylist;
 }
 
+function isPlaylistUsed(nameString){
+	var isPlaylist = false;
+	for(var i = 0; i < playlists.length; i++){
+		if(playlists[i].name == nameString){
+			isPlaylist = true;
+		}
+	}
+	return isPlaylist;
+}
+
 	// good places to look
 	// http://www.jque.re/plugins/version3/bootstrap.switch/
 	// http://www.bootstraptoggle.com/
@@ -287,7 +297,7 @@ function updateMenus(){
 				addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);
 			}
 		}
-		
+
 	}
 	
 	// make things sortable

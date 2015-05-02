@@ -48,10 +48,11 @@ Playlist.prototype = {
 		while (this.clips.length > 0){
 			this.clips[0].remove();
 		}
+	},
+
+	removeAllClips: function(){
+		this.clips = [];
 	}
-
-
-
 
 }
 // constructor with just the name
