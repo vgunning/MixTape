@@ -168,7 +168,7 @@ function saveEdit(){
 			// check to see if the clip already exists in the playlist (assume it's the same if it is)
 			if(playlistContainsClipName(clips[i].id) > -1){
 				// get the clip of that name and add
-				newClips.push(currentPlaylist[playlistContainsClipName(clips[i].id)]);
+				newClips.push(currentPlaylist.clips[playlistContainsClipName(clips[i].id)]);
 			}
 			else{
 				var clip = new Clip().init_name(clips[i].textContent);
