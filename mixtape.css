@@ -137,11 +137,12 @@
 
 .list-group-item:hover>.list-group-submenu{
 	visibility: visible;
-	z-index: 7;
+	z-index: 4000;
 }
 
 .list-group-item:hover>.list-group-submenu > li{
-	display: inline;
+	/*display: inline;*/
+	z-index: 4000;
 }
 
 .list-group-item >  .list-group-submenu {
@@ -150,7 +151,8 @@
     top: 0;
     padding: 0px;
     visibility: hidden;
-    margin-top: -1px;
+    margin-top: -42px;
+    z-index: 4000;
 
 }
 
@@ -158,11 +160,13 @@
 .list-group-submenu .list-group-submenu-item {
 	float: right;
 	white-space: nowrap;
-	display: block;
+	position: relative; 
+	/*display: block;*/
 	padding: 10px 15px;
 	margin-bottom: -1px;
 	background-color: rgb(51, 51, 51);
 	color: rgb(235, 235, 235);
+	z-index: 4000;
 
 }
 
@@ -191,21 +195,26 @@
 
 .list-group-submenu .list-group-submenu-item.primary {
 	color: rgb(255, 255, 255);
-	background-color: rgb(50, 118, 177);
+	background-color: rgb(63, 81, 181);
+	z-index: 4000;
 }
 .list-group-submenu .list-group-submenu-item.success {
+	
 	color: rgb(255, 255, 255);
 	background-color: rgb(92, 184, 92);
+	z-index: 4000;
 }
 .list-group-submenu .list-group-submenu-item.info {
 	color: rgb(255, 255, 255);
-	background-color: rgb(57, 179, 215);
+	background-color: rgb(57, 179, 215);ç
 }
 .list-group-submenu .list-group-submenu-item.warning {
 	color: rgb(255, 255, 255);
 	background-color: rgb(240, 173, 78);
+	z-index: 4000;
 }
 .list-group-submenu .list-group-submenu-item.danger {
 	color: rgb(255, 255, 255);
 	background-color: rgb(217, 83, 79);
+	z-index: 4000;
 }

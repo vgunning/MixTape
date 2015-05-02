@@ -80,20 +80,22 @@ function setCurrentPlaylist(playlistIndex){
 	// http://www.prepbootstrap.com/bootstrap-template/collapsepanels (collapsible?)
 
 
-function updateMenusCurrentSelection(menu, index){
-	var whichMenu = menu.getAttribute('id');
+function setCurrentItemToNull(item){
+	if (item != null){
+		// add the active class
+		if(item.classList.contains('playlist')){
+			setCurrentPlaylist(-1);
+		}
+		else if(item.classList.contains('clip')){
+			setCurrentClip(-1);
 
-	var selectionIndex = index;
-	if (whichMenu == 'bookmarks'){
-		setCurrentBookmark(selectionIndex);
-	}else if (whichMenu = 'clips'){
-		setCurrentClip(selectionIndex);
-
-	}else if (whichMenu == 'playlists'){
-		setCurrentPlaylist(selectionIndex);	
-
-	}else{
-		console.log("This is an error. UpdateCurrentMenus should never get here");
+		}
+		else if(item.classList.contains('bookmark')){
+			setCurrentBookmark(-1);
+		}
+		else{
+			console.log('warning');
+		}
 	}
 }
 
@@ -104,29 +106,42 @@ function addItemToMenu(menu, item){
 	var itemContainer = document.createElement('li');
 	var itemText = document.createElement('div');
 	var itemSubmenu = document.createElement('ul');
-	var itemRemove = document.createElement('a');
+	var itemPlay = document.createElement('a');
 	var itemEdit = document.createElement('a');
-	var itemRemoveIcon = document.createElement('span');
+	var itemRemove = document.createElement('a');	
 	var itemEditIcon = document.createElement('span');
+	var itemPlayIcon = document.createElement('span');
+	var itemRemoveIcon = document.createElement('span');
+	
 
 	itemText.innerHTML = item.name;
 	itemContainer.setAttribute('class', "list-group-item" + " " + item.type);
 	itemSubmenu.setAttribute('class', "list-group-submenu");
-	itemRemove.setAttribute('class', "list-group-submenu-item trash danger");
-	itemEdit.setAttribute('href','#noteContainer');
-	itemEdit.setAttribute('data-backdrop','false');
-	itemEdit.setAttribute('data-toggle','modal');
-	itemEdit.setAttribute('class', "list-group-submenu-item edit primary");
-	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-trash");
+
+	// itemEdit.setAttribute('data-backdrop','false');
+	// itemEdit.setAttribute('data-toggle','modal');
+	itemEdit.setAttribute('class', "list-group-submenu-item edit primary btn btn-default");
+	itemPlay.setAttribute('class', "list-group-submenu-item play success btn btn-default");
+	itemRemove.setAttribute('class', "list-group-submenu-item trash danger btn btn-default");
 	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
+	itemPlayIcon.setAttribute('class', "glyphicon glyphicon-play");
+	itemRemoveIcon.setAttribute('class', "glyphicon glyphicon-trash");
+	
 
 	$(itemRemove).click(function(e) {
 		// var name = ($(this).text()).trim();
 		e.stopPropagation();
 		var selection = $(e.currentTarget.offsetParent.offsetParent);
 		var removalMenu = menuul;
-		removeItemFromMenu(removalMenu,selection);
+		var removalIndex = selection.index();
+		removeItemFromMenu(removalMenu,selection,removalIndex);
 		console.log('In remove');
+	});
+
+	$(itemPlay).click(function(e) {
+		// var name = ($(this).text()).trim();
+		e.stopPropagation();
+		console.log('In play');
 	});
 
 	itemRemove.appendChild(itemRemoveIcon);
@@ -134,7 +149,10 @@ function addItemToMenu(menu, item){
 	itemEdit.appendChild(itemEditIcon);
 	addBookmarkEditorFunctionality($(itemEdit));
 
+	itemPlay.appendChild(itemPlayIcon);
+
 	itemSubmenu.appendChild(itemEdit);
+	itemSubmenu.appendChild(itemPlay);
 	itemSubmenu.appendChild(itemRemove);
 
 	itemContainer.appendChild(itemText);
@@ -164,80 +182,88 @@ function addItemToMenu(menu, item){
 }
 
 function makeActive(item){
-	// add the active class
-	$('#' + item.id).addClass('active');
-	// figure out the active class to update
-	if(item.classList.contains('playlist')){
-		// the things on the playlist menu
-		for(var i = 0; i < playlists.length; i++){
-			if (item.id == playlists[i].id){
-				setCurrentPlaylist(i);
+	if (item != null){
+		// add the active class
+		$('#' + item.id).addClass('active');
+		// figure out the active class to update
+		if(item.classList.contains('playlist')){
+			// the things on the playlist menu
+			for(var i = 0; i < playlists.length; i++){
+				if (item.id == playlists[i].id){
+					setCurrentPlaylist(i);
+				}
 			}
 		}
-	}
-	else if(item.classList.contains('clip')){
-		// the things on the clip menu
-		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
-			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
-				// set the matching index
-				setCurrentClip(i);
+		else if(item.classList.contains('clip')){
+			// the things on the clip menu
+			for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+				if (item.id == playlists[currentPlaylistIndex].clips[i].id){
+					// set the matching index
+					setCurrentClip(i);
+				}
 			}
 		}
-	}
-	else if(item.classList.contains('bookmark')){
-		// the things on the bookmark menu
-		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
-			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
-				// set the matching index
-				setCurrentBookmark(i);
+		else if(item.classList.contains('bookmark')){
+			// the things on the bookmark menu
+			for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+				if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
+					// set the matching index
+					setCurrentBookmark(i);
+				}
 			}
 		}
-	}
-	else{
-		console.log('warning');
+		else{
+			console.log('warning');
+		}
 	}
 	// update the currentIndex
 	updateMenus();
 }
 
 function deactivate(item){
-	// figure out which items need to be deactivated
-	var type;
-	if(item.classList.contains('playlist')){
-		type = 'playlist';
+	if(item != null){
+		// figure out which items need to be deactivated
+		var type;
+		if(item.classList.contains('playlist')){
+			type = 'playlist';
+		}
+		else if(item.classList.contains('clip')){
+			type = 'clip';
+		}
+		else if(item.classList.contains('bookmark')){
+			type = 'bookmark';
+		}
+		else{
+			console.log('warning');
+		}
+		// get the items of that class and make them all not active
+		$('.' + type).removeClass('active');
 	}
-	else if(item.classList.contains('clip')){
-		type = 'clip';
-	}
-	else if(item.classList.contains('bookmark')){
-		type = 'bookmark';
-	}
-	else{
-		console.log('warning');
-	}
-	// get the items of that class and make them all not active
-	$('.' + type).removeClass('active');
 }
 
-function removeItemFromMenu(removalMenu,item){
-	var removalIndex = item.index();
-	console.log(item);
-	// if (removalIndex>=0){
-	// 	updateCurrentMenus($(menuul.childNodes[removalIndex-1]));
-	// }else{
-
-	// }
+function removeItemFromMenu(removalMenu, item, removalIndex){	
+	var newSelection = null;
+	//Getting the item that will be selected after deletion.
+	if($(removalMenu).children()[removalIndex + 1] != null){	
+		newSelection = $(removalMenu).children()[removalIndex + 1];
+	}else if (($(removalMenu).children()[removalIndex - 1] != null)){
+		newSelection = $(removalMenu).children()[removalIndex - 1];
+	}else{
+		setCurrentItemToNull(item[0])
+	}
+	//Removing the backend component
 	var removalBackEnd = getBackEndItem(item[0]);
 	removalBackEnd.remove();
+	
 	if(item[0].classList.contains('playlist')){		
 		index = playlists.indexOf(removalBackEnd)
 		if (index > -1) {
     		playlists.splice(index, 1);
 		}
-	}else
-	console.log(removalMenu.childNodes[removalIndex]);
-	// removalMenu.removeChild(item[0]);
-	updateMenus();
+	}
+	//Setting new selection
+	deactivate(newSelection);
+	makeActive(newSelection);
 
 }
 
@@ -250,15 +276,20 @@ function updateMenus(){
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}
-	// add all the active clips
-	for(var c = 0; c < currentPlaylist.clips.length; c++){
-		addItemToMenu(clipMenu, currentPlaylist.clips[c]);
+	if (currentPlaylist != null){
+		// add all the active clips
+		for(var c = 0; c < currentPlaylist.clips.length; c++){
+			addItemToMenu(clipMenu, currentPlaylist.clips[c]);
+		}
+		if (currentBookmark != null){
+			//add all the active bookmarks
+			for(var b = 0; b < currentClip.bookmarks.length; b++){
+				addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);
+			}
+		}
+		
 	}
-	//add all the active bookmarks
-	for(var b = 0; b < currentClip.bookmarks.length; b++){
-		addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);
-	}
-
+	
 	// make things sortable
 	$('.list-group').sortable();
 	$('.list-group').disableSelection();
