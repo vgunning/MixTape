@@ -49,11 +49,14 @@ function newPlaylist(){
 
 function savePlaylists(){
 	$('#newPlaylistWindow').modal('hide'); // close the dialog box
-	// TODO: add items from the playlist dialog or create a dumby for now :)
-	var clipsToAdd = document.getElementById('np-clipSource').getElementsByClassName('active btn'); // id has the clip name?
+	var clipsToAdd = document.getElementById('added-container').getElementsByClassName('btn'); // id has the clip name?
 	var playlistName = document.getElementById('recipient-name').value;
 	if (playlistName == ''){
 		playlistName = 'Playlist ' + (playlists.length + 1).toString();
+	}
+	// check to see if that playlist name already exists
+	if (isPlaylistUsed(playlistName)){
+		playlistName = playlistName + ' (1)';
 	}
 	document.getElementById('recipient-name').value = '';
 	var playlist = new Playlist().init_name(playlistName);
@@ -66,10 +69,14 @@ function savePlaylists(){
 	// checking should be implemented
 	playlists.push(playlist);
 	setCurrentPlaylist(playlists.length - 1);
-	setCurrentClip(0);
+	if (clipsToAdd.length > 0){
+		setCurrentClip(0);
+	}
 	updateMenus();
 	makeActive(document.getElementById(playlists[playlists.length - 1].id));
-	makeActive(document.getElementById(playlists[playlists.length - 1].clips[0].id));
+	if (clipsToAdd.length > 0){
+		makeActive(document.getElementById(playlists[playlists.length - 1].clips[0].id));
+	}
 }
 
 

@@ -217,3 +217,10 @@
 	background-color: rgb(217, 83, 79);
 	z-index: 4000;
 }
+
+/* fix the borders and the restate usage*/
+@media (min-width: 100px){
+	.container {
+		width: 100%;
+	}
+}
