@@ -16,7 +16,10 @@ Playlist.prototype = {
 				canAdd = false;
 			}
 		} 
-		if (canAdd) this.clips.push(newClip);
+		if (canAdd){
+			this.clips.push(newClip);
+			newClip.updatePlaylist(this);
+		} 
 	},
 
 	removeClip: function(toRemoveClip){
@@ -85,7 +88,10 @@ Clip.prototype = {
 				canAdd = false;
 			}
 		} 
-		if (canAdd) this.bookmarks.push(newBookmark);
+		if (canAdd) {
+			this.bookmarks.push(newBookmark);
+			newBookmark.updateClip(this);
+		}
 	},
 
 	removeBookmark: function(toRemoveBookmark){
@@ -110,8 +116,18 @@ Clip.prototype = {
 
 	updateName: function(nameString){
 		this.name = nameString;
-		this.id = nameString.split('-').join('').split(' ').join('');
+		if(this.playlist){
+			this.id = this.playlist.id + '-' + nameString.split('-').join('').split(' ').join('');	
+		}
+		else{
+			this.id = nameString.split('-').join('').split(' ').join('');			
+		}
 		this.nospace = nameString.split('-').join('').split(' ').join('');
+	},
+
+	updatePlaylist: function(playlist){
+		this.playlist = playlist;
+		this.id = this.playlist.id + '-' + this.name.split('-').join('').split(' ').join('');
 	},
 
 	changeIsBeingEdited: function(){
@@ -130,6 +146,7 @@ Clip.prototype = {
 
 Clip.prototype.init_name = function(name){
 	this.name = name;
+	this.nospace = name.split('-').join('').split(' ').join('');
 	this.bookmarks = [];
 	this.isBeingEdited = false;
 	return this;
@@ -165,8 +182,18 @@ Bookmark.prototype = {
 
 	updateName: function(nameString){
 		this.name = nameString;
-		this.id = nameString.split('-').join('').split(' ').join('');
+		if(this.clip){
+			this.id = this.clip.id + '-' + nameString.split('-').join('').split(' ').join('');
+		}
+		else{
+			this.id = nameString.split('-').join('').split(' ').join('');
+		}
 		this.nospace = nameString.split('-').join('').split(' ').join('');
+	},
+
+	updateClip: function(clip){
+		this.clip = clip;
+		this.id = this.clip.id + '-' + this.name.split('-').join('').split(' ').join('');
 	},
 
 	changeIsBeingEdited: function(){
