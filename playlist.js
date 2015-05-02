@@ -147,8 +147,8 @@ function saveEdit(){
 	$('#editPlaylistWindow').modal('hide'); // close the dialog box
 
 	// change the playlist name if different
+	var playlistName = document.getElementById('edit-playlist-name').value;
 	if(playlistName != currentPlaylist.name){
-		var playlistName = document.getElementById('edit-playlist-name').value;
 		if (playlistName == ''){
 			playlistName = 'Playlist ' + (playlists.length + 1).toString();
 		}
