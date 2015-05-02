@@ -82,8 +82,8 @@
 
 .track{
 	width: 100%;
-	height: 2px;
-	background-color: #B8B8B8;	
+	height: 10px;
+	background-color: #E8EAF6;	
 	z-index: 10; /*Below progress bar*/
 	position: absolute;
 	top: 16px;
@@ -91,21 +91,23 @@
 
 .progress_bar{
 	width: 0px;
-	height: 2px;
-	background-color: #286090;
+	height: 10px;
+	background-color: #3F51B5;
 	z-index: 30; /*above track*/
 	position: absolute;
 	top: 16px;
 }
 
 .progress_thumb{
-	width: 8px;
-	height: 12px;
-	background-color: #286090;
+	width: 10px;
+	height: 15px;
+	background-color: white;
 	z-index: 30; /*above track*/
 	position: absolute;
 	left:0px;
-	border: 1px solid;
+	top:14px;
+	border: 2px #3F51B5 solid;
+	cursor: pointer;
 }
 
 .list-group{
