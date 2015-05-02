@@ -209,3 +209,10 @@
 	color: rgb(255, 255, 255);
 	background-color: rgb(217, 83, 79);
 }
+
+/* fix the borders and the restate usage*/
+@media (min-width: 100px){
+	.container {
+		width: 100%;
+	}
+}
