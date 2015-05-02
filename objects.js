@@ -3,6 +3,7 @@
 function Playlist(){
 	this.type = 'playlist';
 	this.text = '';
+	this.isBeingEdited = false;
 }
 Playlist.prototype = {
 	// all the prototypes functions
@@ -37,7 +38,20 @@ Playlist.prototype = {
 		this.name = nameString;
 		this.id = nameString.split('-').join('').split(' ').join('');
 		this.nospace = nameString.split('-').join('').split(' ').join('');
-	}	
+	},
+
+	changeIsBeingEdited: function(){
+		this.isBeingEdited = !(this.isBeingEdited);
+	},
+
+	remove: function(){
+		while (this.clips.length > 0){
+			this.clips[0].remove();
+		}
+	}
+
+
+
 
 }
 // constructor with just the name
@@ -46,6 +60,7 @@ Playlist.prototype.init_name = function(name){
 	this.id = name.split('-').join('').split(' ').join('');
 	this.nospace = name.split('-').join('').split(' ').join('');
 	this.clips = [];
+	this.isBeingEdited = false;
 	return this;
 }
 
@@ -53,6 +68,7 @@ Playlist.prototype.init_name = function(name){
 function Clip(){
 	this.type = 'clip';
 	this.text = '';
+	this.isBeingEdited = false;
 }
 
 Clip.prototype = {
@@ -95,6 +111,18 @@ Clip.prototype = {
 		this.name = nameString;
 		this.id = nameString.split('-').join('').split(' ').join('');
 		this.nospace = nameString.split('-').join('').split(' ').join('');
+	},
+
+	changeIsBeingEdited: function(){
+		this.isBeingEdited = !(this.isBeingEdited);
+	},
+
+	remove: function(){
+		while (this.bookmarks.length > 0){
+			this.bookmarks.pop();
+		}
+
+		this.playlist.removeClip(this);
 	}	
 
 };
@@ -102,6 +130,7 @@ Clip.prototype = {
 Clip.prototype.init_name = function(name){
 	this.name = name;
 	this.bookmarks = [];
+	this.isBeingEdited = false;
 	return this;
 }
 
@@ -112,6 +141,7 @@ Clip.prototype.init_name_playlist = function(name, playlist){
 	this.id = this.playlist.id + '-' + name.split('-').join('').split(' ').join('');
 	this.nospace = name.split('-').join('').split(' ').join('');
 	this.bookmarks = [];
+	this.isBeingEdited = false;
 	return this;
 }
 
@@ -120,6 +150,7 @@ function Bookmark(){
 	this.text = '';
 	this.startTime = -1; //In milliseconds
 	this.endTime = -1; //In milliseconds
+	this.isBeingEdited = false;
 }
 
 Bookmark.prototype = {
@@ -135,11 +166,20 @@ Bookmark.prototype = {
 		this.name = nameString;
 		this.id = nameString.split('-').join('').split(' ').join('');
 		this.nospace = nameString.split('-').join('').split(' ').join('');
+	},
+
+	changeIsBeingEdited: function(){
+		this.isBeingEdited = !(this.isBeingEdited);
+	},
+
+	remove: function(){
+		this.clip.removeBookmark(this);
 	}	
 }
 
 Bookmark.prototype.init_name = function(name){
 	this.name = name;
+	this.isBeingEdited = false;
 	return this;
 }
 
@@ -148,6 +188,7 @@ Bookmark.prototype.init_name_times = function(name, startTime, endTime){
 	this.nospace = name.split('-').join('').split(' ').join('');
 	this.startTime = startTime;
 	this.endTime = endTime;
+	this.isBeingEdited = false;
 	return this;
 }
 
@@ -157,6 +198,7 @@ Bookmark.prototype.init_name_clip = function(name, clip){
 	this.clip = clip;
 	//This can possibly be the id that will be given to the corresponding html tag: P<playlist name>C<clip name>B<bookmark name>
 	this.id = this.clip.id + '-' + name.split('-').join('').split(' ').join('');
+	this.isBeingEdited = false;
 	return this;
 }
 
@@ -166,5 +208,6 @@ Bookmark.prototype.init_name_clip_playlist = function(name, clip, playlist){
 	this.clip = clip;
 	this.playlist = playlist;
 	this.id = this.playlist.id + '-' + this.clip.id + '-' + name.split('-').join('').split(' ').join('');
+	this.isBeingEdited = false;
 	return this;
 }
