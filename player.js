@@ -83,7 +83,7 @@ function addNewBookmark(e){
 		if(start_time > 0 && start_time < clip_time_length_ms){
 			if(end_time > start_time && end_time < clip_time_length_ms){
 				//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
-				var new_bookmark = new Bookmark.prototype.init_name_times('NewBookmark', start_time, end_time);
+				var new_bookmark = new Bookmark().init_name_times('NewBookmark', start_time, end_time);
 				currentClip.addBookmark(new_bookmark);
 				updateMenus();
 				console.log("Done adding");
