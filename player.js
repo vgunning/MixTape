@@ -2,7 +2,7 @@
 
 //Gabriel Modification. START
 
-
+noClips = true; //variable to track if we're in start state
 
 $(document).ready(function() {
     //Gabriel Modifications. START
@@ -23,6 +23,11 @@ $(document).ready(function() {
     track.addEventListener('click', clickTrack);
     progress_bar.addEventListener('click', clickTrack);
 
+    track.addEventListener('mouseover', hoverTrack);
+    track.addEventListener('mousemove', hoverTrack);
+    progress_bar.addEventListener('mouseover', hoverTrack);
+    progress_bar.addEventListener('mousemove', hoverTrack);
+
 
     var btnPlay = document.getElementById('btnPlay');
     btnPlay.addEventListener('click', togglePlay);
@@ -32,6 +37,7 @@ $(document).ready(function() {
     var clip = document.getElementById('current-clip');
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
+
     	clip_time_length_ms = document.getElementById('current-clip').duration*1000;
     	console.log(clip_time_length_ms);
     	var minutes = Math.floor(clip_time_length_ms/(1000*60));
@@ -39,13 +45,18 @@ $(document).ready(function() {
 
     	//currentClip = new Clip.prototype.init_name('Current Clip');
 
-    	if(seconds < 10){
-    		$(".time_length").html(""+minutes+":0"+seconds);
-    	}else{
-    		$(".time_length").html(""+minutes+":"+seconds);
+    	// no time value shows if no clip available
+    	if (noClips == true){
+    		$(".time_length").html("");
+    		$(".time_passed").html("");
+    	} else {
+	    	if(seconds < 10){
+	    		$(".time_length").html(""+minutes+":0"+seconds);
+	    	}else{
+	    		$(".time_length").html(""+minutes+":"+seconds);
+	    	}
+    		$(".time_passed").html("0:00");
     	}
-
-    	$(".time_passed").html("0:00");
 
     });
 	//Gabriel Modifications. END
@@ -122,31 +133,33 @@ function endDragging(e){
 
 //This is for when dragging after having pressed down on the track thumb.
 function dragProgressElements(e){
-	if(dragging_thumb){
-		//console.log("I'm dragging");
-		//var parent_pos = $('#music-clip-window').position();
-		var parent_pos = $('#music-clip-column').position();
-		var new_pos = ''+(e.clientX-parent_pos.left-17);
-		//console.log('new_pos: ' + new_pos);
-		//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
-		var max_width = document.getElementById('track_background_id').offsetWidth;
-		if(new_pos < 0){
-			document.getElementById('progress_thumb_id').style.left = 0+'px';
-			document.getElementById('progress_bar_id').style.width = 0+'px';
-		} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
-			document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
-			document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
-		} else {
-			document.getElementById('progress_thumb_id').style.left = new_pos+'px';
-			document.getElementById('progress_bar_id').style.width = new_pos+'px';
-		}
-		var current_width = document.getElementById('progress_bar_id').offsetWidth;
-		var progress_percent = current_width/max_width;
-		clip_time_played_ms = (clip_time_length_ms*progress_percent);
-		clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+	if (noClips == false){
+		if(dragging_thumb){
+			//console.log("I'm dragging");
+			//var parent_pos = $('#music-clip-window').position();
+			var parent_pos = $('#music-clip-column').position();
+			var new_pos = ''+(e.clientX-parent_pos.left-17);
+			//console.log('new_pos: ' + new_pos);
+			//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
+			var max_width = document.getElementById('track_background_id').offsetWidth;
+			if(new_pos < 0){
+				document.getElementById('progress_thumb_id').style.left = 0+'px';
+				document.getElementById('progress_bar_id').style.width = 0+'px';
+			} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
+				document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
+				document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
+			} else {
+				document.getElementById('progress_thumb_id').style.left = new_pos+'px';
+				document.getElementById('progress_bar_id').style.width = new_pos+'px';
+			}
+			var current_width = document.getElementById('progress_bar_id').offsetWidth;
+			var progress_percent = current_width/max_width;
+			clip_time_played_ms = (clip_time_length_ms*progress_percent);
+			clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
 
-		updateTimePassed();
-		
+			updateTimePassed();
+			
+		}
 	}
 }
 /*
@@ -168,20 +181,22 @@ function clearHelpText(e){
 }
 //Update time_passed
 function updateTimePassed(){
-	var minutes = Math.floor(clip_time_played_ms/(60*1000));
-	var seconds = Math.floor(clip_time_played_ms/1000)%60;
-	if(seconds < 10){
-		$(".time_passed").html(""+minutes+":0"+seconds);
-	}else{
-		$(".time_passed").html(""+minutes+":"+seconds);
+	if (noClips == false){
+		var minutes = Math.floor(clip_time_played_ms/(60*1000));
+		var seconds = Math.floor(clip_time_played_ms/1000)%60;
+		if(seconds < 10){
+			$(".time_passed").html(""+minutes+":0"+seconds);
+		}else{
+			$(".time_passed").html(""+minutes+":"+seconds);
+		}
 	}
-
 }
 
 function resetProgressElements(){
 	document.getElementById('progress_thumb_id').style.left = 0+'px';
 	document.getElementById('progress_bar_id').style.width = 0+'px';
 	clip_time_played_ms = 0;
+
 
 	updateTimePassed();
 }
@@ -203,23 +218,26 @@ var clip_time_played_ms = 0; //Time of the currently selected clip, in milliseco
 
 //Toggles between playing the selected clip.
 function togglePlay(e){
-	$('#btnPlay_icon').toggleClass('glyphicon-play');
-	$('#btnPlay_icon').toggleClass('glyphicon-pause');
-	if(playing_clip){
-		playing_clip = false;
-		clearInterval(interval_function);
-		var clip = document.getElementById('current-clip');
-		clip.pause();
-		console.log('Stopped Playing');
-	} else {
-		playing_clip = true;
-		interval_function = setInterval(function () {trackTimer()}, 250);
-		var clip = document.getElementById('current-clip');
-		console.log('in toggle play play', clip.currentTime);
-		clip.play();
-		console.log('Started Playing');
-	}
+	// for start state
+	if (noClips == false){
 
+		$('#btnPlay_icon').toggleClass('glyphicon-play');
+		$('#btnPlay_icon').toggleClass('glyphicon-pause');
+		if(playing_clip){
+			playing_clip = false;
+			clearInterval(interval_function);
+			var clip = document.getElementById('current-clip');
+			clip.pause();
+			console.log('Stopped Playing');
+		} else {
+			playing_clip = true;
+			interval_function = setInterval(function () {trackTimer()}, 250);
+			var clip = document.getElementById('current-clip');
+			console.log('in toggle play play', clip.currentTime);
+			clip.play();
+			console.log('Started Playing');
+		}
+	}
 }
 
 function trackTimer() {
@@ -236,35 +254,36 @@ function trackTimer() {
 }
 
 function clickTrack(e){
-	var parent_pos = $('#music-clip-column').position();
-	var new_pos = ''+(e.clientX-parent_pos.left-17);
-	//console.log('new_pos: ' + new_pos);
-	//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
-	var max_width = document.getElementById('track_background_id').offsetWidth;
-	if(new_pos < 0){
-		document.getElementById('progress_thumb_id').style.left = 0+'px';
-		document.getElementById('progress_bar_id').style.width = 0+'px';
-	} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
-		document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
-		document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
-	} else {
-		document.getElementById('progress_thumb_id').style.left = new_pos+'px';
-		document.getElementById('progress_bar_id').style.width = new_pos+'px';
-	}
-	var current_width = document.getElementById('progress_bar_id').offsetWidth;
-	var progress_percent = current_width/max_width;
-	clip_time_played_ms = (clip_time_length_ms*progress_percent);
-	clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
-	
-	updateTimePassed();
+	if (noClips == false){
+		var parent_pos = $('#music-clip-column').position();
+		var new_pos = ''+(e.clientX-parent_pos.left-17);
+		//console.log('new_pos: ' + new_pos);
+		//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
+		var max_width = document.getElementById('track_background_id').offsetWidth;
+		if(new_pos < 0){
+			document.getElementById('progress_thumb_id').style.left = 0+'px';
+			document.getElementById('progress_bar_id').style.width = 0+'px';
+		} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
+			document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
+			document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
+		} else {
+			document.getElementById('progress_thumb_id').style.left = new_pos+'px';
+			document.getElementById('progress_bar_id').style.width = new_pos+'px';
+		}
+		var current_width = document.getElementById('progress_bar_id').offsetWidth;
+		var progress_percent = current_width/max_width;
+		clip_time_played_ms = (clip_time_length_ms*progress_percent);
+		clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
+		
+		updateTimePassed();
 
-
-	var clip = document.getElementById('current-clip');
-	clip.currentTime = Math.floor(clip_time_played_ms/1000);
-	if (playing_clip == true){
-		clip.play();
+		var clip = document.getElementById('current-clip');
+		clip.currentTime = Math.floor(clip_time_played_ms/1000);
+		// autoplay
+		if (playing_clip == true){
+			clip.play();
+		}
 	}
-	
 }
 
 //Gabriel Modification. END
@@ -272,20 +291,35 @@ function clickTrack(e){
 
 function setCurrentClipPlayer(){
 
-	document.getElementById('current-clip').src = currentClip.src;
+	// use this to keep from appearing as though playing a clip 
+	// when there are no clips
+	if (noClips == true){
+		noClips = false;
+	}
+
+	if (currentClip == null){
+		noClips = true;
+		// some gunky coding to reset and get quiet if no clip available to play
+		document.getElementById('current-clip').src = document.getElementById('current-clip').src;
+		
+	} else {
+		document.getElementById('current-clip').src = currentClip.src;
+	}
+
 	resetProgressElements();
 
 	if (playing_clip == true){
-		// then the pause icon is showing, make it play icon
+		// then the pause icon is showing, make it play iconf
 		$('#btnPlay_icon').toggleClass('glyphicon-play');
 		$('#btnPlay_icon').toggleClass('glyphicon-pause');
 	}
 	
 	playing_clip = false;
 	clearInterval(interval_function);
-	if (clip) {
-		clip.pause();
-	}
 	var clip = document.getElementById('current-clip');
 
+}
+
+function hoverTrack(e){
+	console.log('hover');
 }
