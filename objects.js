@@ -11,8 +11,8 @@ Playlist.prototype = {
 		//Should we check for the existence of the clip in the clip list?. What would clip equality be in that case?
 		// How does javascript take care of this? I will just check for the name for now. -X
 		var canAdd = true;
-		for (clip in this.clips){
-			if (clip.name == newClip.name){
+		for (var i = 0; i < this.clips.length; i++){
+			if (this.clips[i].name == newClip.name){
 				canAdd = false;
 			}
 		} 
@@ -20,6 +20,7 @@ Playlist.prototype = {
 			this.clips.push(newClip);
 			newClip.updatePlaylist(this);
 		} 
+		return canAdd;
 	},
 
 	removeClip: function(toRemoveClip){
@@ -83,8 +84,8 @@ Clip.prototype = {
 		//GABRIEL Debug
 		console.log("Adding bookmark to " + this.name);
 		var canAdd = true;
-		for (bookmark in this.bookmarks){
-			if (bookmark.name == newBookmark.name){
+		for (var i = 0; i < this.bookmarks.length; i++){
+			if (this.bookmarks[i].name == newBookmark.name){
 				canAdd = false;
 			}
 		} 
@@ -92,6 +93,7 @@ Clip.prototype = {
 			this.bookmarks.push(newBookmark);
 			newBookmark.updateClip(this);
 		}
+		return canAdd;
 	},
 
 	removeBookmark: function(toRemoveBookmark){

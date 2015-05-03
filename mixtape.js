@@ -300,7 +300,7 @@ function updateMenus(){
 		for(var c = 0; c < currentPlaylist.clips.length; c++){
 			addItemToMenu(clipMenu, currentPlaylist.clips[c]);
 		}
-		if (currentBookmark != null){
+		if (currentClip != null){
 			//add all the active bookmarks
 			for(var b = 0; b < currentClip.bookmarks.length; b++){
 				addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);
