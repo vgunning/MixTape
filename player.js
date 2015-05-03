@@ -50,9 +50,6 @@ $(document).ready(function() {
     	resetProgressElements();
     	*/
 
-
-    	//currentClip = new Clip.prototype.init_name('Current Clip');
-
     	// no time value shows if no clip available
     	if (noClips == true){
     		$(".time_length").html("");
@@ -92,13 +89,9 @@ function addNewBookmark(e){
 		//console.log(end_time);
 		if(start_time > 0 && start_time < clip_time_length_ms){
 			if(end_time > start_time && end_time < clip_time_length_ms){
-				//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
-//<<<<<<< HEAD
 				var bookmark_name = 'New Bookmark ' + (currentClip.bookmarks.length+1);
 				var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
-//=======
-				//var new_bookmark = new Bookmark().init_name_times('NewBookmark', start_time, end_time);
-//>>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
+				
 				currentClip.addBookmark(new_bookmark);
 				setCurrentBookmark(currentClip.bookmarks.length -1);
 				updateMenus();
