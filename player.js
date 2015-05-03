@@ -35,6 +35,16 @@ $(document).ready(function() {
     	var minutes = Math.floor(clip_time_length_ms/(1000*60));
     	var seconds = Math.floor(clip_time_length_ms/1000)%60;
 
+    	//Gabriel Modification of my own modification
+    	//This is meant to replace the 'setCurrentClipPlayer' function.
+    	/*
+    	if(playing_clip){
+    		togglePlay();
+    	}
+    	resetProgressElements();
+    	*/
+
+
     	//currentClip = new Clip.prototype.init_name('Current Clip');
 
     	if(seconds < 10){
@@ -72,6 +82,7 @@ function addNewBookmark(e){
 		if(start_time > 0 && start_time < clip_time_length_ms){
 			if(end_time > start_time && end_time < clip_time_length_ms){
 				//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
+				var bookmark_name = 'New Bookmark ' + (currentClip.bookmarks.length+1);
 				var new_bookmark = new Bookmark.prototype.init_name_times('NewBookmark', start_time, end_time);
 				currentClip.addBookmark(new_bookmark);
 				updateMenus();
@@ -111,7 +122,7 @@ function endDragging(e){
 		dragging_thumb = false;
 		var clip = document.getElementById('current-clip');
 		clip.currentTime = Math.floor(clip_time_played_ms/1000);
-		clip.play();
+		//clip.play();
 		console.log("End dragging");
 	}
 }

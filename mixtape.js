@@ -36,10 +36,12 @@ function setCurrentBookmark(bookmarkIndex){
 }
 
 function setCurrentClip(clipIndex){
+	console.log('In setcurrentclip');
 	currentClipIndex = clipIndex;
 	var prevClip = currentClip;
 	if (clipIndex >= 0){
 		currentClip = currentPlaylist.clips[clipIndex];
+		console.log('Have set currentClip to something');
 		// also set the source to the correct file
 		if (currentClip.bookmarks.length > 0){
 			setCurrentBookmark(0);
@@ -49,6 +51,7 @@ function setCurrentClip(clipIndex){
 		}
 	}
 	else{
+		console.log('Have set currentClip to null');
 		currentClip = null;
 	}
 	
