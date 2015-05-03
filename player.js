@@ -265,6 +265,8 @@ function clickTrack(e){
 
 function setCurrentClipPlayer(){
 
+	console.log('Setting current clip player');
+
 	document.getElementById('current-clip').src = currentClip.src;
 	resetProgressElements();
 
