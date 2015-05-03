@@ -23,16 +23,14 @@ $(document).ready(function() {
     track.addEventListener('click', clickTrack);
     progress_bar.addEventListener('click', clickTrack);
 
-    track.addEventListener('mouseover', hoverTrack);
     track.addEventListener('mousemove', hoverTrack);
-    progress_bar.addEventListener('mouseover', hoverTrack);
     progress_bar.addEventListener('mousemove', hoverTrack);
+    track.addEventListener('mouseout', unHover);
+    progress_bar.addEventListener('mouseout', unHover);
 
 
     var btnPlay = document.getElementById('btnPlay');
     btnPlay.addEventListener('click', togglePlay);
-
-
 
     var clip = document.getElementById('current-clip');
     clip.loop = false;
@@ -157,6 +155,7 @@ function dragProgressElements(e){
 			clip_time_played_ms = (clip_time_length_ms*progress_percent);
 			clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
 
+			console.log(clip_time_played_ms);
 			updateTimePassed();
 			
 		}
@@ -321,5 +320,35 @@ function setCurrentClipPlayer(){
 }
 
 function hoverTrack(e){
-	console.log('hover');
+	if (noClips == false){
+		var parent_pos = $('#music-clip-column').position();
+		var new_pos = ''+(e.clientX-parent_pos.left-17);
+		var max_width = document.getElementById('track_background_id').offsetWidth;
+		if(new_pos < 0){
+			//document.getElementById('progress_thumb_id').style.left = 0+'px';
+			//document.getElementById('progress_bar_id').style.width = 0+'px';
+		} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
+			document.getElementById('hover_time_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
+			document.getElementById('hover_time_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
+		} else {
+			document.getElementById('hover_time_id').style.left = new_pos+'px';
+			document.getElementById('hover_time_id').style.width = new_pos+'px';
+		}
+		var current_width = document.getElementById('hover_time_id').offsetWidth;
+		var progress_percent = current_width/max_width;
+		var clip_time = (clip_time_length_ms*progress_percent);
+		clip_time = Math.floor(clip_time/1000)*1000;
+
+		var minutes = Math.floor(clip_time/(60*1000));
+		var seconds = Math.floor(clip_time/1000)%60;
+		if(seconds < 10){
+			$("#hover_time_id").html(""+minutes+":0"+seconds);
+		}else{
+			$("#hover_time_id").html(""+minutes+":"+seconds);
+		}
+	}
+}
+
+function unHover(e) {
+	$("#hover_time_id").html("");
 }
