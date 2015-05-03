@@ -57,6 +57,12 @@
 	top: 55px;
 }
 
+#hover_time_id{
+	font-size: 14px;
+	position: absolute;
+	top: 40px;
+}
+
 .noselect {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
