@@ -101,9 +101,6 @@ function startDragging(e){
         //Above the arrows
         img_dragged.style.zIndex = "35";
         */
-        if(playing_clip){
-        	togglePlay();
-        }
         dragging_thumb = true;
         console.log("Start dragging");
     }
@@ -114,6 +111,7 @@ function endDragging(e){
 		dragging_thumb = false;
 		var clip = document.getElementById('current-clip');
 		clip.currentTime = Math.floor(clip_time_played_ms/1000);
+		clip.play();
 		console.log("End dragging");
 	}
 }
@@ -173,6 +171,7 @@ function updateTimePassed(){
 	}else{
 		$(".time_passed").html(""+minutes+":"+seconds);
 	}
+
 }
 
 function resetProgressElements(){
@@ -254,6 +253,10 @@ function clickTrack(e){
 	clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
 	
 	updateTimePassed();
+	
+	var clip = document.getElementById('current-clip');
+	clip.currentTime = Math.floor(clip_time_played_ms/1000);
+	clip.play();
 	
 }
 
