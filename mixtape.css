@@ -9,7 +9,7 @@
 
 .music_controls{
 	width: auto;
-	height: 75px;
+	height: 150px;
 	background-color: #B8B8B8;
 	position: relative;
 }
@@ -19,7 +19,7 @@
 	border-radius: 20px;
 	position: absolute;
 	left: 41%;
-	top: 15px;
+	top: 75px;
 }
 
 #btnBookmark{
@@ -44,7 +44,7 @@
 	font-size: 17px;
 	position: absolute;
 	left: 30%;
-	top: 55px;
+	top: 115px;
 }
 
 .time_length{
@@ -54,7 +54,7 @@
 	font-size: 17px;
 	position: absolute;
 	left: 55%;
-	top: 55px;
+	top: 115px;
 }
 
 .noselect {
