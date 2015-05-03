@@ -2,6 +2,8 @@
 
 //Gabriel Modification. START
 
+
+
 $(document).ready(function() {
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
@@ -111,7 +113,9 @@ function endDragging(e){
 		dragging_thumb = false;
 		var clip = document.getElementById('current-clip');
 		clip.currentTime = Math.floor(clip_time_played_ms/1000);
-		clip.play();
+		if (playing_clip == true){	
+			clip.play();
+		}
 		console.log("End dragging");
 	}
 }
@@ -253,10 +257,13 @@ function clickTrack(e){
 	clip_time_played_ms = Math.floor(clip_time_played_ms/1000)*1000;
 	
 	updateTimePassed();
-	
+
+
 	var clip = document.getElementById('current-clip');
 	clip.currentTime = Math.floor(clip_time_played_ms/1000);
-	clip.play();
+	if (playing_clip == true){
+		clip.play();
+	}
 	
 }
 
