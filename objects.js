@@ -20,6 +20,7 @@ Playlist.prototype = {
 			this.clips.push(newClip);
 			newClip.updatePlaylist(this);
 		} 
+		return canAdd;
 	},
 
 	removeClip: function(toRemoveClip){
@@ -92,6 +93,7 @@ Clip.prototype = {
 			this.bookmarks.push(newBookmark);
 			newBookmark.updateClip(this);
 		}
+		return canAdd;
 	},
 
 	removeBookmark: function(toRemoveBookmark){

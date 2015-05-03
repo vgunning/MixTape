@@ -85,6 +85,7 @@ function addNewBookmark(e){
 				//var new_bookmark = new Bookmark.init_name_time('Bookmark'+currentClip.bookmarks.length+1, start_time, end_time);
 				var new_bookmark = new Bookmark().init_name_times('NewBookmark', start_time, end_time);
 				currentClip.addBookmark(new_bookmark);
+				setCurrentBookmark(currentClip.bookmarks.length -1);
 				updateMenus();
 				console.log("Done adding");
 			}
