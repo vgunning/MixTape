@@ -17,6 +17,7 @@ $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
 	clipMenu = document.getElementById('clips');
 	bookmarkMenu = document.getElementById('bookmarks');
+	updateMenus();
 
 	// get any params
 	if ($.getUrlVar('')) {
@@ -56,6 +57,8 @@ function setCurrentClip(clipIndex){
 	}
 	
 	if (prevClip != currentClip){
+		//GABRIELJ COMMENT: This isn't necessary, because when a new clip is selected and the 'src' value is updated
+		//a 'loaedmetadata' event fires, and the event listener added in player.js is triggered.
 		setCurrentClipPlayer();
 	}
 	
@@ -295,12 +298,12 @@ function updateMenus(){
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}
-	if (currentPlaylist != null){
+	if (currentPlaylist.clips != null){
 		// add all the active clips
 		for(var c = 0; c < currentPlaylist.clips.length; c++){
 			addItemToMenu(clipMenu, currentPlaylist.clips[c]);
 		}
-		if (currentClip != null){
+		if (currentClip.bookmarks != null){
 			//add all the active bookmarks
 			for(var b = 0; b < currentClip.bookmarks.length; b++){
 				addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);

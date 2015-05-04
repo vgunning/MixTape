@@ -35,20 +35,12 @@ $(document).ready(function() {
     var clip = document.getElementById('current-clip');
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
+    	console.log('loaded meta data!');
 
     	clip_time_length_ms = document.getElementById('current-clip').duration*1000;
     	console.log(clip_time_length_ms);
     	var minutes = Math.floor(clip_time_length_ms/(1000*60));
     	var seconds = Math.floor(clip_time_length_ms/1000)%60;
-
-    	//Gabriel Modification of my own modification
-    	//This is meant to replace the 'setCurrentClipPlayer' function.
-    	/*
-    	if(playing_clip){
-    		togglePlay();
-    	}
-    	resetProgressElements();
-    	*/
 
     	// no time value shows if no clip available
     	if (noClips == true){
@@ -62,6 +54,14 @@ $(document).ready(function() {
 	    	}
     		$(".time_passed").html("0:00");
     	}
+
+    	//Gabriel Modification of my own modification
+    	//This is meant to replace part of the'setCurrentClipPlayer' function.
+		if(playing_clip){
+    		togglePlay();
+    	}
+    	resetProgressElements();
+    	//End
 
     });
 	//Gabriel Modifications. END
@@ -91,6 +91,7 @@ function addNewBookmark(e){
 			if(end_time > start_time && end_time < clip_time_length_ms){
 				var bookmark_name = 'New Bookmark ' + (currentClip.bookmarks.length+1);
 				var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
+
 				currentClip.addBookmark(new_bookmark);
 				setCurrentBookmark(currentClip.bookmarks.length -1);
 				updateMenus();
@@ -325,6 +326,7 @@ function setCurrentClipPlayer(){
 	}
 
 //>>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
+/*
 	resetProgressElements();
 
 	if (playing_clip == true){
@@ -336,6 +338,7 @@ function setCurrentClipPlayer(){
 	playing_clip = false;
 	clearInterval(interval_function);
 	var clip = document.getElementById('current-clip');
+	*/
 
 }
 
@@ -349,13 +352,11 @@ function hoverTrack(e){
 			//document.getElementById('progress_bar_id').style.width = 0+'px';
 		} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
 			document.getElementById('hover_time_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
-			document.getElementById('hover_time_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
 		} else {
 			document.getElementById('hover_time_id').style.left = new_pos+'px';
-			document.getElementById('hover_time_id').style.width = new_pos+'px';
 		}
-		var current_width = document.getElementById('hover_time_id').offsetWidth;
-		var progress_percent = current_width/max_width;
+		var current_left = $('#hover_time_id').position().left;
+		var progress_percent = current_left/max_width;
 		var clip_time = (clip_time_length_ms*progress_percent);
 		clip_time = Math.floor(clip_time/1000)*1000;
 
