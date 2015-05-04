@@ -35,6 +35,7 @@ $(document).ready(function() {
     var clip = document.getElementById('current-clip');
     clip.loop = false;
     clip.addEventListener('loadedmetadata', function() {
+    	console.log('loaded meta data!');
 
     	clip_time_length_ms = document.getElementById('current-clip').duration*1000;
     	console.log(clip_time_length_ms);
@@ -91,7 +92,7 @@ function addNewBookmark(e){
 			if(end_time > start_time && end_time < clip_time_length_ms){
 				var bookmark_name = 'New Bookmark ' + (currentClip.bookmarks.length+1);
 				var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
-				
+
 				currentClip.addBookmark(new_bookmark);
 				setCurrentBookmark(currentClip.bookmarks.length -1);
 				updateMenus();
@@ -350,13 +351,11 @@ function hoverTrack(e){
 			//document.getElementById('progress_bar_id').style.width = 0+'px';
 		} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
 			document.getElementById('hover_time_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
-			document.getElementById('hover_time_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
 		} else {
 			document.getElementById('hover_time_id').style.left = new_pos+'px';
-			document.getElementById('hover_time_id').style.width = new_pos+'px';
 		}
-		var current_width = document.getElementById('hover_time_id').offsetWidth;
-		var progress_percent = current_width/max_width;
+		var current_left = $('#hover_time_id').position().left;
+		var progress_percent = current_left/max_width;
 		var clip_time = (clip_time_length_ms*progress_percent);
 		clip_time = Math.floor(clip_time/1000)*1000;
 
