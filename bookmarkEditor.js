@@ -1,11 +1,5 @@
 
-	
-	//Make all button declarations here or before!
-	var bookmark = $('#btnBookmarkEdit');
-	addBookmarkEditorFunctionality(bookmark);
-	var bookmark2 = $('#btnBookmarkEdit2');
-	addBookmarkEditorFunctionality(bookmark2);
-	///////////////////////////////////////////////
+
 	
 	var SEMAPHORE = 0; 	
 	var bookmarkId;
@@ -16,20 +10,26 @@
 		    
 		    e.stopPropagation();
 		    var caller = $(e.currentTarget.offsetParent.offsetParent);
+		    var itemBackEnd = getBackEndItem(caller[0]);
 		    
 		    // console.log(bookmarkId);
-
-		    if (caller[0].getAttribute("data-clicked") != "true" && SEMAPHORE==0){
-	    		console.log(caller);
-	    		popBookmarkEditor(caller);
-	    		caller[0].setAttribute("data-clicked","true");
+		    // console.log(itemBackEnd);
+		    // console.log(bookmarkId);
+		    if (!(itemBackEnd.isBeingEdited) && SEMAPHORE==0){
+	    		popBookmarkEditor(caller, itemBackEnd);
 	    		SEMAPHORE = 1;
-	    		bookmarkId = caller[0];
+	    		deactivate(caller[0]);
+				makeActive(caller[0]);
+				bookmarkId = itemBackEnd.id;
+				// console.log(bookmarkId);
+				itemBackEnd.changeIsBeingEdited();	    		
+				// caller[0].setAttribute("data-clicked","true");
 		    	
 		    }else {
-		    	if (bookmarkId==caller[0]){
+		    	if (bookmarkId==itemBackEnd.id){
 		    		$('#noteContainer').remove(); 
-		    		caller[0].removeAttribute("data-clicked");
+		    		itemBackEnd.changeIsBeingEdited();
+		    		// caller[0].removeAttribute("data-clicked");
 		    		SEMAPHORE = 0;
 		    	}
 		    	
@@ -83,17 +83,21 @@
 		    $( "#btnDone" ).click(function(){
 				if (checkEmpty("bookmarkName_entry")){
 					caller[0].firstChild.innerHTML = ($('#bookmarkName_entry').val());
+					itemBackEnd.updateName($('#bookmarkName_entry').val());
 				}
+				itemBackEnd.addText($("#text").val());
 				$('#noteContainer').remove();
-				caller[0].removeAttribute("data-clicked");
+				itemBackEnd.changeIsBeingEdited();
+				bookmarkId = itemBackEnd.id;
 				SEMAPHORE = 0;
+				updateMenus();
 				//caller.prop('disabled', false);
 		    });
 
 		    //The editor widget is closed without changing anything in the bookmark.
 		    $( "#btnCancel" ).click(function(){
 				$('#noteContainer').remove();
-				caller[0].removeAttribute("data-clicked");
+				itemBackEnd.changeIsBeingEdited();
 				SEMAPHORE = 0;
 				//caller.prop('disabled', false);
 
@@ -103,7 +107,7 @@
 
 	});
 	}
-	
+
  	
 
 /**
@@ -120,20 +124,56 @@ function checkEmpty(element_string) {
     }
 }
 
+function getBackEndItem(item){
+	if(item.classList.contains('playlist')){
+		// the things on the playlist menu
+		for(var i = 0; i < playlists.length; i++){
+			if (item.id == playlists[i].id){
+				console.log("Playlist found");
+				return playlists[i]
+			}
+		}
+	}
+	else if(item.classList.contains('clip')){
+		// the things on the clip menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[i].id){
+				console.log("Clip found");
+				return playlists[currentPlaylistIndex].clips[i]
+				
+			}
+		}
+	}
+	else if(item.classList.contains('bookmark')){
+		// the things on the bookmark menu
+		for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+			if (item.id == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].id){
+				console.log("Bookmark found");
+				return playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i]
+				
+			}
+		}
+	}
+	else{
+		console.log('warning');
+	}
+	
+}
+
 /**
   * Creates a bookmark note widget. For now it adds it to the end of the html. Ideally we can use the information of the position of the caller
   * to make it appear right next to it.
   * @param {$(Node)} caller is a jquery element that contains the button (or the container of the button) that calls the widget. 
   *					Its text must be the name of the bookmark. 
   */
-function popBookmarkEditor(caller) {     	
-	var bookmarkName = caller.text();
+function popBookmarkEditor(caller, itemBackEnd) {     	
+	var bookmarkName = itemBackEnd.name;
 	var rect = caller.offset();
 
 	var bookmarkTop = rect.top - 10;
 	var bookmarkLeft = rect.left + caller.outerWidth() + caller.children('.list-group-submenu').outerWidth();
 
-	console.log(caller.children('.list-group-submenu').outerWidth());
+	// console.log(caller.children('.list-group-submenu').outerWidth());
 
 	var bookmarkEditorContainer = document.createElement("div");
 	var bookmarkEditor = document.createElement("div");
@@ -149,8 +189,8 @@ function popBookmarkEditor(caller) {
 	bookmarkEditorContainer.setAttribute("id","noteContainer");
 	bookmarkEditorContainer.style.position = "absolute";
 	$(bookmarkEditorContainer).offset({ top: bookmarkTop, left: bookmarkLeft});
-	console.log(bookmarkLeft);
-	console.log(bookmarkEditorContainer.style.left);
+	// console.log(bookmarkLeft);
+	// console.log(bookmarkEditorContainer.style.left);
 	
 	bookmarkEditor.setAttribute("id","note");
 	$(bookmarkEditor).addClass("effect1");
@@ -169,6 +209,7 @@ function popBookmarkEditor(caller) {
 	noteContainer.setAttribute("class","center");
 	
 	note.setAttribute("id","text");
+	$(note).val(itemBackEnd.text);
 
 	cancelButton.innerHTML = "Cancel";
 	cancelButton.setAttribute("id","btnCancel");

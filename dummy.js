@@ -22,6 +22,13 @@ function createDummyItems(){
 	return playlists;
 }
 
+function initalDummyExample(){
+	// Lecture 1 - NameAfterASuperLongThingThatIneedForTesting, Lecture 2, Lecture 3
+	var playlists = [];
+	// Clip 1, Clip 2, Clip 3
+	// Bookmark 1, Bookmark 2, Bookmark 3
+}
+
 function fillDummyDialog(){
 	dialogMenu = document.getElementById('computer-container');
 	// delete any old children
@@ -34,5 +41,20 @@ function fillDummyDialog(){
 	for(var i = 0; i < musicfiles.length; i++){
 		// add each of the files
 		addItemToDialog(dialogMenu, musicfiles[i], '', 'selectMusic(this)');
+	}
+}
+
+function fillDummyEditDialog(){
+	dialogMenu = document.getElementById('ep-computer-container');
+	// delete any old children
+	while(dialogMenu.firstChild){
+		dialogMenu.removeChild(dialogMenu.firstChild);
+	}
+	var ul = document.createElement('ul');
+	ul.setAttribute('class', 'list-group');
+	dialogMenu.appendChild(ul);
+	for(var i = 0; i < musicfiles.length; i++){
+		// add each of the files
+		addItemToDialog(dialogMenu, musicfiles[i], '', 'selectEditMusic(this)');
 	}
 }
