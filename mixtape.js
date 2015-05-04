@@ -56,6 +56,8 @@ function setCurrentClip(clipIndex){
 	}
 	
 	if (prevClip != currentClip){
+		//GABRIELJ COMMENT: This isn't necessary, because when a new clip is selected and the 'src' value is updated
+		//a 'loaedmetadata' event fires, and the event listener added in player.js is triggered.
 		setCurrentClipPlayer();
 	}
 	

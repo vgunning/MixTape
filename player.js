@@ -42,15 +42,6 @@ $(document).ready(function() {
     	var minutes = Math.floor(clip_time_length_ms/(1000*60));
     	var seconds = Math.floor(clip_time_length_ms/1000)%60;
 
-    	//Gabriel Modification of my own modification
-    	//This is meant to replace the 'setCurrentClipPlayer' function.
-    	/*
-    	if(playing_clip){
-    		togglePlay();
-    	}
-    	resetProgressElements();
-    	*/
-
     	// no time value shows if no clip available
     	if (noClips == true){
     		$(".time_length").html("");
@@ -63,6 +54,14 @@ $(document).ready(function() {
 	    	}
     		$(".time_passed").html("0:00");
     	}
+
+    	//Gabriel Modification of my own modification
+    	//This is meant to replace part of the'setCurrentClipPlayer' function.
+		if(playing_clip){
+    		togglePlay();
+    	}
+    	resetProgressElements();
+    	//End
 
     });
 	//Gabriel Modifications. END
@@ -327,6 +326,7 @@ function setCurrentClipPlayer(){
 	}
 
 //>>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
+/*
 	resetProgressElements();
 
 	if (playing_clip == true){
@@ -338,6 +338,7 @@ function setCurrentClipPlayer(){
 	playing_clip = false;
 	clearInterval(interval_function);
 	var clip = document.getElementById('current-clip');
+	*/
 
 }
 
