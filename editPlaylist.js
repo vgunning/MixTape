@@ -66,7 +66,7 @@ function saveEdit(){
 		}
 		// check to see if that playlist name already exists
 		if (isPlaylistUsed(playlistName)){
-			playlistName = playlistName + ' (1)';
+			playlistName = playlistName + '.1';
 		}
 		currentPlaylist.updateName(playlistName); 
 	}
