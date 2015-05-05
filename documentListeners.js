@@ -41,4 +41,25 @@ $(document).ready(function() {
             saveEdit();
         }
     })
+
+    $('#ep-url').keydown( function(event) {
+        if(event.keyCode == 13){
+            console.log('enter');
+            event.preventDefault();
+            insertURL(this);
+            document.getElementById('ep-saveButton').focus();
+            event.stopPropagation();
+
+        }
+    })
+
+    $('#np-url').keydown( function(event) {
+        if(event.keyCode == 13){
+            console.log('enter');
+            event.preventDefault();
+            insertURL(this);
+            document.getElementById('np-saveButton').focus();
+            event.stopPropagation();
+        }
+    })
 });
