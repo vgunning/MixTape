@@ -18,8 +18,8 @@
 		    if (!(itemBackEnd.isBeingEdited) && SEMAPHORE==0){
 	    		popBookmarkEditor(caller, itemBackEnd);
 	    		SEMAPHORE = 1;
-	   //  		deactivate(caller[0]);
-				// makeActive(caller[0]);
+	    		deactivate(caller[0]);
+				makeActive(caller[0]);
 				bookmarkId = itemBackEnd.id;
 				// console.log(bookmarkId);
 				itemBackEnd.changeIsBeingEdited();	    		

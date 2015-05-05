@@ -333,7 +333,12 @@ function setCurrentClipPlayer(){
 		
 	} else {
 		document.getElementById('current-clip').src = currentClip.src;
+		//Change made by Xavier
+		waitForMetadata = true;
+		//End of change by Xavier
 	}
+
+	
 
 //>>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
 /*

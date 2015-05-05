@@ -57,12 +57,10 @@ function setCurrentClip(clipIndex){
 	}
 	
 	if (prevClip != currentClip){
-		//Change made by Xavier
-		waitForMetadata = true;
-		//End of change by Xavier
+		
 		//GABRIELJ COMMENT: This isn't necessary, because when a new clip is selected and the 'src' value is updated
 		//a 'loaedmetadata' event fires, and the event listener added in player.js is triggered.
-		setCurrentClipPlayer();
+		// setCurrentClipPlayer();
 	}
 	
 	return currentClip;
@@ -172,6 +170,7 @@ function addItemToMenu(menu, item){
 		deactivate(playClip[0]);
 		makeActive(playClip[0]);	
 		// console.log(playClip);
+		setCurrentClipPlayer();
 		if (waitForMetadata){
 			checkMetadata = setInterval(function () {playWhenMetadataLoaded(e)}, 250);
 		}else{
@@ -199,12 +198,47 @@ function addItemToMenu(menu, item){
 	var tag = menu.id + '-' + item.nospace;
 	itemContainer.setAttribute('id', tag);
 	item.id = tag;
+	
 	$(itemContainer).on('click', function(e) {
 		deactivate(this);
 		makeActive(this);
 		console.log('clicked on item');
 		console.log(this);
 	});
+
+	// var timeOut = 200;
+ //  	var timeoutID = 0;
+ //  	var ignoreSingleClicks = false;
+  
+ //  	$(itemContainer).on('click', function(event) {
+ //  		deactivate(this);
+	// 	makeActive(this);
+	//     if (!ignoreSingleClicks) {
+	//       // The double click generates two single click events
+	//       // and then a double click event so we always clear
+	//       // the last timeoutID
+	//       clearTimeout(timeoutID);
+	      
+	//       timeoutID = setTimeout(function() {
+
+	// 		console.log('singleclick');
+	// 		console.log(this);
+	//       }, timeOut);
+	//     }
+	//   });
+	  
+	// $(itemContainer).on('dblclick', function(event) {
+	//     clearTimeout(timeoutID);
+	//     ignoreSingleClicks = true;
+	    
+	//     setTimeout(function() {
+	//       ignoreSingleClicks = false;
+	//     }, timeOut);
+	    
+	//     console.log('doubleclick');
+	//     setCurrentClipPlayer();
+	//   });
+	
 	menuul.appendChild(itemContainer);
 
 	// change it to active if the active current clip or playlist
