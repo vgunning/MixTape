@@ -20,7 +20,7 @@ function selectMusic(button){
 	$(button).toggleClass('active');  
 	button.setAttribute('onClick', 'removeMatching(this)');
 
-	var otherMenu = document.getElementById('added-container');
+	var otherMenu = document.getElementById('np-added-container');
 	addItemToDialog(otherMenu, button.firstChild.innerHTML, '-matching', 'removeMusic(this)');
 }
 
@@ -51,7 +51,7 @@ function savePlaylists(){
 	if ($('#newPlaylistWindow').hasClass('in')){
 		// this means the the dialog was actually open and to carry out the save action
 		$('#newPlaylistWindow').modal('hide'); // close the dialog box
-		var clipsToAdd = document.getElementById('added-container').getElementsByClassName('btn'); // id has the clip name?
+		var clipsToAdd = document.getElementById('np-added-container').getElementsByClassName('btn'); // id has the clip name?
 		var playlistName = document.getElementById('recipient-name').value;
 		if (playlistName == ''){
 			playlistName = 'Playlist ' + (playlists.length + 1).toString();
@@ -91,7 +91,9 @@ function savePlaylists(){
 }
 
 function insertURL(url){
-	var otherMenu = document.getElementById('added-container');
+	var otherMenu = document.getElementById('np-added-container');
+	addDummyURL(otherMenu, url.value);
+	var otherMenu = document.getElementById('ep-added-container');
 	addDummyURL(otherMenu, url.value);
 	url.value = '';
 }
@@ -113,6 +115,6 @@ function addDummyURL(menu, url){
 
 // on closing without saving
 function clearPlaylistModal(){
-	$('#added-container .list-group-item').remove();
+	$('#np-added-container .list-group-item').remove();
 	$('#newPlaylistWindow').find('form')[0].reset();
 }
