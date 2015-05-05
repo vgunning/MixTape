@@ -4,6 +4,10 @@
 
 noClips = true; //variable to track if we're in start state
 
+//Change by Xavier
+var waitForMetadata = false;
+//End change by Xavier
+
 $(document).ready(function() {
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
@@ -62,6 +66,12 @@ $(document).ready(function() {
     	}
     	resetProgressElements();
     	//End
+
+    	//change by Xavier
+    	if (waitForMetadata){
+    		waitForMetadata = false
+    	}
+    	//End change by Xavier
 
     });
 	//Gabriel Modifications. END

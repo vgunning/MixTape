@@ -57,6 +57,9 @@ function setCurrentClip(clipIndex){
 	}
 	
 	if (prevClip != currentClip){
+		//Change made by Xavier
+		waitForMetadata = true;
+		//End of change by Xavier
 		//GABRIELJ COMMENT: This isn't necessary, because when a new clip is selected and the 'src' value is updated
 		//a 'loaedmetadata' event fires, and the event listener added in player.js is triggered.
 		setCurrentClipPlayer();
@@ -121,6 +124,8 @@ function setCurrentItemToNull(item){
 	}
 }
 
+var checkMetadata;
+
 // add to the menu a new item
 // Needs to be modified!!
 function addItemToMenu(menu, item){
@@ -162,23 +167,25 @@ function addItemToMenu(menu, item){
 
 	$(itemPlay).click(function(e) {
 		// var name = ($(this).text()).trim();
-		e.stopPropagation();
 		console.log('In play');
-		if (playing_clip){
-			togglePlay(e);
-		}
 		var playClip = $(this).parent().parent();
 		deactivate(playClip[0]);
 		makeActive(playClip[0]);	
 		// console.log(playClip);
-		togglePlay(e);
+		if (waitForMetadata){
+			checkMetadata = setInterval(function () {playWhenMetadataLoaded(e)}, 250);
+		}else{
+			togglePlay(e);
+		}
+		
+		
 		
 	});
 
 	itemRemove.appendChild(itemRemoveIcon);
 
 	itemEdit.appendChild(itemEditIcon);
-	addBookmarkEditorFunctionality($(itemEdit));
+	addBookmarkEditorFunctionality($(itemEdit))
 
 	itemPlay.appendChild(itemPlayIcon);
 
@@ -210,6 +217,14 @@ function addItemToMenu(menu, item){
 	if (item == currentBookmark){
 		$('#' + itemContainer.id).addClass('active');
 	}
+}
+
+function playWhenMetadataLoaded(e){
+	if (!waitForMetadata){
+		clearInterval(checkMetadata);
+		togglePlay(e);
+	}
+		
 }
 
 function makeActive(item){
