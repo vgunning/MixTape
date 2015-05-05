@@ -62,4 +62,14 @@ $(document).ready(function() {
             event.stopPropagation();
         }
     })
+
+    $('#newPlaylistWindow').on('shown.bs.modal', function () {
+        $('#recipient-name').focus();
+        $('#recipient-name').select();
+    })
+
+    $('#editPlaylistWindow').on('shown.bs.modal', function () {
+        $('#edit-playlist-name').focus();
+        $('#edit-playlist-name').select();
+    })
 });
