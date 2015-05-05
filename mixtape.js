@@ -168,7 +168,8 @@ function addItemToMenu(menu, item){
 		console.log('In play');
 		var playClip = $(this).parent().parent();
 		deactivate(playClip[0]);
-		makeActive(playClip[0]);	
+		makeActive(playClip[0]);
+		updateMenus();	
 		// console.log(playClip);
 		setCurrentClipPlayer();
 		if (waitForMetadata){
@@ -199,45 +200,28 @@ function addItemToMenu(menu, item){
 	itemContainer.setAttribute('id', tag);
 	item.id = tag;
 	
-	$(itemContainer).on('click', function(e) {
+	var clicks = 0, timeOut = 200;
+	$(itemContainer).bind('click', function(e) {
+		clicks++;
 		deactivate(this);
 		makeActive(this);
+		setTimeout(function() {
+	      if (clicks == 1){
+	      	updateMenus();
+	      }      
+	    }, timeOut);
 		console.log('clicked on item');
-		console.log(this);
+		// console.log(this);
 	});
 
-	// var timeOut = 200;
- //  	var timeoutID = 0;
- //  	var ignoreSingleClicks = false;
-  
- //  	$(itemContainer).on('click', function(event) {
- //  		deactivate(this);
-	// 	makeActive(this);
-	//     if (!ignoreSingleClicks) {
-	//       // The double click generates two single click events
-	//       // and then a double click event so we always clear
-	//       // the last timeoutID
-	//       clearTimeout(timeoutID);
-	      
-	//       timeoutID = setTimeout(function() {
+	$(itemContainer).bind('dblclick', function(e) {
+		setCurrentClipPlayer();
+		updateMenus();
+		clicks = 0;
+		console.log('doubleclick on item');
+	});
 
-	// 		console.log('singleclick');
-	// 		console.log(this);
-	//       }, timeOut);
-	//     }
-	//   });
-	  
-	// $(itemContainer).on('dblclick', function(event) {
-	//     clearTimeout(timeoutID);
-	//     ignoreSingleClicks = true;
-	    
-	//     setTimeout(function() {
-	//       ignoreSingleClicks = false;
-	//     }, timeOut);
-	    
-	//     console.log('doubleclick');
-	//     setCurrentClipPlayer();
-	//   });
+
 	
 	menuul.appendChild(itemContainer);
 
@@ -261,6 +245,8 @@ function playWhenMetadataLoaded(e){
 		
 }
 
+// Always call updateMenus afterwards, to have control of when the front end is going to change
+// update the currentIndex
 function makeActive(item){
 	if (item != null){
 		// add the active class
@@ -296,8 +282,8 @@ function makeActive(item){
 			console.log('warning');
 		}
 	}
+	// Change by Xavier. Call updateMenus afterwards, to have control of when the front end is going to change
 	// update the currentIndex
-	updateMenus();
 }
 
 function deactivate(item){
@@ -344,6 +330,7 @@ function removeItemFromMenu(removalMenu, item, removalIndex){
 	//Setting new selection
 	deactivate(newSelection);
 	makeActive(newSelection);
+	updateMenus();
 
 }
 
