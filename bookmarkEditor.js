@@ -209,6 +209,7 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	noteContainer.setAttribute("class","center");
 	
 	note.setAttribute("id","text");
+	note.setAttribute('onClick', 'this.select()');
 	$(note).val(itemBackEnd.text);
 
 	cancelButton.innerHTML = "Cancel";

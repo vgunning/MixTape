@@ -4,6 +4,10 @@
 
 noClips = true; //variable to track if we're in start state
 
+//Change by Xavier
+var waitForMetadata = false;
+//End change by Xavier
+
 $(document).ready(function() {
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
@@ -62,6 +66,12 @@ $(document).ready(function() {
     	}
     	resetProgressElements();
     	//End
+
+    	//change by Xavier
+    	if (waitForMetadata){
+    		waitForMetadata = false
+    	}
+    	//End change by Xavier
 
     });
 	//Gabriel Modifications. END
@@ -323,7 +333,12 @@ function setCurrentClipPlayer(){
 		
 	} else {
 		document.getElementById('current-clip').src = currentClip.src;
+		//Change made by Xavier
+		waitForMetadata = true;
+		//End of change by Xavier
 	}
+
+	
 
 //>>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
 /*

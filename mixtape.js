@@ -57,9 +57,10 @@ function setCurrentClip(clipIndex){
 	}
 	
 	if (prevClip != currentClip){
+		
 		//GABRIELJ COMMENT: This isn't necessary, because when a new clip is selected and the 'src' value is updated
 		//a 'loaedmetadata' event fires, and the event listener added in player.js is triggered.
-		setCurrentClipPlayer();
+		// setCurrentClipPlayer();
 	}
 	
 	return currentClip;
@@ -121,6 +122,8 @@ function setCurrentItemToNull(item){
 	}
 }
 
+var checkMetadata;
+
 // add to the menu a new item
 // Needs to be modified!!
 function addItemToMenu(menu, item){
@@ -162,14 +165,27 @@ function addItemToMenu(menu, item){
 
 	$(itemPlay).click(function(e) {
 		// var name = ($(this).text()).trim();
-		e.stopPropagation();
 		console.log('In play');
+		var playClip = $(this).parent().parent();
+		deactivate(playClip[0]);
+		makeActive(playClip[0]);
+		updateMenus();	
+		// console.log(playClip);
+		setCurrentClipPlayer();
+		if (waitForMetadata){
+			checkMetadata = setInterval(function () {playWhenMetadataLoaded(e)}, 250);
+		}else{
+			togglePlay(e);
+		}
+		
+		
+		
 	});
 
 	itemRemove.appendChild(itemRemoveIcon);
 
 	itemEdit.appendChild(itemEditIcon);
-	addBookmarkEditorFunctionality($(itemEdit));
+	addBookmarkEditorFunctionality($(itemEdit))
 
 	itemPlay.appendChild(itemPlayIcon);
 
@@ -183,12 +199,30 @@ function addItemToMenu(menu, item){
 	var tag = menu.id + '-' + item.nospace;
 	itemContainer.setAttribute('id', tag);
 	item.id = tag;
-	$(itemContainer).on('click', function(e) {
+	
+	var clicks = 0, timeOut = 200;
+	$(itemContainer).bind('click', function(e) {
+		clicks++;
 		deactivate(this);
 		makeActive(this);
+		setTimeout(function() {
+	      if (clicks == 1){
+	      	updateMenus();
+	      }      
+	    }, timeOut);
 		console.log('clicked on item');
-		console.log(this);
+		// console.log(this);
 	});
+
+	$(itemContainer).bind('dblclick', function(e) {
+		setCurrentClipPlayer();
+		updateMenus();
+		clicks = 0;
+		console.log('doubleclick on item');
+	});
+
+
+	
 	menuul.appendChild(itemContainer);
 
 	// change it to active if the active current clip or playlist
@@ -203,6 +237,16 @@ function addItemToMenu(menu, item){
 	}
 }
 
+function playWhenMetadataLoaded(e){
+	if (!waitForMetadata){
+		clearInterval(checkMetadata);
+		togglePlay(e);
+	}
+		
+}
+
+// Always call updateMenus afterwards, to have control of when the front end is going to change
+// update the currentIndex
 function makeActive(item){
 	if (item != null){
 		// add the active class
@@ -238,8 +282,8 @@ function makeActive(item){
 			console.log('warning');
 		}
 	}
+	// Change by Xavier. Call updateMenus afterwards, to have control of when the front end is going to change
 	// update the currentIndex
-	updateMenus();
 }
 
 function deactivate(item){
@@ -286,6 +330,7 @@ function removeItemFromMenu(removalMenu, item, removalIndex){
 	//Setting new selection
 	deactivate(newSelection);
 	makeActive(newSelection);
+	updateMenus();
 
 }
 
