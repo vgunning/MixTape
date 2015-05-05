@@ -33,6 +33,7 @@ gabrielj
     <script type='text/javascript' src='dummy.js'></script>
     <script type='text/javascript' src='player.js'></script>
     <script type='text/javascript' src='playlist.js'></script>
+    <script type='text/javascript' src='editPlaylist.js'></script>
     <script type='text/javascript' src='mixtape.js'></script>
     <script type='text/javascript' src='documentListeners.js'></script>
     <script type='text/javascript'>
@@ -174,7 +175,7 @@ gabrielj
                                             <div role="tabpanel" class="tab-pane" id="np-urlTab">
                                                 <div class="panel panel-default panel-body" id='url-container'>                            
                                                     <label class=" control-label" for="url">Paste a music URL here:</label> 
-                                                    <input name="url" type="text" > </input>
+                                                    <input name="url" type="text" id='np-url' onClick='this.select()'> </input>
                                                 </div>                            
 
                                             </div>
@@ -251,7 +252,7 @@ gabrielj
                                             <div role="tabpanel" class="tab-pane" id="ep-urlTab">
                                                 <div class="panel panel-default panel-body" id='ep-url-container'>                            
                                                     <label class=" control-label" for="url">Paste a music URL here:</label> 
-                                                    <input name="url" type="text" > </input>
+                                                    <input name="url" type="text" id='ep-url' onClick='this.select()'> </input>
                                                 </div>                            
 
                                             </div>

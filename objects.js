@@ -118,18 +118,23 @@ Clip.prototype = {
 
 	updateName: function(nameString){
 		this.name = nameString;
-		if(this.playlist){
-			this.id = this.playlist.id + '-' + nameString.split('-').join('').split(' ').join('');	
+		if(this.url == null){
+			if(this.playlist){
+				this.id = this.playlist.id + '-' + nameString.split('-').join('').split(' ').join('');	
+			}
+			else{
+				this.id = nameString.split('-').join('').split(' ').join('');			
+			}
 		}
-		else{
-			this.id = nameString.split('-').join('').split(' ').join('');			
-		}
+
 		this.nospace = nameString.split('-').join('').split(' ').join('');
 	},
 
 	updatePlaylist: function(playlist){
 		this.playlist = playlist;
-		this.id = this.playlist.id + '-' + this.name.split('-').join('').split(' ').join('');
+		if(this.url == null){
+			this.id = this.playlist.id + '-' + this.name.split('-').join('').split(' ').join('');			
+		}
 	},
 
 	changeIsBeingEdited: function(){
@@ -151,6 +156,26 @@ Clip.prototype.init_name = function(name){
 	this.nospace = name.split('-').join('').split(' ').join('');
 	this.bookmarks = [];
 	this.isBeingEdited = false;
+	return this;
+}
+
+Clip.prototype.init_url = function(name, url){
+	this.name = name;
+	this.url = url;
+	this.nospace = name.split('-').join('').split(' ').join('');
+	this.bookmarks = [];
+	this.isBeingEdited = false;
+	return this;
+}
+
+Clip.prototype.init_url_playlist = function(id, url, playlist){
+	this.name = url;
+	this.id = id;
+	this.url = url;
+	this.nospace = name.split('-').join('').split(' ').join('');
+	this.bookmarks = [];
+	this.isBeingEdited = false;
+	this.playlist = playlist;
 	return this;
 }
 
