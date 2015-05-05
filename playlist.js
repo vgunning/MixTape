@@ -56,7 +56,7 @@ function savePlaylists(){
 	}
 	// check to see if that playlist name already exists
 	if (isPlaylistUsed(playlistName)){
-		playlistName = playlistName + ' (1)';
+		playlistName = playlistName + '.1';
 	}
 	document.getElementById('recipient-name').value = '';
 	var playlist = new Playlist().init_name(playlistName);
