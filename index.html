@@ -33,55 +33,36 @@ gabrielj
     <script type='text/javascript' src='dummy.js'></script>
     <script type='text/javascript' src='player.js'></script>
     <script type='text/javascript' src='playlist.js'></script>
+    <script type='text/javascript' src='editPlaylist.js'></script>
     <script type='text/javascript' src='mixtape.js'></script>
+    <script type='text/javascript' src='documentListeners.js'></script>
     <script type='text/javascript'>
-// pset 2 parse url args
-$.extend({
-    getUrlVars : function() {
-        var vars = [], hash;
-        var hashes = window.location.href.slice(
-            window.location.href.indexOf('?') + 1).split('&');
-        for ( var i = 0; i < hashes.length; i++) {
-            hash = hashes[i].split('=');
-            vars.push(hash[0]);
-            vars[hash[0]] = hash[1];
-        }
-        return vars;
-    },
-    getUrlVar : function(name) {
-        return $.getUrlVars()[name];
-    }
-});
-// get a username
-var username;
-$(document).ready(function() {
-    if ($.getUrlVar('user')) {
-        usernum = $.getUrlVar('user');
-    }
+        // pset 2 parse url args
+        $.extend({
+            getUrlVars : function() {
+                var vars = [], hash;
+                var hashes = window.location.href.slice(
+                    window.location.href.indexOf('?') + 1).split('&');
+                for ( var i = 0; i < hashes.length; i++) {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            },
+            getUrlVar : function(name) {
+                return $.getUrlVars()[name];
+            }
+        });
+        // get a username
+        var username;
+        $(document).ready(function() {
+            if ($.getUrlVar('user')) {
+                usernum = $.getUrlVar('user');
+            }
+        });
 
-    // register for modal form's enter event
-    $('#recipient-name').keydown( function(event) {
-        if(event.keyCode == 13){
-            console.log('enter');
-            event.preventDefault();
-            savePlaylists();
-        }
-    })
-
-    // register for modal's enter event
-    $('#newPlaylistWindow').keydown( function(event) {
-        if(event.keyCode == 13){
-            console.log('enter');
-            event.preventDefault();
-            savePlaylists();
-        }
-    })
-});
-
-</script>
-
-
-
+    </script>
 </head>
 
 <body>
@@ -168,7 +149,7 @@ $(document).ready(function() {
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <form>
-                            <input placeholder="New Playlist Name" type="text" class="form-control" id="recipient-name">
+                            <input placeholder="New Playlist Name" type="text" class="form-control" id="recipient-name" onclick="this.select()">
                         </form>
                         
                     </div>
@@ -194,7 +175,7 @@ $(document).ready(function() {
                                             <div role="tabpanel" class="tab-pane" id="np-urlTab">
                                                 <div class="panel panel-default panel-body" id='url-container'>                            
                                                     <label class=" control-label" for="url">Paste a music URL here:</label> 
-                                                    <input name="url" type="text" > </input>
+                                                    <input name="url" type="text" id='np-url' onClick='this.select()'> </input>
                                                 </div>                            
 
                                             </div>
@@ -217,7 +198,7 @@ $(document).ready(function() {
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Added Clips</h3>
                                         <div class="panel panel-default panel-body">                                
-                                            <ul id='added-container' class='list-group'></ul>     
+                                            <ul id='np-added-container' class='list-group'></ul>     
                                         </div>
                                     </div>               
                                 </div>
@@ -245,7 +226,7 @@ $(document).ready(function() {
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <form>
-                            <input placeholder="Edit Playlist Name" type="text" class="form-control" id="edit-playlist-name">
+                            <input placeholder="Edit Playlist Name" type="text" class="form-control" id="edit-playlist-name" onclick="this.select()">
                         </form>
                         
                     </div>
@@ -271,7 +252,7 @@ $(document).ready(function() {
                                             <div role="tabpanel" class="tab-pane" id="ep-urlTab">
                                                 <div class="panel panel-default panel-body" id='ep-url-container'>                            
                                                     <label class=" control-label" for="url">Paste a music URL here:</label> 
-                                                    <input name="url" type="text" > </input>
+                                                    <input name="url" type="text" id='ep-url' onClick='this.select()'> </input>
                                                 </div>                            
 
                                             </div>
@@ -300,7 +281,7 @@ $(document).ready(function() {
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" onClick='closeEditModal();'>Cancel</button>
-                        <button type="button" class="btn btn-primary" id="np-saveButton" onClick='saveEdit();'>Save</button>
+                        <button type="button" class="btn btn-primary" id="ep-saveButton" onClick='saveEdit();'>Save</button>
                     </div>
                 </div>
             </div>

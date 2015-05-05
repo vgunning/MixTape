@@ -140,8 +140,12 @@ function addItemToMenu(menu, item){
 	var itemPlayIcon = document.createElement('span');
 	var itemRemoveIcon = document.createElement('span');
 	
-
-	itemText.innerHTML = item.name;
+	if(item.name.split('-')[0] == 'url'){
+		itemText.innerHTML = item.url;
+	}
+	else{
+		itemText.innerHTML = item.name;
+	}
 	itemContainer.setAttribute('class', "list-group-item" + " " + item.type);
 	itemSubmenu.setAttribute('class', "list-group-submenu");
 
@@ -202,8 +206,13 @@ function addItemToMenu(menu, item){
 	itemContainer.appendChild(itemSubmenu);
 
 	var tag = menu.id + '-' + item.nospace;
+	if(item.url){
+		tag = item.id;
+	}
+	else{
+		item.id = tag;
+	}
 	itemContainer.setAttribute('id', tag);
-	item.id = tag;
 	
 	var clicks = 0, timeOut = 200;
 	$(itemContainer).bind('click', function(e) {
