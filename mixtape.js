@@ -164,6 +164,15 @@ function addItemToMenu(menu, item){
 		// var name = ($(this).text()).trim();
 		e.stopPropagation();
 		console.log('In play');
+		if (playing_clip){
+			togglePlay(e);
+		}
+		var playClip = $(this).parent().parent();
+		deactivate(playClip[0]);
+		makeActive(playClip[0]);	
+		// console.log(playClip);
+		togglePlay(e);
+		
 	});
 
 	itemRemove.appendChild(itemRemoveIcon);
