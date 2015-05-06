@@ -8,6 +8,7 @@ noClips = true; //variable to track if we're in start state
 var waitForMetadata = false;
 var currentSrc;
 //End change by Xavier
+var playingClip;
 
 $(document).ready(function() {
     //Gabriel Modifications. START
@@ -83,6 +84,8 @@ $(document).ready(function() {
     	$(input_end_time).val("");
     	$(input_start_time).val("");
 
+    	playingClip = currentClip;
+
     });
 	//Gabriel Modifications. END
 
@@ -109,10 +112,10 @@ function addNewBookmark(e){
 			start_time = clip.currentTime*1000; //In milliseconds
 			end_time = clip_time_length_ms; //In milliseconds
 			//console.log(start_time);
-			var bookmark_name = 'Bookmark ' + (currentClip.bookmarks.length+1);
+			var bookmark_name = 'Bookmark ' + (playingClip.bookmarks.length+1);
 			var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
-			currentClip.addBookmark(new_bookmark);
+			playingClip.addBookmark(new_bookmark);
 			updateMenus();
 		} else if(array_start_time.length != 2 || array_end_time.length != 2 
 			|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) 
@@ -128,10 +131,10 @@ function addNewBookmark(e){
 			//console.log(end_time);
 			if(start_time >= 0 && start_time < clip_time_length_ms){
 				if(end_time > start_time && end_time < clip_time_length_ms){
-					var bookmark_name = 'Bookmark ' + (currentClip.bookmarks.length+1);
+					var bookmark_name = 'Bookmark ' + (playingClip.bookmarks.length+1);
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
-					currentClip.addBookmark(new_bookmark);
+					playingClip.addBookmark(new_bookmark);
 					updateMenus();
 					document.getElementById('inputStartTime').value = '';
         			document.getElementById('inputEndTime').value = '';
