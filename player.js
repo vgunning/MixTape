@@ -286,7 +286,7 @@ function dragProgressElements(e){
 function clearHelpText(e){
 	var target = e.target;
 	var value = $(target).val();
-	if(value == "Format 'mm:ss'"){
+	if(value == "Format 'mm:ss'" || "Double click clip!"){
 		$(target).val('');
 	}
 }
