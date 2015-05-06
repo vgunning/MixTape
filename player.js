@@ -84,32 +84,41 @@ $(document).ready(function() {
 
 //Author: Gabrielj. Adds bookmarks to bookmark list
 function addNewBookmark(e){
-	var start_time = $(inputStartTime).val();
-	var end_time = $(inputEndTime).val();
-	var array_start_time = start_time.split(":");
-	var array_end_time = end_time.split(":");
-	console.log(array_end_time[0]);
-	console.log(array_end_time[1]);
-	if(array_start_time.length != 2 || array_end_time.length != 2 
-		|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) || isNaN(parseInt(array_end_time[0])) || isNaN(parseInt(array_end_time[1])) ){
-		$(inputStartTime).val("Format 'mm:ss'");
-	$(inputEndTime).val("Format 'mm:ss'");
-} else {
-		start_time = parseInt(array_start_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
-		end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_end_time[1])*1000; //In milliseconds
-		//console.log(start_time);
-		//console.log(end_time);
-		if(start_time > 0 && start_time < clip_time_length_ms){
-			if(end_time > start_time && end_time < clip_time_length_ms){
-				var bookmark_name = 'New Bookmark ' + (currentClip.bookmarks.length+1);
-				var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
+	if(currentSrc != null){
+		var start_time = $(inputStartTime).val();
+		var end_time = $(inputEndTime).val();
+		var array_start_time = start_time.split(":");
+		var array_end_time = end_time.split(":");
+		console.log(array_end_time[0]);
+		console.log(array_end_time[1]);
+		if(array_start_time.length != 2 || array_end_time.length != 2 
+			|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) 
+			|| isNaN(parseInt(array_end_time[0])) || isNaN(parseInt(array_end_time[1])) ){
+			$(inputStartTime).val("Format 'mm:ss'");
+			$(inputEndTime).val("Format 'mm:ss'");
+		} else {
+			start_time = parseInt(array_start_time[0])*60*1000 + parseInt(array_start_time[1])*1000; //In milliseconds
+			end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_end_time[1])*1000; //In milliseconds
+			//console.log(start_time);
+			//console.log(end_time);
+			if(start_time > 0 && start_time < clip_time_length_ms){
+				if(end_time > start_time && end_time < clip_time_length_ms){
+					var bookmark_name = 'New Bookmark ' + (currentClip.bookmarks.length+1);
+					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
-				currentClip.addBookmark(new_bookmark);
-				setCurrentBookmark(currentClip.bookmarks.length -1);
-				updateMenus();
-				console.log("Done adding");
+					currentClip.addBookmark(new_bookmark);
+					setCurrentBookmark(currentClip.bookmarks.length -1);
+					updateMenus();
+					document.getElementById('inputStartTime').value = '';
+        			document.getElementById('inputEndTime').value = '';
+					console.log("Done adding");
+				}
 			}
 		}
+	}
+	else{
+		$(inputStartTime).val("Double click clip!");
+		$(inputEndTime).val("Double click clip!");
 	}
 }
 

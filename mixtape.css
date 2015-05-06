@@ -124,12 +124,14 @@
 
 #bookmark_marker_start{
 	position: absolute;
+	visibility: hidden;
 	left:0px;
 	top:27px;
 }
 
 #bookmark_marker_end{
 	position: absolute;
+	visibility: hidden;
 	left:40px;
 	top:27px;
 }
