@@ -14,6 +14,7 @@ gabrielj
     <link type="text/css" href="bookmarkEditor.css" rel="stylesheet">    
     <link href="./jquery/jquery-ui.css" rel="stylesheet">
     <!-- Load style sheets -->
+    <link href='http://fonts.googleapis.com/css?family=Vollkorn:400,700' rel='stylesheet' type='text/css'> <!-- font -->
     <link rel='stylesheet' type='text/css' href='bootstrap/css/bootstrap.min.css' />
     <link rel="stylesheet" type="text/css" href="mixtape.css" />
     <link rel='stylesheet' type='text/css' href='color-management.css'/>
@@ -117,7 +118,7 @@ gabrielj
             <div class='col-md-6' id='music-clip-column'>
                 <div class= 'noselect'id='music-clip-window'>
                     <ul class="nav nav-pills nav-stacked">
-                        <li class="active indigo"><a>Editing Window</a></li>
+                        <li id="edWindow_heading" class="active indigo"><a>Editing Window</a></li>
                         <div class="music_controls">
                             <div class="bookmark_background" id="bookmark_background_id">
                                 <button type="button" class= "btn btn-info btn-lg" id="btnBookmark">Add Bookmark</button>
@@ -125,7 +126,7 @@ gabrielj
                                 <input id="inputEndTime" type="text" placeholder="End TIme"/>
                             </div>
                             <div class="time_passed"></div>
-                            <audio src="music\ShelteringSky-TXST.mp3" type="audio/mpeg" id="current-clip"></audio>
+                            <audio src="" type="audio/mpeg" id="current-clip"></audio>
                             <button id="btnPlay" type="button" class="btn btn-info btn-lg"><span class="editor-button glyphicon glyphicon-play" id="btnPlay_icon"></span></button>
                             <div class="time_length"></div>
                         </div>

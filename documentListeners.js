@@ -73,11 +73,6 @@ $(document).ready(function() {
         $('#edit-playlist-name').select();
     })
 
-    $('#btnBookmark').on('click', function() {
-        document.getElementById('inputStartTime').value = '';
-        document.getElementById('inputEndTime').value = '';
-    })
-
     $('#inputEndTime').keydown( function(event) {
         if(event.keyCode == 13){
             console.log('enter');
