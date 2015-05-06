@@ -112,7 +112,7 @@ function addNewBookmark(e){
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 					currentClip.addBookmark(new_bookmark);
-					setCurrentBookmark(currentClip.bookmarks.length -1);
+					// setCurrentBookmark(currentClip.bookmarks.length -1);
 					updateMenus();
 					document.getElementById('inputStartTime').value = '';
         			document.getElementById('inputEndTime').value = '';

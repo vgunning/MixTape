@@ -68,7 +68,7 @@ function setCurrentClip(clipIndex){
 		console.log('Have set currentClip to something');
 		// also set the source to the correct file
 		if (currentClip.bookmarks.length > 0){
-			setCurrentBookmark(0);
+			setCurrentBookmark(-1);
 		}
 		else{
 			setCurrentBookmark(-1);
