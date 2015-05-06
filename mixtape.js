@@ -12,6 +12,18 @@ var currentBookmarkIndex;
 var currentClipIndex;
 var playlists = []; // this will hold all the created playlists
 
+var dragging_thumb = false;
+
+var playing_clip = false;
+var interval_function;
+var clip_time_length_ms;
+var clip_time_played_ms; //Time of the currently selected clip, in milliseconds.
+
+document.onmousemove = dragProgressElements;
+
+var is_bookmark_selected = false;
+var bookmark_time_start;
+var bookmark_time_end;
 
 $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
@@ -28,9 +40,13 @@ $(document).ready(function() {
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
 		currentBookmark = currentClip.bookmarks[bookmarkIndex];
+		is_bookmark_selected = true;
+		adjustBookmarkMarkers();
 	}
 	else{
 		currentBookmark = null;
+		is_bookmark_selected = false;
+		adjustBookmarkMarkers();
 	}
 	currentBookmarkIndex = bookmarkIndex;
 	return currentBookmark;

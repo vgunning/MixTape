@@ -16,11 +16,11 @@ $(document).ready(function() {
     var track = document.getElementById('track_id');
     var progress_thumb = document.getElementById('progress_thumb_id');
     var bookmark_btn = document.getElementById('btnBookmark');
-	var input_start_time = document.getElementById('inputStartTime');
-	var input_end_time = document.getElementById('inputEndTime');
+    var input_start_time = document.getElementById('inputStartTime');
+    var input_end_time = document.getElementById('inputEndTime');
 
-	input_start_time.addEventListener("focus", clearHelpText);
-	input_end_time.addEventListener("focus", clearHelpText);
+    input_start_time.addEventListener("focus", clearHelpText);
+    input_end_time.addEventListener("focus", clearHelpText);
     bookmark_btn.addEventListener('click', addNewBookmark);
 
     progress_thumb.addEventListener('mousedown', startDragging);
@@ -52,11 +52,11 @@ $(document).ready(function() {
     		$(".time_length").html("");
     		$(".time_passed").html("");
     	} else {
-	    	if(seconds < 10){
-	    		$(".time_length").html(""+minutes+":0"+seconds);
-	    	}else{
-	    		$(".time_length").html(""+minutes+":"+seconds);
-	    	}
+    		if(seconds < 10){
+    			$(".time_length").html(""+minutes+":0"+seconds);
+    		}else{
+    			$(".time_length").html(""+minutes+":"+seconds);
+    		}
     		$(".time_passed").html("0:00");
     	}
 
@@ -113,8 +113,63 @@ function addNewBookmark(e){
 	}
 }
 
-var dragging_thumb = false;
-document.onmousemove = dragProgressElements;
+//Author: Gabrielj. Called in setCurrentBookmark. Meant to adjust the bookmark markers and the displayed times accordingly.
+function adjustBookmarkMarkers(){
+	if(currentBookmark != null){
+		//Assumption that times are valid. The check happens in addNewBookmark.
+		bookmark_time_start = currentBookmark.startTime;
+		bookmark_time_end = currentBookmark.endTime;
+		clip_time_played_ms = bookmark_time_start;
+		var clip = document.getElementById('current-clip');
+		clip.currentTime = Math.floor(clip_time_played_ms/1000);
+
+		//Changung HTML
+		var start_minutes = Math.floor(bookmark_time_start/(60*1000));
+		var start_seconds = Math.floor(bookmark_time_start/1000)%60;
+		if(start_seconds < 10){
+			$("#bookmark_time_start").html(""+start_minutes+":0"+start_seconds);
+		}else{
+			$("#bookmark_time_start").html(""+start_minutes+":"+start_seconds);
+		}
+
+		var end_minutes = Math.floor(bookmark_time_end/(60*1000));
+		var end_seconds = Math.floor(bookmark_time_end/1000)%60;
+		if(end_seconds < 10){
+			$("#bookmark_time_start").html(""+end_minutes+":0"+end_seconds);
+		}else{
+			$("#bookmark_time_end").html(""+end_minutes+":"+end_seconds);
+		}
+
+		//Changing position
+		var progress_percent = bookmark_time_start/clip_time_length_ms;
+		
+		document.getElementById('progress_thumb_id').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent)+'px';
+		document.getElementById('progress_bar_id').style.width = (document.getElementById('track_background_id').offsetWidth*progress_percent)+'px';
+
+		document.getElementById('bookmark_time_start').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent - 6)+'px';
+		document.getElementById('bookmark_marker_start').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent + 1) +'px';
+
+		progress_percent = bookmark_time_end/clip_time_length_ms;
+
+		document.getElementById('bookmark_time_end').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent - 6)+'px';
+		document.getElementById('bookmark_marker_end').style.left = (document.getElementById('track_background_id').offsetWidth*progress_percent + 1)+'px';
+
+		document.getElementById('bookmark_marker_start').style.visibility = 'visible';
+		document.getElementById('bookmark_marker_end').style.visibility = 'visible';
+		document.getElementById('bookmark_time_end').style.visibility = 'visible';
+		document.getElementById('bookmark_time_start').style.visibility = 'visible';
+
+
+
+	} else{
+		document.getElementById('bookmark_marker_start').style.visibility = 'hidden';
+		document.getElementById('bookmark_marker_end').style.visibility = 'hidden';
+		document.getElementById('bookmark_time_end').style.visibility = 'hidden';
+		document.getElementById('bookmark_time_start').style.visibility = 'hidden';	
+	}
+
+	updateTimePassed();
+}
 
 //Sets the variable 'dragging_thumb' to true
 function startDragging(e){
@@ -152,8 +207,8 @@ function endDragging(e){
 		}
 >>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
 */
-		console.log("End dragging");
-	}
+console.log("End dragging");
+}
 }
 
 //This is for when dragging after having pressed down on the track thumb.
@@ -167,15 +222,32 @@ function dragProgressElements(e){
 			//console.log('new_pos: ' + new_pos);
 			//console.log('offsetWidth: ' + document.getElementById('track_background_id').offsetWidth);
 			var max_width = document.getElementById('track_background_id').offsetWidth;
-			if(new_pos < 0){
-				document.getElementById('progress_thumb_id').style.left = 0+'px';
-				document.getElementById('progress_bar_id').style.width = 0+'px';
-			} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
-				document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
-				document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
-			} else {
-				document.getElementById('progress_thumb_id').style.left = new_pos+'px';
-				document.getElementById('progress_bar_id').style.width = new_pos+'px';
+			if(is_bookmark_selected){
+				var left_position = $('#bookmark_marker_start').position().left;
+				var right_position = $('#bookmark_marker_end').position().left;
+
+				if(new_pos < left_position){
+					document.getElementById('progress_thumb_id').style.left = left_position +'px';
+					document.getElementById('progress_bar_id').style.width = left_position +'px';
+				} else if(new_pos > right_position){
+					document.getElementById('progress_thumb_id').style.left = right_position +'px';
+					document.getElementById('progress_bar_id').style.width = right_position +'px';
+				} else {
+					document.getElementById('progress_thumb_id').style.left = new_pos+'px';
+					document.getElementById('progress_bar_id').style.width = new_pos+'px';
+				}
+
+			} else{
+				if(new_pos < 0){
+					document.getElementById('progress_thumb_id').style.left = 0+'px';
+					document.getElementById('progress_bar_id').style.width = 0+'px';
+				} else if(new_pos > document.getElementById('track_background_id').offsetWidth){
+					document.getElementById('progress_thumb_id').style.left = document.getElementById('track_background_id').offsetWidth+'px';
+					document.getElementById('progress_bar_id').style.width = document.getElementById('track_background_id').offsetWidth+'px';
+				} else {
+					document.getElementById('progress_thumb_id').style.left = new_pos+'px';
+					document.getElementById('progress_bar_id').style.width = new_pos+'px';
+				}
 			}
 			var current_width = document.getElementById('progress_bar_id').offsetWidth;
 			var progress_percent = current_width/max_width;
@@ -184,7 +256,6 @@ function dragProgressElements(e){
 
 			console.log(clip_time_played_ms);
 			updateTimePassed();
-			
 		}
 	}
 }
@@ -219,11 +290,18 @@ function updateTimePassed(){
 }
 
 function resetProgressElements(){
-	document.getElementById('progress_thumb_id').style.left = 0+'px';
-	document.getElementById('progress_bar_id').style.width = 0+'px';
-	clip_time_played_ms = 0;
-
-
+	if(is_bookmark_selected){
+		var left_position = $('#bookmark_marker_start').position().left;
+		document.getElementById('progress_thumb_id').style.left = left_position+'px';
+		document.getElementById('progress_bar_id').style.width = left_position+'px';
+		clip_time_played_ms = bookmark_time_start;
+		var clip = document.getElementById('current-clip');
+		clip.currentTime = Math.floor(clip_time_played_ms/1000);
+	} else{
+		document.getElementById('progress_thumb_id').style.left = 0+'px';
+		document.getElementById('progress_bar_id').style.width = 0+'px';
+		clip_time_played_ms = 0;
+	}
 	updateTimePassed();
 }
 
@@ -236,11 +314,6 @@ function adjustProgressElements(){
 	updateTimePassed();
 
 }
-
-var playing_clip = false;
-var interval_function;
-var clip_time_length_ms = 180000;
-var clip_time_played_ms = 0; //Time of the currently selected clip, in milliseconds.
 
 //Toggles between playing the selected clip.
 function togglePlay(e){
@@ -267,18 +340,32 @@ function togglePlay(e){
 }
 
 function trackTimer() {
-	// Change by Xavier
-	// added condition that if the currentSrc becomes null, then the track player should stop moving.
-	if(clip_time_played_ms >= clip_time_length_ms || currentSrc == null){
-		togglePlay();
-		clearInterval(interval_function);
-		resetProgressElements();
-		console.log('clip time played',clip_time_played_ms, 'trackTimer()')
+
+	if(is_bookmark_selected){
+		if(clip_time_played_ms >= bookmark_time_end){
+			togglePlay();
+			clearInterval(interval_function);
+			resetProgressElements();
+			//console.log('clip time played',clip_time_played_ms, 'trackTimer()')
+		} else{
+			clip_time_played_ms += 250;
+			adjustProgressElements();
+		}
 	} else{
-		clip_time_played_ms += 250;
-		adjustProgressElements();
-	}
+		// Change by Xavier
+		// added condition that if the currentSrc becomes null, then the track player should stop moving.
+		if(clip_time_played_ms >= clip_time_length_ms || currentSrc == null){
+			togglePlay();
+			clearInterval(interval_function);
+			resetProgressElements();
+			//console.log('clip time played',clip_time_played_ms, 'trackTimer()')
+		} else{
+			clip_time_played_ms += 250;
+			adjustProgressElements();
+		}
 	//console.log('Time played in ms: ' + clip_time_played_ms);
+	}
+
 }
 
 function clickTrack(e){
@@ -320,7 +407,7 @@ function clickTrack(e){
 function setCurrentClipPlayer(){
 
 //<<<<<<< HEAD
-	console.log('Setting current clip player');
+console.log('Setting current clip player');
 
 	//document.getElementById('current-clip').src = currentClip.src;
 //=======
