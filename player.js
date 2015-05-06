@@ -113,7 +113,6 @@ function addNewBookmark(e){
 			var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 			currentClip.addBookmark(new_bookmark);
-			setCurrentBookmark(currentClip.bookmarks.length -1);
 			updateMenus();
 		} else if(array_start_time.length != 2 || array_end_time.length != 2 
 			|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) 
@@ -127,7 +126,7 @@ function addNewBookmark(e){
 			end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_end_time[1])*1000; //In milliseconds
 			//console.log(start_time);
 			//console.log(end_time);
-			if(start_time > 0 && start_time < clip_time_length_ms){
+			if(start_time >= 0 && start_time < clip_time_length_ms){
 				if(end_time > start_time && end_time < clip_time_length_ms){
 					var bookmark_name = 'Bookmark ' + (currentClip.bookmarks.length+1);
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
