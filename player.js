@@ -8,6 +8,7 @@ noClips = true; //variable to track if we're in start state
 var waitForMetadata = false;
 var currentSrc;
 //End change by Xavier
+var playingClip;
 
 $(document).ready(function() {
     //Gabriel Modifications. START
@@ -83,6 +84,8 @@ $(document).ready(function() {
     	$(input_end_time).val("");
     	$(input_start_time).val("");
 
+    	playingClip = currentClip;
+
     });
 	//Gabriel Modifications. END
 
@@ -108,12 +111,17 @@ function addNewBookmark(e){
 			var clip = document.getElementById('current-clip');
 			start_time = clip.currentTime*1000; //In milliseconds
 			end_time = clip_time_length_ms; //In milliseconds
-			//console.log(start_time);
-			var bookmark_name = 'Bookmark ' + (currentClip.bookmarks.length+1);
+			var minutes = Math.floor(clip_time_played_ms/(60*1000));
+			var seconds = Math.floor(clip_time_played_ms/1000)%60;
+			var bookmark_name = 'Bookmark ' + (playingClip.bookmarks.length+1) + ' '+minutes+'m'+seconds+'s';
 			var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
-			currentClip.addBookmark(new_bookmark);
-			setCurrentBookmark(currentClip.bookmarks.length -1);
+			playingClip.addBookmark(new_bookmark);
+			for(var i = 0; i < currentPlaylist.clips.length; i++){
+				if(playingClip.id == currentPlaylist.clips[i].id){
+					setCurrentClip(i);
+				}
+			}
 			updateMenus();
 		} else if(array_start_time.length != 2 || array_end_time.length != 2 
 			|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) 
@@ -127,12 +135,18 @@ function addNewBookmark(e){
 			end_time = parseInt(array_end_time[0])*60*1000 + parseInt(array_end_time[1])*1000; //In milliseconds
 			//console.log(start_time);
 			//console.log(end_time);
-			if(start_time > 0 && start_time < clip_time_length_ms){
+			if(start_time >= 0 && start_time < clip_time_length_ms){
 				if(end_time > start_time && end_time < clip_time_length_ms){
-					var bookmark_name = 'Bookmark ' + (currentClip.bookmarks.length+1);
+					var bookmark_name = ('Bookmark ' + (playingClip.bookmarks.length+1)+' '+array_start_time[0]+'m'+array_start_time[1]
+						+'s to ' + array_end_time[0]+'m'+array_end_time[1]+'s');
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
-					currentClip.addBookmark(new_bookmark);
+					playingClip.addBookmark(new_bookmark);
+					for(var i = 0; i < currentPlaylist.clips.length; i++){
+						if(playingClip.id == currentPlaylist.clips[i].id){
+							setCurrentClip(i);
+						}
+					}
 					updateMenus();
 					document.getElementById('inputStartTime').value = '';
         			document.getElementById('inputEndTime').value = '';
