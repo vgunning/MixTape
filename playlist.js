@@ -48,11 +48,14 @@ function newPlaylist(){
 }
 
 function savePlaylists(){
+// <<<<<<< HEAD
+// =======
 	if ($('#newPlaylistWindow').hasClass('in')){
 		// this means the the dialog was actually open and to carry out the save action
 		$('#newPlaylistWindow').modal('hide'); // close the dialog box
 		var clipsToAdd = document.getElementById('np-added-container').getElementsByClassName('btn'); // id has the clip name?
 		var playlistName = document.getElementById('recipient-name').value;
+// >>>>>>> 475ac56e30c701aa0a67f0c46185b13d5a0f7478
 		if (playlistName == ''){
 			playlistName = 'Playlist ' + (playlists.length + 1).toString();
 		}

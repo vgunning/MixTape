@@ -20,6 +20,7 @@
 	    		SEMAPHORE = 1;
 	    		deactivate(caller[0]);
 				makeActive(caller[0]);
+				updateMenus();
 				bookmarkId = itemBackEnd.id;
 				// console.log(bookmarkId);
 				itemBackEnd.changeIsBeingEdited();	    		

@@ -53,6 +53,7 @@ function setCurrentClip(clipIndex){
 	}
 	else{
 		console.log('Have set currentClip to null');
+		setCurrentBookmark(-1);
 		currentClip = null;
 	}
 	
@@ -77,6 +78,7 @@ function setCurrentPlaylist(playlistIndex){
 		}	
 	}
 	else{
+		setCurrentClip(-1);
 		currentPlaylist = null;
 	}
 	currentPlaylistIndex = playlistIndex;
@@ -164,7 +166,10 @@ function addItemToMenu(menu, item){
 		var removalMenu = menuul;
 		var removalIndex = selection.index();
 		removeItemFromMenu(removalMenu,selection,removalIndex);
+
+		// setCurrentClipPlayer();
 		console.log('In remove');
+
 	});
 
 	$(itemPlay).click(function(e) {
@@ -243,7 +248,14 @@ function addItemToMenu(menu, item){
 	}
 	if (item == currentBookmark){
 		$('#' + itemContainer.id).addClass('active');
+		$('#' + itemContainer.id).click(deselect);
 	}
+}
+
+function deselect(bookmark){
+	$('#' + bookmark.id).removeClass('active');
+	setCurrentBookmark(-1);
+	updateMenus();
 }
 
 function playWhenMetadataLoaded(e){
@@ -318,28 +330,52 @@ function deactivate(item){
 
 function removeItemFromMenu(removalMenu, item, removalIndex){	
 	var newSelection = null;
+	
+
 	//Getting the item that will be selected after deletion.
+	console.log(currentPlaylist);
+	console.log(currentClip);
+	
+	//Removing the backend component
+	var removalBackEnd = getBackEndItem(item[0]);
+	var isCurrentlyPlayedClip = (removalBackEnd.src == currentSrc);
+	var isContainerPlatlist = false;
+	if (removalBackEnd.type == 'playlist'){
+		console.log(removalBackEnd.clips.indexOf(currentClip));
+		if (removalBackEnd.clips.indexOf(currentClip)>=0){
+			isContainerPlatlist = true;
+		}
+	}
+	console.log(isContainerPlatlist);
+	console.log(isCurrentlyPlayedClip);
+	removalBackEnd.remove();
+	
+	if(item[0].classList.contains('playlist')){		
+		index = playlists.indexOf(removalBackEnd);
+		if (index > -1) {
+    		playlists.splice(index, 1);
+		}
+	}
+
 	if($(removalMenu).children()[removalIndex + 1] != null){	
 		newSelection = $(removalMenu).children()[removalIndex + 1];
 	}else if (($(removalMenu).children()[removalIndex - 1] != null)){
 		newSelection = $(removalMenu).children()[removalIndex - 1];
 	}else{
-		setCurrentItemToNull(item[0])
-	}
-	//Removing the backend component
-	var removalBackEnd = getBackEndItem(item[0]);
-	removalBackEnd.remove();
-	
-	if(item[0].classList.contains('playlist')){		
-		index = playlists.indexOf(removalBackEnd)
-		if (index > -1) {
-    		playlists.splice(index, 1);
-		}
+		setCurrentItemToNull(item[0]);
 	}
 	//Setting new selection
 	deactivate(newSelection);
 	makeActive(newSelection);
 	updateMenus();
+	
+
+	//If the removed clip is playing, the src should be reset. Also need to check if it is contained 
+	// a removed playlist.
+	if (isContainerPlatlist || isCurrentlyPlayedClip){
+		setCurrentClipPlayer();
+	}
+	
 
 }
 
@@ -352,18 +388,23 @@ function updateMenus(){
 	for(var p = 0; p < playlists.length; p++){
 		addItemToMenu(playlistMenu, playlists[p]);
 	}
-	if (currentPlaylist.clips != null){
+	if (currentPlaylist != null){
+		if (currentPlaylist.clips != null){
 		// add all the active clips
 		for(var c = 0; c < currentPlaylist.clips.length; c++){
 			addItemToMenu(clipMenu, currentPlaylist.clips[c]);
 		}
-		if (currentClip.bookmarks != null){
+		if (currentClip != null){
+			if (currentClip.bookmarks != null){
 			//add all the active bookmarks
 			for(var b = 0; b < currentClip.bookmarks.length; b++){
 				addItemToMenu(bookmarkMenu, currentClip.bookmarks[b]);
 			}
 		}
+		}
 
+	}
+	
 	}
 	
 	// make things sortable

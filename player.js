@@ -6,6 +6,7 @@ noClips = true; //variable to track if we're in start state
 
 //Change by Xavier
 var waitForMetadata = false;
+var currentSrc;
 //End change by Xavier
 
 $(document).ready(function() {
@@ -61,6 +62,7 @@ $(document).ready(function() {
 
     	//Gabriel Modification of my own modification
     	//This is meant to replace part of the'setCurrentClipPlayer' function.
+		console.log(playing_clip);
 		if(playing_clip){
     		togglePlay();
     	}
@@ -265,7 +267,9 @@ function togglePlay(e){
 }
 
 function trackTimer() {
-	if(clip_time_played_ms >= clip_time_length_ms){
+	// Change by Xavier
+	// added condition that if the currentSrc becomes null, then the track player should stop moving.
+	if(clip_time_played_ms >= clip_time_length_ms || currentSrc == null){
 		togglePlay();
 		clearInterval(interval_function);
 		resetProgressElements();
@@ -327,14 +331,18 @@ function setCurrentClipPlayer(){
 	}
 
 	if (currentClip == null){
-		noClips = true;
+		
 		// some gunky coding to reset and get quiet if no clip available to play
 		document.getElementById('current-clip').src = document.getElementById('current-clip').src;
-		
+		noClips = true;
+		//Change made by Xavier
+		currentSrc = null;
+		//End of change by Xavier
 	} else {
 		document.getElementById('current-clip').src = currentClip.src;
 		//Change made by Xavier
 		waitForMetadata = true;
+		currentSrc = currentClip.src;
 		//End of change by Xavier
 	}
 
