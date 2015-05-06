@@ -424,6 +424,9 @@ function removeItemFromMenu(removalMenu, item, removalIndex){
 	
 	//Removing the backend component
 	var removalBackEnd = getBackEndItem(item[0]);
+	if(removalBackEnd.type == 'bookmark'){
+		deselect(removalBackEnd);
+	}
 	var isCurrentlyPlayedClip = (removalBackEnd.src == currentSrc);
 	var isContainerPlatlist = false;
 	if (removalBackEnd.type == 'playlist'){
