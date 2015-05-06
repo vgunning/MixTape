@@ -60,11 +60,11 @@ function setCurrentBookmark(bookmarkIndex){
 				for(var i = 0; i < currentClip.bookmarks.length; i++){
 					currentBookmark = currentClip.bookmarks[i];
 					if(selected_bookmark_identifier == currentBookmark.name){
+						$('#' + currentBookmark.id).addClass('active');
+						$('#' + currentBookmark.id).click(deselect);
 						break;
 					}
 				}
-				$('#' + currentBookmark.id).addClass('active');
-				$('#' + currentBookmark.id).click(deselect);
 			} else {
 				selected_bookmark_identifier = null;
 				is_bookmark_selected = false;
@@ -461,6 +461,10 @@ function removeItemFromMenu(removalMenu, item, removalIndex){
 	// a removed playlist.
 	if (isContainerPlatlist || isCurrentlyPlayedClip){
 		setCurrentClipPlayer();
+		document.getElementById('bookmark_marker_start').style.visibility = 'hidden';
+		document.getElementById('bookmark_marker_end').style.visibility = 'hidden';
+		document.getElementById('bookmark_time_end').style.visibility = 'hidden';
+		document.getElementById('bookmark_time_start').style.visibility = 'hidden';	
 	}
 	
 
