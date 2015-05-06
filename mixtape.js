@@ -248,7 +248,14 @@ function addItemToMenu(menu, item){
 	}
 	if (item == currentBookmark){
 		$('#' + itemContainer.id).addClass('active');
+		$('#' + itemContainer.id).click(deselect);
 	}
+}
+
+function deselect(bookmark){
+	$('#' + bookmark.id).removeClass('active');
+	setCurrentBookmark(-1);
+	updateMenus();
 }
 
 function playWhenMetadataLoaded(e){
