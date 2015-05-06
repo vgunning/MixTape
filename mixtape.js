@@ -60,11 +60,11 @@ function setCurrentBookmark(bookmarkIndex){
 				for(var i = 0; i < currentClip.bookmarks.length; i++){
 					currentBookmark = currentClip.bookmarks[i];
 					if(selected_bookmark_identifier == currentBookmark.name){
+						$('#' + currentBookmark.id).addClass('active');
+						$('#' + currentBookmark.id).click(deselect);
 						break;
 					}
 				}
-				$('#' + currentBookmark.id).addClass('active');
-				$('#' + currentBookmark.id).click(deselect);
 			} else {
 				selected_bookmark_identifier = null;
 				is_bookmark_selected = false;
