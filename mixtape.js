@@ -293,6 +293,8 @@ function addItemToMenu(menu, item){
 	$(itemContainer).bind('dblclick', function(e) {
 		setCurrentClipPlayer();
 		updateMenus();
+		document.getElementById('inputStartTime').value = '';
+        document.getElementById('inputEndTime').value = '';
 		clicks = 0;
 		console.log('doubleclick on item');
 	});
