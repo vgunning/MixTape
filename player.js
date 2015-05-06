@@ -75,6 +75,11 @@ $(document).ready(function() {
     	}
     	//End change by Xavier
 
+    	// to make the editing window show the name of the clip
+    	if (currentClip){
+	    	$("#edWindow_heading").html("<a>Editing Window: "+ currentClip.name + "</a>");
+    	}
+
     });
 	//Gabriel Modifications. END
 
