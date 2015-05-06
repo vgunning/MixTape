@@ -88,6 +88,11 @@ $(document).ready(function() {
 
 });
 
+//Change by Xavier
+function focusBookmarkTextbox(){
+	$("#inputStartTime").focus();
+}
+
 //Gabriel Modification. START
 
 //Author: Gabrielj. Adds bookmarks to bookmark list
