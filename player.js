@@ -117,6 +117,11 @@ function addNewBookmark(e){
 			var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 			playingClip.addBookmark(new_bookmark);
+			for(var i = 0; i < currentPlaylist.clips.length; i++){
+				if(playingClip.id == currentPlaylist.clips[i].id){
+					setCurrentClip(i);
+				}
+			}
 			updateMenus();
 		} else if(array_start_time.length != 2 || array_end_time.length != 2 
 			|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) 
@@ -137,6 +142,11 @@ function addNewBookmark(e){
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 					playingClip.addBookmark(new_bookmark);
+					for(var i = 0; i < currentPlaylist.clips.length; i++){
+						if(playingClip.id == currentPlaylist.clips[i].id){
+							setCurrentClip(i);
+						}
+					}
 					updateMenus();
 					document.getElementById('inputStartTime').value = '';
         			document.getElementById('inputEndTime').value = '';
