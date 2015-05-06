@@ -117,8 +117,13 @@ function addNewBookmark(e){
 			var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 			playingClip.addBookmark(new_bookmark);
-			for(var i = 0; i < currentPlaylist.clips.length; i++){
-				if(playingClip.id == currentPlaylist.clips[i].id){
+			for(var i = 0; i < playlists.length; i++){
+				if(playingClip.playlist.id == playlists[i].id){
+					setCurrentPlaylist(i);
+				}
+			}
+			for(var i = 0; i < playingClip.playlist.clips.length; i++){
+				if(playingClip.id == playingClip.playlist.clips[i].id){
 					setCurrentClip(i);
 				}
 			}
@@ -142,8 +147,13 @@ function addNewBookmark(e){
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 					playingClip.addBookmark(new_bookmark);
-					for(var i = 0; i < currentPlaylist.clips.length; i++){
-						if(playingClip.id == currentPlaylist.clips[i].id){
+					for(var i = 0; i < playlists.length; i++){
+						if(playingClip.playlist.id == playlists[i].id){
+							setCurrentPlaylist(i);
+						}
+					}
+					for(var i = 0; i < playingClip.playlist.clips.length; i++){
+						if(playingClip.id == playingClip.playlist.clips[i].id){
 							setCurrentClip(i);
 						}
 					}
