@@ -84,7 +84,13 @@
 		    $( "#btnDone" ).click(function(){
 				if (checkEmpty("bookmarkName_entry")){
 					caller[0].firstChild.innerHTML = ($('#bookmarkName_entry').val());
-					itemBackEnd.updateName($('#bookmarkName_entry').val());
+					nameString = $('#bookmarkName_entry').val()
+					if (isNametUsed(itemBackEnd, nameString)){
+						itemBackEnd.updateName(nameString + "-1");
+					}else{
+						itemBackEnd.updateName(nameString);
+					}
+					
 				}
 				itemBackEnd.addText($("#text").val());
 				$('#noteContainer').remove();

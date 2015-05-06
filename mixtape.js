@@ -95,6 +95,46 @@ function isPlaylistUsed(nameString){
 	return isPlaylist;
 }
 
+//In theory this could be generalized for the previous one
+function isNametUsed(itemBackend, nameString){
+	var isName = false;
+	if(itemBackend.type == 'playlist'){
+			// the things on the playlist menu
+			for(var i = 0; i < playlists.length; i++){
+				if (nameString == playlists[i].name){
+					isName = true
+				}
+			}
+		}
+		else if(itemBackend.type == 'clip'){
+			// the things on the clip menu
+			for(var i = 0; i < playlists[currentPlaylistIndex].clips.length; i++){
+				if (nameString == playlists[currentPlaylistIndex].clips[i].name){
+					// set the matching index
+					isName = true
+				}
+			}
+		}
+		else if(itemBackend.type == 'bookmark'){
+			// the things on the bookmark menu
+			for(var i = 0; i < playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks.length; i++){
+				if (nameString == playlists[currentPlaylistIndex].clips[currentClipIndex].bookmarks[i].name){
+					// set the matching index
+					isName = true
+				}
+			}
+		}
+		else{
+			console.log('warning');
+		}
+	return isName;
+}
+
+function isCssIdValid (id) {
+    re = /^[A-Za-z]+[\w\-\:\.]*$/
+    return re.test(id)
+}
+
 	// good places to look
 	// http://www.jque.re/plugins/version3/bootstrap.switch/
 	// http://www.bootstraptoggle.com/
@@ -160,14 +200,22 @@ function addItemToMenu(menu, item){
 	
 
 	$(itemRemove).click(function(e) {
-		// var name = ($(this).text()).trim();
-		e.stopPropagation();
+		e.stopPropagation();	
 		var selection = $(e.currentTarget.offsetParent.offsetParent);
 		var removalMenu = menuul;
 		var removalIndex = selection.index();
-		removeItemFromMenu(removalMenu,selection,removalIndex);
+		var removalType = getBackEndItem(selection[0]).type;
+		var removalName = getBackEndItem(selection[0]).name;
+		
+		var confirmationMessage;
+		console.log(selection[0]);
 
-		// setCurrentClipPlayer();
+		bootbox.confirm("Are you sure you want to remove " +  removalType + " " + removalName + "?", function(result) {
+  			if (result){
+  				removeItemFromMenu(removalMenu,selection,removalIndex);
+  			}
+		});
+
 		console.log('In remove');
 
 	});
@@ -186,8 +234,6 @@ function addItemToMenu(menu, item){
 		}else{
 			togglePlay(e);
 		}
-		
-		
 		
 	});
 
@@ -225,7 +271,7 @@ function addItemToMenu(menu, item){
 	      }      
 	    }, timeOut);
 		console.log('clicked on item');
-		// console.log(this);
+		console.log(this);
 	});
 
 	$(itemContainer).bind('dblclick', function(e) {
@@ -324,11 +370,6 @@ function deactivate(item){
 function removeItemFromMenu(removalMenu, item, removalIndex){	
 	var newSelection = null;
 	
-
-	//Getting the item that will be selected after deletion.
-	console.log(currentPlaylist);
-	console.log(currentClip);
-	
 	//Removing the backend component
 	var removalBackEnd = getBackEndItem(item[0]);
 	var isCurrentlyPlayedClip = (removalBackEnd.src == currentSrc);
@@ -349,7 +390,8 @@ function removeItemFromMenu(removalMenu, item, removalIndex){
     		playlists.splice(index, 1);
 		}
 	}
-
+	
+	//Getting the item that will be selected after deletion.
 	if($(removalMenu).children()[removalIndex + 1] != null){	
 		newSelection = $(removalMenu).children()[removalIndex + 1];
 	}else if (($(removalMenu).children()[removalIndex - 1] != null)){
