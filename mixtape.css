@@ -1,4 +1,12 @@
 /* This is the css file for mixtape*/
+.title{
+	font-family: 'Vollkorn', serif;
+}
+
+.jumbotron h1{
+	font-size: 60pt;
+}
+
 .small_pill{
 	width: 200px;
 }
