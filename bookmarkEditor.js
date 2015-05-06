@@ -55,8 +55,6 @@
 	        $( "#text" ).focus(function(e){	        	
 	        	resizeInside();
 	        });
-
-	        
 	        	
 	
 
@@ -114,6 +112,9 @@
 				bookmarkId = itemBackEnd.id;
 				SEMAPHORE = 0;
 				updateMenus();
+				if (itemBackEnd.src == currentSrc){
+			    	$("#edWindow_heading").html("<a>Editing Window: "+ itemBackEnd.name + "</a>");
+		    	}
 				//caller.prop('disabled', false);
 		    });
 
