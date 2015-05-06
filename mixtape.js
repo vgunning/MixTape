@@ -22,6 +22,7 @@ var clip_time_played_ms; //Time of the currently selected clip, in milliseconds.
 document.onmousemove = dragProgressElements;
 
 var is_bookmark_selected = false;
+var playing_bookmark;
 var bookmark_time_start;
 var bookmark_time_end;
 
@@ -40,13 +41,19 @@ $(document).ready(function() {
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
 		currentBookmark = currentClip.bookmarks[bookmarkIndex];
-		is_bookmark_selected = true;
-		adjustBookmarkMarkers();
+		if(currentClip.src == currentSrc){
+			console.log('Changing bookmark stuff. True');
+			is_bookmark_selected = true;
+			adjustBookmarkMarkers();
+		}
 	}
 	else{
 		currentBookmark = null;
-		is_bookmark_selected = false;
-		adjustBookmarkMarkers();
+		if(currentClip.src == currentSrc){
+			console.log('Changing bookmark stuff. False');
+			is_bookmark_selected = false;
+			adjustBookmarkMarkers();
+		}
 	}
 	currentBookmarkIndex = bookmarkIndex;
 	return currentBookmark;
