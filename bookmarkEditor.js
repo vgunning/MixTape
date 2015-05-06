@@ -36,6 +36,9 @@
 		    	
 		    }
 		    
+		    var windowSize = $( "#note" ).height();
+	        var headerSize = $( "#bookmarkNameContainer").height();
+	        resizeInside();
 
 			$( "#note" )
 	        	.resizable({
@@ -46,6 +49,17 @@
 	    		})
 	        	.draggable();
 
+	        $( "#note" ).resize(function(e){	        	
+	        	resizeInside();
+	        });
+	        $( "#text" ).focus(function(e){	        	
+	        	resizeInside();
+	        });
+
+	        
+	        	
+	
+
 	        //When the bookmark name is double clicked, it becomes at text field that has the name of the bookmark selected
 		    $('#bookmarkName').dblclick(function() {
 			    $('#bookmarkName').css('display', 'none');
@@ -54,6 +68,7 @@
 			        .css('display', '')
 			        .select()
 			        .focus();
+			    resizeInside();
 			});
 
 		    //When the bookmark input field looses focus, it changes the name of the bookmark (if the name is not empty)
@@ -76,6 +91,7 @@
 			    }
 			        $('#bookmarkName').css('display', '');
 			    $( "#btnDone" ).focus();
+			    resizeInside();
 		                                                                      
 		    }
 		    });
@@ -167,6 +183,13 @@ function getBackEndItem(item){
 	
 }
 
+function resizeInside(){
+	windowSize = $( "#note" ).height();
+	headerSize = $( "#bookmarkNameContainer").height();
+	$( "#noteBody" ).height(windowSize-headerSize);
+	$( "#text" ).height($( "#noteBody" ).height()-$( "#confirmationContainer" ).height()-16);
+}
+
 /**
   * Creates a bookmark note widget. For now it adds it to the end of the html. Ideally we can use the information of the position of the caller
   * to make it appear right next to it.
@@ -190,6 +213,7 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	var bookmarkNameEditor = document.createElement("input");
 	var noteContainer = document.createElement("div");
 	var note = document.createElement("textarea");
+	var confirmationContainer = document.createElement("div");
 	var cancelButton = document.createElement("button");
 	var doneButton = document.createElement("button");  	
 
@@ -202,6 +226,7 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	bookmarkEditor.setAttribute("id","note");
 	$(bookmarkEditor).addClass("effect1");
 
+	bookmarkNameContainerParent.setAttribute("id","headerColorContainer")
 	bookmarkNameContainerParent.setAttribute("class","nav nav-pills nav-stacked")
 	
 	bookmarkNameContainer.setAttribute("id","bookmarkNameContainer")
@@ -213,7 +238,13 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	bookmarkNameEditor.setAttribute("id","bookmarkName_entry");
 	bookmarkNameEditor.style.display = "none";
 
+	noteContainer.setAttribute("id","noteBody");
 	noteContainer.setAttribute("class","center");
+
+	var windowSize = $(bookmarkEditor).height();
+	var headerSize = $(bookmarkNameContainer).height();
+	$(noteContainer).height(windowSize-headerSize);
+
 	
 	note.setAttribute("id","text");
 	note.setAttribute('onClick', 'this.select()');
@@ -228,15 +259,19 @@ function popBookmarkEditor(caller, itemBackEnd) {
 	doneButton.setAttribute("id","btnDone");
 	doneButton.setAttribute("class","btn");
 
+	confirmationContainer.setAttribute("id","confirmationContainer");
+	confirmationContainer.setAttribute("class","center");
+	confirmationContainer.appendChild(cancelButton);
+	confirmationContainer.appendChild(doneButton);
+
 	noteContainer.appendChild(note);
+	noteContainer.appendChild(confirmationContainer);
 	bookmarkNameContainer.appendChild(bookmarkNameLabel);
 	bookmarkNameContainer.appendChild(bookmarkNameEditor);
 	bookmarkNameContainerParent.appendChild(bookmarkNameContainer);
 	
 	bookmarkEditor.appendChild(bookmarkNameContainerParent);
 	bookmarkEditor.appendChild(noteContainer);
-	bookmarkEditor.appendChild(cancelButton);
-	bookmarkEditor.appendChild(doneButton);
 	bookmarkEditorContainer.appendChild(bookmarkEditor)
 	document.body.appendChild(bookmarkEditorContainer);
 }
