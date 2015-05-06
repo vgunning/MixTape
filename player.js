@@ -80,10 +80,18 @@ $(document).ready(function() {
 	    	$("#edWindow_heading").html("<a>Editing Window: "+ currentClip.name + "</a>");
     	}
 
+    	$(input_end_time).val("");
+    	$(input_start_time).val("");
+
     });
 	//Gabriel Modifications. END
 
 });
+
+//Change by Xavier
+function focusBookmarkTextbox(){
+	$("#inputStartTime").focus();
+}
 
 //Gabriel Modification. START
 
@@ -288,7 +296,7 @@ function dragProgressElements(e){
 function clearHelpText(e){
 	var target = e.target;
 	var value = $(target).val();
-	if(value == "Format 'mm:ss'"){
+	if(value == "Format 'mm:ss'" || "Double click clip!"){
 		$(target).val('');
 	}
 }
