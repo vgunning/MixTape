@@ -72,4 +72,12 @@ $(document).ready(function() {
         $('#edit-playlist-name').focus();
         $('#edit-playlist-name').select();
     })
+
+    $('#inputEndTime').keydown( function(event) {
+        if(event.keyCode == 13){
+            console.log('enter');
+            event.preventDefault();
+            document.getElementById('btnBookmark').click();
+        }
+    })
 });

@@ -1,4 +1,12 @@
 /* This is the css file for mixtape*/
+.title{
+	font-family: 'Vollkorn', serif;
+}
+
+.jumbotron h1{
+	font-size: 60pt;
+}
+
 .small_pill{
 	width: 200px;
 }
@@ -114,6 +122,38 @@
 	top:14px;
 	border: 2px #3F51B5 solid;
 	cursor: pointer;
+}
+
+.bookmark_marker{
+	width: 14px;
+	height: 14px;
+	z-index: 30; /*above track*/
+}
+
+#bookmark_marker_start{
+	position: absolute;
+	visibility: hidden;
+	left:0px;
+	top:27px;
+}
+
+#bookmark_marker_end{
+	position: absolute;
+	visibility: hidden;
+	left:40px;
+	top:27px;
+}
+
+#bookmark_time_start{
+	position: absolute;
+	left:-7px;
+	top:38px;
+}
+
+#bookmark_time_end{
+	position: absolute;
+	left:33px;
+	top:38px;
 }
 
 .list-group{
