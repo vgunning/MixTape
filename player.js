@@ -159,7 +159,7 @@ function adjustBookmarkMarkers(){
 		var end_minutes = Math.floor(bookmark_time_end/(60*1000));
 		var end_seconds = Math.floor(bookmark_time_end/1000)%60;
 		if(end_seconds < 10){
-			$("#bookmark_time_start").html(""+end_minutes+":0"+end_seconds);
+			$("#bookmark_time_end").html(""+end_minutes+":0"+end_seconds);
 		}else{
 			$("#bookmark_time_end").html(""+end_minutes+":"+end_seconds);
 		}
