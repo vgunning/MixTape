@@ -98,7 +98,7 @@
 	width: 100%;
 	height: 10px;
 	background-color: #E8EAF6;	
-	z-index: 10; /*Below progress bar*/
+	z-index: 4; /*Below progress bar*/
 	position: absolute;
 	top: 25px;
 }
@@ -107,7 +107,7 @@
 	width: 0px;
 	height: 10px;
 	background-color: #3F51B5;
-	z-index: 30; /*above track*/
+	z-index: 5; /*above track*/
 	position: absolute;
 	top: 25px;
 }
@@ -116,7 +116,7 @@
 	width: 15px;
 	height: 15px;
 	background-color: white;
-	z-index: 30; /*above track*/
+	z-index: 5; /*above track*/
 	position: absolute;
 	left:0px;
 	top:22px;
