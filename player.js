@@ -111,8 +111,9 @@ function addNewBookmark(e){
 			var clip = document.getElementById('current-clip');
 			start_time = clip.currentTime*1000; //In milliseconds
 			end_time = clip_time_length_ms; //In milliseconds
-			//console.log(start_time);
-			var bookmark_name = 'Bookmark ' + (playingClip.bookmarks.length+1);
+			var minutes = Math.floor(clip_time_played_ms/(60*1000));
+			var seconds = Math.floor(clip_time_played_ms/1000)%60;
+			var bookmark_name = 'Bookmark ' + (playingClip.bookmarks.length+1) + ' '+minutes+'m'+seconds+'s';
 			var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 			playingClip.addBookmark(new_bookmark);
@@ -131,7 +132,8 @@ function addNewBookmark(e){
 			//console.log(end_time);
 			if(start_time >= 0 && start_time < clip_time_length_ms){
 				if(end_time > start_time && end_time < clip_time_length_ms){
-					var bookmark_name = 'Bookmark ' + (playingClip.bookmarks.length+1);
+					var bookmark_name = ('Bookmark ' + (playingClip.bookmarks.length+1)+' '+array_start_time[0]+'m'+array_start_time[1]
+						+'s to ' + array_end_time[0]+'m'+array_end_time[1]+'s');
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 					playingClip.addBookmark(new_bookmark);
