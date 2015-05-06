@@ -97,7 +97,7 @@ Clip.prototype = {
 	},
 
 	removeBookmark: function(toRemoveBookmark){
-		var index = this.clips.indexOf(toRemoveBookmark);
+		var index = this.bookmarks.indexOf(toRemoveBookmark);
 		if (index>-1){
     		this.bookmarks.splice(index, 1);
 		}
