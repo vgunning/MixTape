@@ -234,7 +234,7 @@ function addItemToMenu(menu, item){
 	// itemEdit.setAttribute('data-backdrop','false');
 	// itemEdit.setAttribute('data-toggle','modal');
 	itemEdit.setAttribute('class', "list-group-submenu-item edit primary btn btn-default");
-	itemPlay.setAttribute('class', "list-group-submenu-item play success btn btn-default");
+	itemPlay.setAttribute('class', "list-group-submenu-item play info btn btn-default");
 	itemRemove.setAttribute('class', "list-group-submenu-item trash danger btn btn-default");
 	itemEditIcon.setAttribute('class', "glyphicon glyphicon-pencil");
 	itemPlayIcon.setAttribute('class', "glyphicon glyphicon-play");
