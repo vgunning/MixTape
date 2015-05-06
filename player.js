@@ -80,10 +80,18 @@ $(document).ready(function() {
 	    	$("#edWindow_heading").html("<a>Editing Window: "+ currentClip.name + "</a>");
     	}
 
+    	$(input_end_time).val("");
+    	$(input_start_time).val("");
+
     });
 	//Gabriel Modifications. END
 
 });
+
+//Change by Xavier
+function focusBookmarkTextbox(){
+	$("#inputStartTime").focus();
+}
 
 //Gabriel Modification. START
 
@@ -98,7 +106,9 @@ function addNewBookmark(e){
 		console.log(array_end_time[1]);
 		if(array_start_time.length != 2 || array_end_time.length != 2 
 			|| isNaN(parseInt(array_start_time[0])) || isNaN(parseInt(array_start_time[1])) 
-			|| isNaN(parseInt(array_end_time[0])) || isNaN(parseInt(array_end_time[1])) ){
+			|| isNaN(parseInt(array_end_time[0])) || isNaN(parseInt(array_end_time[1])) 
+			|| parseInt(array_start_time[1])>60 ||  parseInt(array_end_time[1])>60
+			|| parseInt(array_start_time[1])<0 ||  parseInt(array_end_time[1])<0 ){
 			$(inputStartTime).val("Format 'mm:ss'");
 			$(inputEndTime).val("Format 'mm:ss'");
 		} else {
@@ -112,7 +122,7 @@ function addNewBookmark(e){
 					var new_bookmark = new Bookmark().init_name_times(bookmark_name, start_time, end_time);
 
 					currentClip.addBookmark(new_bookmark);
-					// setCurrentBookmark(currentClip.bookmarks.length -1);
+					setCurrentBookmark(currentClip.bookmarks.length -1);
 					updateMenus();
 					document.getElementById('inputStartTime').value = '';
         			document.getElementById('inputEndTime').value = '';
@@ -286,7 +296,7 @@ function dragProgressElements(e){
 function clearHelpText(e){
 	var target = e.target;
 	var value = $(target).val();
-	if(value == "Format 'mm:ss'"){
+	if(value == "Format 'mm:ss'" || "Double click clip!"){
 		$(target).val('');
 	}
 }

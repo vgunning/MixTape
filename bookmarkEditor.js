@@ -55,8 +55,6 @@
 	        $( "#text" ).focus(function(e){	        	
 	        	resizeInside();
 	        });
-
-	        
 	        	
 	
 
@@ -96,6 +94,7 @@
 		    }
 		    });
 
+			$( "#btnDone" ).focus();
 		    //When the done button is clicked, the name in the caller button is changed and the editor widget is closed
 		    $( "#btnDone" ).click(function(){
 				if (checkEmpty("bookmarkName_entry")){
@@ -114,6 +113,9 @@
 				bookmarkId = itemBackEnd.id;
 				SEMAPHORE = 0;
 				updateMenus();
+				if (itemBackEnd.src == currentSrc){
+			    	$("#edWindow_heading").html("<a>Editing Window: "+ itemBackEnd.name + "</a>");
+		    	}
 				//caller.prop('disabled', false);
 		    });
 

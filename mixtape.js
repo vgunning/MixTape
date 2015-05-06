@@ -22,8 +22,10 @@ var clip_time_played_ms; //Time of the currently selected clip, in milliseconds.
 document.onmousemove = dragProgressElements;
 
 var is_bookmark_selected = false;
+var selected_bookmark_identifier = null;
 var bookmark_time_start;
 var bookmark_time_end;
+var is_deselecting = false;
 
 $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
@@ -40,13 +42,37 @@ $(document).ready(function() {
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
 		currentBookmark = currentClip.bookmarks[bookmarkIndex];
-		is_bookmark_selected = true;
-		adjustBookmarkMarkers();
+		console.log(currentBookmark.name);
+		if(currentClip.src == currentSrc){
+			 if(selected_bookmark_identifier == null || selected_bookmark_identifier != currentBookmark.name){
+				selected_bookmark_identifier = currentClip.name + "-" + currentBookmark.name;
+				console.log(selected_bookmark_identifier);
+				is_bookmark_selected = true;
+				adjustBookmarkMarkers();
+			}
+		}
 	}
 	else{
 		currentBookmark = null;
-		is_bookmark_selected = false;
-		adjustBookmarkMarkers();
+		if(currentClip.src == currentSrc){
+			console.log('Changing bookmark stuff. False');
+			if(currentBookmark == null && selected_bookmark_identifier != null && !is_deselecting){
+				for(var i = 0; i < currentClip.bookmarks.length; i++){
+					currentBookmark = currentClip.bookmarks[i];
+					if(selected_bookmark_identifier == currentBookmark.name){
+						break;
+					}
+				}
+				$('#' + currentBookmark.id).addClass('active');
+				$('#' + currentBookmark.id).click(deselect);
+			} else {
+				selected_bookmark_identifier = null;
+				is_bookmark_selected = false;
+				is_deselecting = false;
+				adjustBookmarkMarkers();
+			}
+			
+		}
 	}
 	currentBookmarkIndex = bookmarkIndex;
 	return currentBookmark;
@@ -318,6 +344,7 @@ function addItemToMenu(menu, item){
 
 function deselect(bookmark){
 	$('#' + bookmark.id).removeClass('active');
+	is_deselecting = true;
 	setCurrentBookmark(-1);
 	updateMenus();
 }
