@@ -78,9 +78,10 @@ function saveEdit(){
 	if(clips.length > 0){
 		for (var i = 0; i < clips.length; i++){
 			// check to see if the clip already exists in the playlist (assume it's the same if it is)
-			if(playlistContainsClipName(clips[i].id.split('-').slice(0,2).join('-')) > -1){
+			var temp = clips[i].id.split('-');
+			if(playlistContainsClipName(temp.slice(0,temp.length -1).join('-')) > -1){
 				// get the clip of that name and add
-				newClips.push(currentPlaylist.clips[playlistContainsClipName(clips[i].id.split('-').slice(0,2).join('-'))]);
+				newClips.push(currentPlaylist.clips[playlistContainsClipName(temp.slice(0,temp.length -1).join('-'))]);
 			}
 			else{
 				var clip = new Clip().init_name(clips[i].textContent);
