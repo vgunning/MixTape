@@ -80,6 +80,9 @@ $(document).ready(function() {
 	    	$("#edWindow_heading").html("<a>Editing Window: "+ currentClip.name + "</a>");
     	}
 
+    	$(input_end_time).val("");
+    	$(input_start_time).val("");
+
     });
 	//Gabriel Modifications. END
 
