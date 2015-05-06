@@ -4,6 +4,11 @@
 
 noClips = true; //variable to track if we're in start state
 
+//Change by Xavier
+var waitForMetadata = false;
+var currentSrc;
+//End change by Xavier
+
 $(document).ready(function() {
     //Gabriel Modifications. START
     var music_clip_window = document.getElementById('music-clip-window');
@@ -57,11 +62,18 @@ $(document).ready(function() {
 
     	//Gabriel Modification of my own modification
     	//This is meant to replace part of the'setCurrentClipPlayer' function.
-    	if(playing_clip){
+		console.log(playing_clip);
+		if(playing_clip){
     		togglePlay();
     	}
     	resetProgressElements();
     	//End
+
+    	//change by Xavier
+    	if (waitForMetadata){
+    		waitForMetadata = false
+    	}
+    	//End change by Xavier
 
     });
 	//Gabriel Modifications. END
@@ -340,7 +352,9 @@ function trackTimer() {
 			adjustProgressElements();
 		}
 	} else{
-		if(clip_time_played_ms >= clip_time_length_ms){
+		// Change by Xavier
+		// added condition that if the currentSrc becomes null, then the track player should stop moving.
+		if(clip_time_played_ms >= clip_time_length_ms || currentSrc == null){
 			togglePlay();
 			clearInterval(interval_function);
 			resetProgressElements();
@@ -404,13 +418,22 @@ console.log('Setting current clip player');
 	}
 
 	if (currentClip == null){
-		noClips = true;
+		
 		// some gunky coding to reset and get quiet if no clip available to play
 		document.getElementById('current-clip').src = document.getElementById('current-clip').src;
-		
+		noClips = true;
+		//Change made by Xavier
+		currentSrc = null;
+		//End of change by Xavier
 	} else {
 		document.getElementById('current-clip').src = currentClip.src;
+		//Change made by Xavier
+		waitForMetadata = true;
+		currentSrc = currentClip.src;
+		//End of change by Xavier
 	}
+
+	
 
 //>>>>>>> 38fab7b1590a33d57c6ec0e234d02f292b8cfedb
 /*
