@@ -31,6 +31,10 @@ $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
 	clipMenu = document.getElementById('clips');
 	bookmarkMenu = document.getElementById('bookmarks');
+	//Spinner images are not currently in this folder. If you want to use one, need to bring it from
+	//jquery/time/<spinner-image>
+	$("#inputStartTime").timeEntry({unlimitedHours: true, spinnerImage: ''});
+	$("#inputEndTime").timeEntry({unlimitedHours: true, spinnerImage: ''});
 	updateMenus();
 
 	// get any params
