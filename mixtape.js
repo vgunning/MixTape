@@ -33,8 +33,8 @@ $(document).ready(function() {
 	bookmarkMenu = document.getElementById('bookmarks');
 	//Spinner images are not currently in this folder. If you want to use one, need to bring it from
 	//jquery/time/<spinner-image>
-	$("#inputStartTime").timeEntry({unlimitedHours: true, spinnerImage: ''});
-	$("#inputEndTime").timeEntry({unlimitedHours: true, spinnerImage: ''});
+	$("#inputStartTime").timeEntry({unlimitedHours: true, spinnerImage: '', defaultTime:"00:00"});
+	$("#inputEndTime").timeEntry({unlimitedHours: true, spinnerImage: '', defaultTime:"00:00"});
 	updateMenus();
 
 	// get any params
