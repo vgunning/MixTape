@@ -228,7 +228,12 @@ function adjustBookmarkMarkers(){
 		document.getElementById('bookmark_marker_start').style.visibility = 'hidden';
 		document.getElementById('bookmark_marker_end').style.visibility = 'hidden';
 		document.getElementById('bookmark_time_end').style.visibility = 'hidden';
-		document.getElementById('bookmark_time_start').style.visibility = 'hidden';	
+		document.getElementById('bookmark_time_start').style.visibility = 'hidden';
+		if(playing_clip){
+			togglePlay();
+		}
+		//Gabrielj. Changes to behavior. Now getting rid of bookmark resets progress elements
+		resetProgressElements();
 	}
 
 	updateTimePassed();
