@@ -86,6 +86,11 @@ $(document).ready(function() {
 
     	playingClip = currentClip;
 
+    	//Gabrielj. Testing something.
+    	setCurrentBookmark(-1);
+
+    	//isLoadingMetadata = false;
+
     });
 	//Gabriel Modifications. END
 
@@ -505,12 +510,15 @@ console.log('Setting current clip player');
 		noClips = true;
 		//Change made by Xavier
 		currentSrc = null;
+		selectedPlaylist = null;
 		//End of change by Xavier
 	} else {
 		document.getElementById('current-clip').src = currentClip.src;
 		//Change made by Xavier
 		waitForMetadata = true;
 		currentSrc = currentClip.src;
+		selectedPlaylist = currentClip.playlist;
+
 		//End of change by Xavier
 	}
 
