@@ -86,6 +86,11 @@ $(document).ready(function() {
 
     	playingClip = currentClip;
 
+    	//Gabrielj. Testing something.
+    	setCurrentBookmark(-1);
+
+    	//isLoadingMetadata = false;
+
     });
 	//Gabriel Modifications. END
 
@@ -223,7 +228,12 @@ function adjustBookmarkMarkers(){
 		document.getElementById('bookmark_marker_start').style.visibility = 'hidden';
 		document.getElementById('bookmark_marker_end').style.visibility = 'hidden';
 		document.getElementById('bookmark_time_end').style.visibility = 'hidden';
-		document.getElementById('bookmark_time_start').style.visibility = 'hidden';	
+		document.getElementById('bookmark_time_start').style.visibility = 'hidden';
+		if(playing_clip){
+			togglePlay();
+		}
+		//Gabrielj. Changes to behavior. Now getting rid of bookmark resets progress elements
+		resetProgressElements();
 	}
 
 	updateTimePassed();
@@ -505,12 +515,15 @@ console.log('Setting current clip player');
 		noClips = true;
 		//Change made by Xavier
 		currentSrc = null;
+		selectedPlaylist = null;
 		//End of change by Xavier
 	} else {
 		document.getElementById('current-clip').src = currentClip.src;
 		//Change made by Xavier
 		waitForMetadata = true;
 		currentSrc = currentClip.src;
+		selectedPlaylist = currentClip.playlist;
+
 		//End of change by Xavier
 	}
 

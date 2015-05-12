@@ -23,14 +23,21 @@ document.onmousemove = dragProgressElements;
 
 var is_bookmark_selected = false;
 var selected_bookmark_identifier = null;
+var selectedPlaylist = null;
 var bookmark_time_start;
 var bookmark_time_end;
 var is_deselecting = false;
+
+//var isLoadingMetadata = false;
 
 $(document).ready(function() {
 	playlistMenu = document.getElementById('playlists');
 	clipMenu = document.getElementById('clips');
 	bookmarkMenu = document.getElementById('bookmarks');
+	//Spinner images are not currently in this folder. If you want to use one, need to bring it from
+	//jquery/time/<spinner-image>
+	$("#inputStartTime").timeEntry({unlimitedHours: true, spinnerImage: '', defaultTime:"00:00"});
+	$("#inputEndTime").timeEntry({unlimitedHours: true, spinnerImage: '', defaultTime:"00:00"});
 	updateMenus();
 
 	// get any params
@@ -41,37 +48,59 @@ $(document).ready(function() {
 
 function setCurrentBookmark(bookmarkIndex){
 	if (bookmarkIndex >=  0){
+		console.log("Setting current bookmark Have");
 		currentBookmark = currentClip.bookmarks[bookmarkIndex];
 		console.log(currentBookmark.name);
-		if(currentClip.src == currentSrc){
-			 if(selected_bookmark_identifier == null || selected_bookmark_identifier != currentBookmark.name){
-				selected_bookmark_identifier = currentClip.name + "-" + currentBookmark.name;
-				console.log(selected_bookmark_identifier);
-				is_bookmark_selected = true;
-				adjustBookmarkMarkers();
+		if(currentClip.playlist == selectedPlaylist){
+			if(currentClip.src == currentSrc){
+				 if(selected_bookmark_identifier == null || selected_bookmark_identifier != currentBookmark.name){
+					selected_bookmark_identifier = currentClip.name + "-" + currentBookmark.name;
+					console.log(selected_bookmark_identifier);
+					is_bookmark_selected = true;
+					selectedPlaylist = currentClip.playlist;
+					adjustBookmarkMarkers();
+				}
 			}
 		}
 	}
 	else{
 		currentBookmark = null;
-		if(currentClip.src == currentSrc){
-			console.log('Changing bookmark stuff. False');
-			if(currentBookmark == null && selected_bookmark_identifier != null && !is_deselecting){
-				for(var i = 0; i < currentClip.bookmarks.length; i++){
-					currentBookmark = currentClip.bookmarks[i];
-					if(selected_bookmark_identifier == currentBookmark.name){
-						$('#' + currentBookmark.id).addClass('active');
-						$('#' + currentBookmark.id).click(deselect);
-						break;
+		//Gabrielj. Changing the source of an audio element takes some time, need this be blocked until that is finished.
+		console.log("Setting current bookmark Null");
+		/*
+		while(isLoadingMetadata){
+			console.log("Waiting on metadata");
+		}
+		*/
+		if(currentClip.playlist == selectedPlaylist){
+			if(currentClip.src == currentSrc){
+				console.log('Changing bookmark stuff. False');
+				if(currentBookmark == null && selected_bookmark_identifier != null && !is_deselecting){
+					var isNewClip = true;
+					for(var i = 0; i < currentClip.bookmarks.length; i++){
+						currentBookmark = currentClip.bookmarks[i];
+						if(selected_bookmark_identifier == currentBookmark.name){
+							$('#' + currentBookmark.id).addClass('active');
+							$('#' + currentBookmark.id).click(deselect);
+							isNewClip = false;
+							break;
+						}
 					}
+					//Must be a new clip, and no bookmark is selected
+					if(isNewClip){
+						selected_bookmark_identifier = null;
+						is_bookmark_selected = false;
+						is_deselecting = false;
+						adjustBookmarkMarkers();
+					}
+				} else {
+					selected_bookmark_identifier = null;
+					is_bookmark_selected = false;
+					is_deselecting = false;
+					adjustBookmarkMarkers();
 				}
-			} else {
-				selected_bookmark_identifier = null;
-				is_bookmark_selected = false;
-				is_deselecting = false;
-				adjustBookmarkMarkers();
+				
 			}
-			
 		}
 	}
 	currentBookmarkIndex = bookmarkIndex;
@@ -317,6 +346,8 @@ function addItemToMenu(menu, item){
 	});
 
 	$(itemContainer).bind('dblclick', function(e) {
+		//isLoadingMetadata = true;
+		//console.log("isLoadingMetadata set to true!");
 		setCurrentClipPlayer();
 		updateMenus();
 		document.getElementById('inputStartTime').value = '';
